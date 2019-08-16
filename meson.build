@@ -1,2 +1,3 @@
 project('space_tycoon_model', 'cpp')
-executable('space_tycoon_model', 'main.cpp')
+src = ['SpaceTycoonModel.cpp']
+static_library('space_tycoon_model', src)
