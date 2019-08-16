@@ -2,5 +2,5 @@
 
 void Do()
 {
-	std::cout << "Do";
+	std::cout << "Do2";
 }
