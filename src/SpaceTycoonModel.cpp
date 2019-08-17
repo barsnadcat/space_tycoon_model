@@ -1,6 +1,7 @@
 #include <iostream>
+#include <easylogging++.h>
 
 void Do(int param)
 {
-	std::cout << "Do " << param << std::endl;
+	LOG(INFO) << "Do " << param;
 }
