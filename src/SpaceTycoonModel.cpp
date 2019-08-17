@@ -1,6 +1,6 @@
 #include <iostream>
 
-void Do()
+void Do(int param)
 {
-	std::cout << "Do2";
+	std::cout << "Do " << param << std::endl;
 }

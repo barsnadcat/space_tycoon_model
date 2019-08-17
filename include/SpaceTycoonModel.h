@@ -1,1 +1,1 @@
-void Do();
+void Do(int param);
