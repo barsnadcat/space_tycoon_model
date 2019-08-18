@@ -1,1 +1,1 @@
-void Do(int param);
+bool Do(int param);
