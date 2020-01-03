@@ -3,42 +3,43 @@
 #include <vector>
 #include <cstdint>
 
-struct EntityId
-{
-	uint32_t index { 0 };
-	uint8_t generation { 0 };
-
-	bool operator==(const EntityId &b) const
-	{
-		return b.index == index && b.generation == generation;
-	}
-
-	bool operator!=(const EntityId &b) const
-	{
-		return b.index != index || b.generation != generation;
-	}
-
-	operator bool()
-	{
-		return index != 0 && generation != 0;
-	}
-	
-	operator size_t() = delete;
-	operator uint32_t() = delete;
-	operator uint8_t() = delete;
-	operator int() = delete;
-};
 
 template<typename T>
 class EntityArray
 {
 public:
+	struct Id
+	{
+		uint32_t index { 0 };
+		uint8_t generation { 0 };
+
+		bool operator==(const Id &b) const
+		{
+			return b.index == index && b.generation == generation;
+		}
+
+		bool operator!=(const Id &b) const
+		{
+			return b.index != index || b.generation != generation;
+		}
+
+		operator bool()
+		{
+			return index != 0 && generation != 0;
+		}
+		
+		operator size_t() = delete;
+		operator uint32_t() = delete;
+		operator uint8_t() = delete;
+		operator int() = delete;
+	};
+
 	EntityArray()
 	{
 		mEntities.resize(1);
 	}
 
-	EntityId Allocate()
+	Id Allocate()
 	{
 		uint32_t index = 0;
 		if (mFree)
@@ -57,7 +58,7 @@ public:
 		return {index, generation};
 	}
 
-	T* Get(EntityId id)
+	T* Get(Id id)
 	{
 		if (id.index < mEntities.size() &&
 		 !mEntities[id.index].isDeleted &&
@@ -68,7 +69,7 @@ public:
 		return nullptr;
 	}
 
-	void Delete(EntityId id)
+	void Delete(Id id)
 	{
 		if (id.index < mEntities.size())
 		{
