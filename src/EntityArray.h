@@ -23,7 +23,7 @@ public:
 			return b.index != index || b.generation != generation;
 		}
 
-		operator bool()
+		operator bool() const
 		{
 			return index != 0 && generation != 0;
 		}
@@ -45,40 +45,48 @@ public:
 		if (mFree)
 		{
 			index = mFree;
+			assert(mEntities[mFree].isDeleted);
+			assert(mEntities[mFree].previousFree != mFree);
 			mFree = mEntities[mFree].previousFree;
 		}
 		else
 		{
 			index = mEntities.size();
-			mEntities.push_back(Element());
+			mEntities.push_back({});
 		}
-
-		mEntities[index].isDeleted = false;
-		uint8_t generation = ++(mEntities[index].generation);
-		return {index, generation};
+		Element& e = mEntities[index];
+		e.isDeleted = false;
+		e.generation++;
+		return {index, e.generation};
 	}
 
-	T* Get(Id id)
+	T* Get(const Id id)
 	{
-		if (id.index < mEntities.size() &&
-		 !mEntities[id.index].isDeleted &&
-		 mEntities[id.index].generation == id.generation)
+		if (id.index < mEntities.size())
 		{
-			return &(mEntities[id.index].entity);
+			Element& e = mEntities[id.index];
+			if (!e.isDeleted && e.generation == id.generation)
+			{
+				return &(e.entity);
+			}
 		}
 		return nullptr;
 	}
 
-	void Delete(Id id)
+	void Delete(const Id id)
 	{
 		if (id.index < mEntities.size())
 		{
-			mEntities[id.index].isDeleted = true;
-			if (mFree)
+			Element& e = mEntities[id.index];
+			if (!e.isDeleted)
 			{
-				mEntities[id.index].previousFree = mFree;
+				e.isDeleted = true;
+				if (mFree)
+				{
+					e.previousFree = mFree;
+				}
+				mFree = id.index;
 			}
-			mFree = id.index;
 		}
 	}
 
@@ -91,7 +99,6 @@ private:
 		T entity;
 	};
 
-private:
 	uint32_t mFree { 0 };
 	std::vector<Element> mEntities;
 };

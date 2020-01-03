@@ -34,6 +34,21 @@ TEST(EntityArray, Delete)
 	EXPECT_EQ(val, nullptr);
 }
 
+TEST(EntityArray, DoubleDelete)
+{
+	// Deletion should be reentrant
+	EntityArray<int> array;
+	array.Allocate();
+	EntityArray<int>::Id id1 = array.Allocate();
+	EntityArray<int>::Id id2 = array.Allocate();
+	array.Delete(id1);	
+	array.Delete(id2);
+	array.Delete(id2);
+	array.Allocate();
+	EXPECT_FALSE(array.Get(id1));
+	EXPECT_FALSE(array.Get(id2));
+}
+
 TEST(EntityArray, Reuse)
 {
 	// Entity id of deleted entity should return null entity pointer, even after new entity was put in same place
