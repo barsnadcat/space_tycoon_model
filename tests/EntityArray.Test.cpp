@@ -39,14 +39,26 @@ TEST(EntityArray, Reuse)
 	// Entity id of deleted entity should return null entity pointer, even after new entity was put in same place
 	EntityArray<int> array;
 	array.Allocate();
-	EntityId id = array.Allocate();
+	EntityId id2 = array.Allocate();
 	array.Allocate();
-	int* val = array.Get(id);
-	array.Delete(id);
-	EntityId newId = array.Allocate();
-	EXPECT_EQ(val, array.Get(newId));
-	EXPECT_FALSE(array.Get(id));
-	EXPECT_NE(id, newId);
+	EntityId id3 = array.Allocate();
+	array.Allocate();
+
+	int* val2 = array.Get(id2);
+	int* val3 = array.Get(id3);
+	array.Delete(id3);
+	array.Delete(id2);
+	EntityId id4 = array.Allocate();
+	EntityId id5 = array.Allocate();
+	EXPECT_NE(id2, id5);
+	EXPECT_NE(id2, id4);
+	EXPECT_NE(id3, id5);
+	EXPECT_NE(id3, id4);
+
+	EXPECT_EQ(val3, array.Get(id5));
+	EXPECT_EQ(val2, array.Get(id4));
+	EXPECT_FALSE(array.Get(id2));
+	EXPECT_FALSE(array.Get(id3));
 }
 
 TEST(EntityArray, Iterate)
