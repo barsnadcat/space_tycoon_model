@@ -4,11 +4,6 @@
 
 INITIALIZE_EASYLOGGINGPP
 
-TEST(Dummy, Pass) 
-{
-    EXPECT_TRUE(Do(1));
-}
-
 
 int main(int argc, char **argv) 
 {

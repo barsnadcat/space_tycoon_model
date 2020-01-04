@@ -14,37 +14,33 @@ TEST(EntityArray, GetById)
 {
 	// We should be able to retrive entity pointer by id
 	EntityArray<int> array;
-	EntityArray<int>::Id id = array.Allocate();
-	int* val = array.Get(id);
-	ASSERT_TRUE(val);
-	*val = 6;
-	val = array.Get(id);
-	EXPECT_EQ(*val, 6);
+	EntityArray<int>::Id id = array.Insert(6);
+	ASSERT_TRUE(array.Get(id));
+	EXPECT_EQ(*array.Get(id), 6);
 }
 
 TEST(EntityArray, Delete)
 {
 	// After deltion we should get null entity pointer
 	EntityArray<int> array;
-	EntityArray<int>::Id id = array.Allocate();
-	int* val = array.Get(id);
-	EXPECT_TRUE(val);
+	EntityArray<int>::Id id = array.Insert({});
+	EXPECT_TRUE(array.Get(id));
+
 	array.Delete(id);
-	val = array.Get(id);
-	EXPECT_EQ(val, nullptr);
+	EXPECT_FALSE(array.Get(id));
 }
 
 TEST(EntityArray, DoubleDelete)
 {
 	// Deletion should be reentrant
 	EntityArray<int> array;
-	array.Allocate();
-	EntityArray<int>::Id id1 = array.Allocate();
-	EntityArray<int>::Id id2 = array.Allocate();
+	array.Insert({});
+	EntityArray<int>::Id id1 = array.Insert({});
+	EntityArray<int>::Id id2 = array.Insert({});
 	array.Delete(id1);	
 	array.Delete(id2);
 	array.Delete(id2);
-	array.Allocate();
+	array.Insert({});
 	EXPECT_FALSE(array.Get(id1));
 	EXPECT_FALSE(array.Get(id2));
 }
@@ -53,25 +49,25 @@ TEST(EntityArray, Reuse)
 {
 	// Entity id of deleted entity should return null entity pointer, even after new entity was put in same place
 	EntityArray<int> array;
-	array.Allocate();
-	EntityArray<int>::Id id2 = array.Allocate();
-	array.Allocate();
-	EntityArray<int>::Id id3 = array.Allocate();
-	array.Allocate();
+	array.Insert({});
+	EntityArray<int>::Id id2 = array.Insert({});
+	array.Insert({});
+	EntityArray<int>::Id id3 = array.Insert({});
+	array.Insert({});
 
-	int* val2 = array.Get(id2);
-	int* val3 = array.Get(id3);
+	int* pVal2 = array.Get(id2);
+	int* pVal3 = array.Get(id3);
 	array.Delete(id3);
 	array.Delete(id2);
-	EntityArray<int>::Id id4 = array.Allocate();
-	EntityArray<int>::Id id5 = array.Allocate();
+	EntityArray<int>::Id id4 = array.Insert({});
+	EntityArray<int>::Id id5 = array.Insert({});
 	EXPECT_NE(id2, id5);
 	EXPECT_NE(id2, id4);
 	EXPECT_NE(id3, id5);
 	EXPECT_NE(id3, id4);
 
-	EXPECT_EQ(val3, array.Get(id5));
-	EXPECT_EQ(val2, array.Get(id4));
+	EXPECT_EQ(pVal3, array.Get(id5));
+	EXPECT_EQ(pVal2, array.Get(id4));
 	EXPECT_FALSE(array.Get(id2));
 	EXPECT_FALSE(array.Get(id3));
 }

@@ -39,7 +39,7 @@ public:
 		mEntities.resize(1);
 	}
 
-	Id Allocate()
+	Id Insert(const T& entity)
 	{
 		uint32_t index = 0;
 		if (mFree)
@@ -57,6 +57,7 @@ public:
 		Element& e = mEntities[index];
 		e.isDeleted = false;
 		e.generation++;
+		e.entity = entity;
 		return {index, e.generation};
 	}
 
