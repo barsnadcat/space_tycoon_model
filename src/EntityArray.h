@@ -7,6 +7,15 @@
 template<typename TEntity>
 class EntityArray
 {
+private:
+	struct Element
+	{
+		bool isDeleted { true };
+		uint8_t generation { 0 };
+		uint32_t previousFree { 0 };
+		TEntity entity;
+	};
+
 public:
 	struct Id
 	{
@@ -33,6 +42,47 @@ public:
 		operator uint8_t() = delete;
 		operator int() = delete;
 	};
+
+	class Iterator
+	{
+	public:
+		Iterator(typename std::vector<Element>::iterator i, 
+			typename std::vector<Element>::iterator end): mI(i), mEnd(end)
+		{
+		}
+
+		bool operator!=(const Iterator& other)
+		{
+			return other.mI != mI || other.mEnd != mEnd;
+		}
+
+		void operator++()
+		{
+			mI++;
+			if (mI != mEnd && mI->isDeleted)
+			{
+				++(*this);
+			}
+		}
+
+		TEntity* operator*()
+		{
+			return &(mI->entity);
+		}
+	private:
+		typename std::vector<Element>::iterator mI;
+		typename std::vector<Element>::iterator mEnd;
+	};
+
+	Iterator begin()
+	{
+		return Iterator(mElements.begin(), mElements.end());
+	}
+
+	Iterator end()
+	{
+		return Iterator(mElements.end(), mElements.end());
+	}
 
 
 	EntityArray()
@@ -90,59 +140,6 @@ public:
 				mFree = id.index;
 			}
 		}
-	}
-
-private:
-	struct Element
-	{
-		bool isDeleted { true };
-		uint8_t generation { 0 };
-		uint32_t previousFree { 0 };
-		TEntity entity;
-	};
-
-public:
-
-	class Iterator
-	{
-	public:
-		Iterator(typename std::vector<Element>::iterator i, 
-			typename std::vector<Element>::iterator end): mI(i), mEnd(end)
-		{
-		}
-
-		bool operator!=(const Iterator& other)
-		{
-			return other.mI != mI || other.mEnd != mEnd;
-		}
-
-		void operator++()
-		{
-			mI++;
-			if (mI != mEnd && mI->isDeleted)
-			{
-				++(*this);
-			}
-		}
-
-		TEntity* operator*()
-		{
-			return &(mI->entity);
-		}
-	private:
-		typename std::vector<Element>::iterator mI;
-		typename std::vector<Element>::iterator mEnd;
-	};
-
-
-	Iterator begin()
-	{
-		return Iterator(mElements.begin(), mElements.end());
-	}
-
-	Iterator end()
-	{
-		return Iterator(mElements.end(), mElements.end());
 	}
 
 private:
