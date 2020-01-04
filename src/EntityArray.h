@@ -4,7 +4,7 @@
 #include <cstdint>
 
 
-template<typename T>
+template<typename TEntity>
 class EntityArray
 {
 public:
@@ -20,7 +20,7 @@ public:
 
 		bool operator!=(const Id &b) const
 		{
-			return b.index != index || b.generation != generation;
+			return !(*this == b);
 		}
 
 		operator bool() const
@@ -34,56 +34,39 @@ public:
 		operator int() = delete;
 	};
 
-	class Iterator
-	{
-	public:
-		bool operator!=(const Iterator& other)
-		{
-			return false;
-		}
-		void operator++()
-		{
-
-		}
-		T* operator*()
-		{
-			return nullptr;
-		}
-
-	};
 
 	EntityArray()
 	{
-		mEntities.resize(1);
+		mElements.resize(1);
 	}
 
-	Id Insert(const T& entity)
+	Id Insert(const TEntity& entity)
 	{
 		uint32_t index = 0;
 		if (mFree)
 		{
 			index = mFree;
-			assert(mEntities[mFree].isDeleted);
-			assert(mEntities[mFree].previousFree != mFree);
-			mFree = mEntities[mFree].previousFree;
+			assert(mElements[mFree].isDeleted);
+			assert(mElements[mFree].previousFree != mFree);
+			mFree = mElements[mFree].previousFree;
 		}
 		else
 		{
-			index = mEntities.size();
-			mEntities.push_back({});
+			index = mElements.size();
+			mElements.push_back({});
 		}
-		Element& e = mEntities[index];
+		Element& e = mElements[index];
 		e.isDeleted = false;
 		e.generation++;
 		e.entity = entity;
 		return {index, e.generation};
 	}
 
-	T* Get(const Id id)
+	TEntity* Get(const Id id)
 	{
-		if (id.index < mEntities.size())
+		if (id.index < mElements.size())
 		{
-			Element& e = mEntities[id.index];
+			Element& e = mElements[id.index];
 			if (!e.isDeleted && e.generation == id.generation)
 			{
 				return &(e.entity);
@@ -94,9 +77,9 @@ public:
 
 	void Delete(const Id id)
 	{
-		if (id.index < mEntities.size())
+		if (id.index < mElements.size())
 		{
-			Element& e = mEntities[id.index];
+			Element& e = mElements[id.index];
 			if (!e.isDeleted)
 			{
 				e.isDeleted = true;
@@ -109,25 +92,60 @@ public:
 		}
 	}
 
-	Iterator begin()
-	{
-		return Iterator();
-	}
-
-	Iterator end()
-	{
-		return Iterator();
-	}
-
 private:
 	struct Element
 	{
 		bool isDeleted { true };
 		uint8_t generation { 0 };
 		uint32_t previousFree { 0 };
-		T entity;
+		TEntity entity;
 	};
 
+public:
+
+	class Iterator
+	{
+	public:
+		Iterator(typename std::vector<Element>::iterator i, 
+			typename std::vector<Element>::iterator end): mI(i), mEnd(end)
+		{
+		}
+
+		bool operator!=(const Iterator& other)
+		{
+			return other.mI != mI || other.mEnd != mEnd;
+		}
+
+		void operator++()
+		{
+			mI++;
+			if (mI != mEnd && mI->isDeleted)
+			{
+				++(*this);
+			}
+		}
+
+		TEntity* operator*()
+		{
+			return &(mI->entity);
+		}
+	private:
+		typename std::vector<Element>::iterator mI;
+		typename std::vector<Element>::iterator mEnd;
+	};
+
+
+	Iterator begin()
+	{
+		return Iterator(mElements.begin(), mElements.end());
+	}
+
+	Iterator end()
+	{
+		return Iterator(mElements.end(), mElements.end());
+	}
+
+private:
 	uint32_t mFree { 0 };
-	std::vector<Element> mEntities;
+	std::vector<Element> mElements;
 };
