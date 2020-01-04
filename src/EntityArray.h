@@ -34,6 +34,24 @@ public:
 		operator int() = delete;
 	};
 
+	class Iterator
+	{
+	public:
+		bool operator!=(const Iterator& other)
+		{
+			return false;
+		}
+		void operator++()
+		{
+
+		}
+		T* operator*()
+		{
+			return nullptr;
+		}
+
+	};
+
 	EntityArray()
 	{
 		mEntities.resize(1);
@@ -89,6 +107,16 @@ public:
 				mFree = id.index;
 			}
 		}
+	}
+
+	Iterator begin()
+	{
+		return Iterator();
+	}
+
+	Iterator end()
+	{
+		return Iterator();
 	}
 
 private:
