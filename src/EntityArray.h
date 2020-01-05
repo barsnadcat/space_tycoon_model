@@ -10,10 +10,9 @@ class EntityArray
 private:
 	struct Element
 	{
-		bool isDeleted { true };
 		uint8_t generation { 0 };
 		uint32_t previousFree { 0 };
-		TEntity entity;
+		TEntity* pEntity;
 	};
 
 public:
@@ -59,7 +58,7 @@ public:
 		void operator++()
 		{
 			mI++;
-			if (mI != mEnd && mI->isDeleted)
+			if (mI != mEnd && !mI->pEntity)
 			{
 				++(*this);
 			}
@@ -67,7 +66,8 @@ public:
 
 		TEntity* operator*()
 		{
-			return &(mI->entity);
+			assert(mI->pEntity);
+			return mI->pEntity;
 		}
 	private:
 		typename std::vector<Element>::iterator mI;
@@ -76,7 +76,9 @@ public:
 
 	Iterator begin()
 	{
-		return Iterator(mElements.begin(), mElements.end());
+		Iterator i(mElements.begin(), mElements.end());
+		++i;
+		return i;
 	}
 
 	Iterator end()
@@ -89,13 +91,18 @@ public:
 		mElements.resize(1);
 	}
 
-	Id Insert(const TEntity& entity)
+	Id Insert(TEntity* pEntity)
 	{
+		if (!pEntity)
+		{
+			return {0, 0};
+		}
+
 		uint32_t index = 0;
 		if (mFree)
 		{
 			index = mFree;
-			assert(mElements[mFree].isDeleted);
+			assert(!mElements[mFree].pEntity);
 			assert(mElements[mFree].previousFree != mFree);
 			mFree = mElements[mFree].previousFree;
 		}
@@ -105,9 +112,8 @@ public:
 			mElements.push_back({});
 		}
 		Element& e = mElements[index];
-		e.isDeleted = false;
 		e.generation++;
-		e.entity = entity;
+		e.pEntity = pEntity;
 		return {index, e.generation};
 	}
 
@@ -116,9 +122,9 @@ public:
 		if (id.index < mElements.size())
 		{
 			Element& e = mElements[id.index];
-			if (!e.isDeleted && e.generation == id.generation)
+			if (e.generation == id.generation)
 			{
-				return &(e.entity);
+				return e.pEntity;
 			}
 		}
 		return nullptr;
@@ -129,9 +135,9 @@ public:
 		if (id.index < mElements.size())
 		{
 			Element& e = mElements[id.index];
-			if (!e.isDeleted)
+			if (e.pEntity)
 			{
-				e.isDeleted = true;
+				e.pEntity = nullptr;
 				if (mFree)
 				{
 					e.previousFree = mFree;
