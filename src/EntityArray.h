@@ -84,7 +84,6 @@ public:
 		return Iterator(mElements.end(), mElements.end());
 	}
 
-
 	EntityArray()
 	{
 		mElements.resize(1);
