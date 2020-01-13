@@ -1,14 +1,23 @@
 #pragma once
 
+#include <algorithm>
+#include <cstdint>
+#include <vector>
+#include <memory>
+
 class IEntity
 {
 public:
-	IEntity() = default;
+	IEntity(uint32_t health): mHealth(health), mMaxHealth(health) {}
 	virtual ~IEntity() = default;
-	virtual uint32_t GetHealth() const { return 0; }
-	virtual void SetHealth(uint32_t health) {}
-	virtual void SetMaxHealth(uint32_t health) {}
-	virtual void Update(uint32_t days) {}
+	uint32_t GetHealth() const { return mHealth; }
+	uint32_t GetMaxHealth() const { return mMaxHealth; }
+	void SetHealth(uint32_t health) { mHealth = std::min(health, mMaxHealth); }
+	void SetMaxHealth(uint32_t health) { mMaxHealth = health; SetHealth(mHealth); }
+	void DecayMaxHealth(uint32_t days) { SetMaxHealth(mMaxHealth - days); }
+private:
+	uint32_t mHealth { 0 };
+	uint32_t mMaxHealth { 0 };
 };
 
 template<typename T>
@@ -23,12 +32,4 @@ void RemoveDead(std::vector<std::shared_ptr<T>>& inventory)
 		inventory.end());
 }
 
-template<typename T>
-void Update(std::vector<std::shared_ptr<T>>& inventory, uint32_t days)
-{
-	for(auto& ptr: inventory)
-	{
-		ptr->Update(days);
-	}
-	RemoveDead<T>(inventory);
-}
+

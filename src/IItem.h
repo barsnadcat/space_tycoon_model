@@ -4,5 +4,5 @@
 
 class IItem: public IEntity
 {
-
+	using IEntity::IEntity;
 };

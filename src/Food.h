@@ -4,5 +4,6 @@
 
 class Food: public IItem
 {
-
+	using IItem::IItem;
 };
+
