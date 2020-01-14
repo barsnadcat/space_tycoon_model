@@ -11,23 +11,28 @@ void Person::Update(const uint32_t days)
 	}
 	RemoveDead<Food>(mFoods);
 
-	// Eat
-	int foodToEat = days;
-	while (!mFoods.empty() && foodToEat)
-	{
-		std::shared_ptr<Food> food = mFoods.back();
-		mFoods.pop_back();
-		mEnergy--;
-		mEnergy = std::max(mEnergy + food->GetEnergy(), kMaxEnergy);
-		foodToEat--;
-	}
-	mEnergy = mEnergy - foodToEat;
+	
 
-	// Update biology
-	DecayMaxHealth(days);
-	if (mEnergy < 0)
+	for (uint32_t i = 0; i < days; ++i)
 	{
-		SetHealth(GetHealth() + mEnergy);
-		mEnergy = 0;
+		DecayMaxHealth(1);
+		
+		// Eat
+		if (!mFoods.empty())
+		{
+			std::shared_ptr<Food> food = mFoods.back();
+			mFoods.pop_back();
+			mEnergy = std::max(kMaxEnergy, mEnergy + food->GetEnergy());
+		}
+		
+		// Expend energy or hunger damage
+		if (mEnergy == 0)
+		{
+			SetHealth(GetHealth() - 1);
+		}
+		else
+		{
+			mEnergy--;
+		}
 	}
 }
