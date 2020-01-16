@@ -25,13 +25,15 @@ void Person::Update(const uint32_t days)
 			mEnergy = std::max(kMaxEnergy, mEnergy + food->GetEnergy());
 		}
 		
-		// Expend energy or hunger damage
 		if (mEnergy == 0)
 		{
-			SetHealth(GetHealth() - 1);
+			//Hunger damage
+			IncreaseHealth(-1);
 		}
 		else
 		{
+			//Heal
+			IncreaseHealth(1);
 			mEnergy--;
 		}
 	}

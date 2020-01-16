@@ -56,5 +56,5 @@ TEST(Hunger, EatingMixed)
 	person.Update(1);
 	person.AddFood(std::make_shared<Food>(100));
 	person.Update(1);
-	EXPECT_EQ(person.GetHealth(), 95);
+	EXPECT_EQ(person.GetHealth(), 96);
 }

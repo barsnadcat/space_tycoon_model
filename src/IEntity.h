@@ -8,16 +8,16 @@
 class IEntity
 {
 public:
-	IEntity(uint32_t health): mHealth(health), mMaxHealth(health) {}
+	IEntity(int32_t health): mHealth(health), mMaxHealth(health) {}
 	virtual ~IEntity() = default;
-	uint32_t GetHealth() const { return mHealth; }
-	uint32_t GetMaxHealth() const { return mMaxHealth; }
-	void SetHealth(uint32_t health) { mHealth = std::min(health, mMaxHealth); }
-	void SetMaxHealth(uint32_t health) { mMaxHealth = health; SetHealth(mHealth); }
-	void DecayMaxHealth(uint32_t days) { mMaxHealth = mMaxHealth - days; mHealth = mHealth - days; }
+	int32_t GetHealth() const { return mHealth; }
+	int32_t GetMaxHealth() const { return mMaxHealth; }
+	void SetHealth(int32_t health) { mHealth = std::max(0, std::min(health, mMaxHealth)); }
+	void IncreaseHealth(int32_t change) { SetHealth(mHealth + change); }
+	void DecayMaxHealth(int32_t days) { mMaxHealth = std::max(0, mMaxHealth - days); IncreaseHealth(-days); }
 private:
-	uint32_t mHealth { 0 };
-	uint32_t mMaxHealth { 0 };
+	int32_t mHealth { 0 };
+	int32_t mMaxHealth { 0 };
 };
 
 template<typename T>
