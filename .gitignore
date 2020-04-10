@@ -1,5 +1,7 @@
 # Meson
 lib
+build
+subprojects/easyloggingpp
 
 # Prerequisites
 *.d
