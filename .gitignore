@@ -2,6 +2,8 @@
 lib
 build
 subprojects/easyloggingpp
+subprojects/googletest*
+subprojects/packagecache
 
 # Prerequisites
 *.d
