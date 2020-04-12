@@ -1,6 +1,6 @@
 # Meson
-lib
-build
+debug
+release
 subprojects/easyloggingpp
 subprojects/googletest*
 subprojects/packagecache
