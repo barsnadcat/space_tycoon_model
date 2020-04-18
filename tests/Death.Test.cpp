@@ -1,18 +1,16 @@
 #include <gtest/gtest.h>
 #include <easylogging++.h>
 
-#include <Food.h>
+#include "Settlement.h"
+#include "Death.h"
 
 
-TEST(EntityVector, RemoveDead) 
+TEST(Container, Death) 
 {
-	// Dead entities have to be removed from vector.
-	std::vector<std::shared_ptr<Food>> inventory;
-	std::shared_ptr<Food> food = std::make_shared<Food>(100);
-	food->SetHealth(0);
-	inventory.push_back(food);
-	food.reset();
-	RemoveDead<Food>(inventory);
-	EXPECT_TRUE(inventory.empty());
+	Settlement settlement;
+	settlement.AddPerson(std::make_shared<Person>(0, 0));
+	EXPECT_TRUE(settlement.GetEntityIterator()->HasNext());
+	Death(settlement.GetEntityIterator());
+	EXPECT_FALSE(settlement.GetEntityIterator()->HasNext());
 }
 

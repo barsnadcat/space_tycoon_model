@@ -4,15 +4,6 @@ const int kMaxEnergy = 30;
 
 void Person::Update(const uint32_t days)
 {
-	// Invetroy update
-	for(auto& foodPtr: mFoods)
-	{
-		foodPtr->DecayMaxHealth(days);
-	}
-	RemoveDead<Food>(mFoods);
-
-	
-
 	for (uint32_t i = 0; i < days; ++i)
 	{
 		DecayMaxHealth(1);

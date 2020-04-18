@@ -1,12 +1,15 @@
 #pragma once
 
 #include "Person.h"
+#include "IEntityContainer.h"
 
 #include <vector>
 #include <memory>
 
-class Settlement
+class Settlement: public IEntityContainer
 {
+public:
+	void AddPerson(Person::Shared person) { mPeople.push_back(person); }
 private:
-	std::vector<std::shared_ptr<Person>> mPeople;
+	std::vector<Person::Shared> mPeople;
 };
