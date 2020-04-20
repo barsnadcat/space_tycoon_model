@@ -1,13 +1,13 @@
 #pragma once
 
-#include "IEntityContainer.h"
+#include "ISpace.h"
 
 #include <algorithm>
 #include <cstdint>
 #include <vector>
 #include <memory>
 
-class IEntity: public IEntityContainer
+class IEntity: public ISpace
 {
 public:
 	using Shared = std::shared_ptr<IEntity>;

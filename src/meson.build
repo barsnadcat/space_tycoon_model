@@ -1,6 +1,6 @@
 src = files(
 	'SpaceTycoonModel.cpp',
-	'IEntityContainer.h',
+	'ISpace.h',
 	'IEntity.h',
 	'IItem.h',
 	'Death.h',
