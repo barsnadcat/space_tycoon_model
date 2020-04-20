@@ -4,10 +4,7 @@ add_project_arguments('-DNOMINMAX', language: ['cpp'])
 
 ## Main library
 inc = include_directories('include')
-src = [
-	'src/SpaceTycoonModel.cpp',
-	'src/Person.cpp'
-]
+subdir('src')
 
 easyloggingpp_dep = dependency('easyloggingpp', required : false)
 if not easyloggingpp_dep.found()
