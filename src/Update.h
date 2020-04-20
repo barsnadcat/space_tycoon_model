@@ -2,13 +2,13 @@
 
 #include "ISpace.h"
 
-void Death(IEntityIterator::Shared it)
+void Update(IEntityIterator::Shared it)
 {
 	while (it->HasNext())
 	{
 		IEntity::Shared pEntity = it->Get();
-		Death(pEntity->GetEntityIterator());
-		pEntity->DecayMaxHealth(1);
+		Update(pEntity->GetEntityIterator());
+		pEntity->Update();
 		if (pEntity->GetHealth() == 0)
 		{
 			it->Remove();
@@ -17,6 +17,5 @@ void Death(IEntityIterator::Shared it)
 		{
 			it->Next();
 		}
-
 	}
 }

@@ -3,7 +3,7 @@ src = files(
 	'ISpace.h',
 	'IEntity.h',
 	'IItem.h',
-	'Death.h',
+	'Update.h',
 	'Food.h',
 	'Person.h',
 	'Person.cpp',
