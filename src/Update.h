@@ -1,12 +1,12 @@
 #pragma once
 
-#include "ISpace.h"
+#include "Space.h"
 
 void Update(IEntityIterator::Shared it)
 {
 	while (it->HasNext())
 	{
-		IEntity::Shared pEntity = it->Get();
+		Entity::Shared pEntity = it->Get();
 		Update(pEntity->GetEntityIterator());
 		pEntity->Update();
 		if (pEntity->GetHealth() == 0)

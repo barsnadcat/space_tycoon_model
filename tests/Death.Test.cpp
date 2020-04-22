@@ -5,7 +5,7 @@
 #include "Update.h"
 
 
-TEST(Container, Death) 
+TEST(Container, PersonDeath) 
 {
 	Settlement settlement;
 	settlement.AddPerson(std::make_shared<Person>(0, 0));

@@ -1,19 +1,19 @@
 #pragma once
 
-#include "ISpace.h"
+#include "Space.h"
 
 #include <algorithm>
 #include <cstdint>
 #include <vector>
 #include <memory>
 
-class IEntity: public ISpace
+class Entity: public Space
 {
 public:
-	using Shared = std::shared_ptr<IEntity>;
+	using Shared = std::shared_ptr<Entity>;
 
-	IEntity(uint32_t health): mHealth(health), mMaxHealth(health) {}
-	virtual ~IEntity() = default;
+	Entity(uint32_t health): mHealth(health), mMaxHealth(health) {}
+	virtual ~Entity() = default;
 	uint32_t GetHealth() const { return mHealth; }
 	uint32_t GetMaxHealth() const { return mMaxHealth; }
 	void SetHealth(uint32_t health) { mHealth = std::min(health, mMaxHealth); }

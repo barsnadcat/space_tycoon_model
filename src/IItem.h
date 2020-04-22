@@ -1,8 +1,8 @@
 #pragma once
 
-#include "IEntity.h"
+#include "Entity.h"
 
-class IItem: public IEntity
+class IItem: public Entity
 {
-	using IEntity::IEntity;
+	using Entity::Entity;
 };

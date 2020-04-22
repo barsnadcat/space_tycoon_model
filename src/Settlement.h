@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Person.h"
-#include "ISpace.h"
+#include "Space.h"
 
 #include <vector>
 #include <memory>
 
-class Settlement: public ISpace
+class Settlement: public Space
 {
 public:
 	virtual IEntityIterator::Shared GetEntityIterator() { return std::make_shared<VectorEntityIterator<Person::Shared>>(mPeople); }
