@@ -9,8 +9,8 @@ TEST(Container, PersonDeath)
 {
 	Settlement settlement;
 	settlement.AddPerson(std::make_shared<Person>(0, 0));
-	EXPECT_TRUE(settlement.GetEntityIterator()->HasNext());
-	Update(settlement.GetEntityIterator());
-	EXPECT_FALSE(settlement.GetEntityIterator()->HasNext());
+	EXPECT_TRUE(settlement.GetSpaceIterator().HasNext());
+	Update(settlement.GetSpaceIterator());
+	EXPECT_FALSE(settlement.GetSpaceIterator().HasNext());
 }
 

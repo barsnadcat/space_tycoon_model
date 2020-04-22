@@ -2,20 +2,20 @@
 
 #include "Space.h"
 
-void Update(IEntityIterator::Shared it)
+void Update(SpaceIterator&& it)
 {
-	while (it->HasNext())
+	while (it.HasNext())
 	{
-		Entity::Shared pEntity = it->Get();
-		Update(pEntity->GetEntityIterator());
+		Entity::Shared pEntity = it.Get();
+		Update(pEntity->GetSpaceIterator());
 		pEntity->Update();
 		if (pEntity->GetHealth() == 0)
 		{
-			it->Remove();
+			it.Remove();
 		}
 		else
 		{
-			it->Next();
+			it.Next();
 		}
 	}
 }

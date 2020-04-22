@@ -5,10 +5,11 @@ const int kMaxEnergy = 30;
 void Person::EntityChildUpdate()
 {
 	// Eat
-	if (!mFoods.empty())
+	VectorSpaceIterator<Food> foodIt = GetFoodIterator();
+	if (foodIt.HasNext())
 	{
-		std::shared_ptr<Food> food = mFoods.back();
-		mFoods.pop_back();
+		Food::Shared food = foodIt.Get();
+		foodIt.Remove();
 		mEnergy = std::max(kMaxEnergy, mEnergy + food->GetEnergy());
 	}
 
