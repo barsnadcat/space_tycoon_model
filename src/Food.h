@@ -1,10 +1,10 @@
 #pragma once
 
-#include "IItem.h"
+#include "Entity.h"
 
-class Food: public IItem
+class Food: public Entity
 {
-	using IItem::IItem;
+	using Entity::Entity;
 public:
 	using Shared = std::shared_ptr<Food>;
 	int GetEnergy() { return 2; }
