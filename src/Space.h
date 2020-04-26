@@ -40,10 +40,12 @@ private:
 class Space
 {
 public:
+	virtual ~Space() {}
 	VectorSpaceIterator<Food> GetFoodIterator() { return VectorSpaceIterator<Food>(mFoods); }
 	VectorSpaceIterator<Person> GetPersonIterator() { return VectorSpaceIterator<Person>(mPeople); }
 	void AddPerson(std::unique_ptr<Person> person) { mPeople.push_back(std::move(person)); }
 	void AddFood(std::unique_ptr<Food> person) { mFoods.push_back(std::move(person)); }
+	void MoveTo(Space& space);
 	SpaceIterator GetSpaceIterator() { return SpaceIterator(mFoods, mPeople); };
 private:
 	std::vector<std::unique_ptr<Food>> mFoods;

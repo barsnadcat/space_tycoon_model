@@ -2,13 +2,13 @@
 
 #include "Space.h"
 
-void Update(Space& space)
+void UpdateSpace(Space& space)
 {
 	SpaceIterator it = space.GetSpaceIterator();
 	while (it.HasNext())
 	{
 		Entity& entity = it.Get();
-		Update(entity);
+		UpdateSpace(entity);
 		entity.Update();
 		if (entity.GetHealth() == 0)
 		{

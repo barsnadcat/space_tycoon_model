@@ -8,7 +8,7 @@ void Person::EntityChildUpdate()
 	VectorSpaceIterator<Food> foodIt = GetFoodIterator();
 	if (foodIt.HasNext())
 	{
-		mEnergy = std::max(kMaxEnergy, mEnergy + foodIt.Get().GetEnergy());
+		mEnergy = std::min(kMaxEnergy, mEnergy + foodIt.Get().GetEnergy());
 		foodIt.Remove();
 	}
 
