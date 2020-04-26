@@ -18,9 +18,9 @@ TEST(Hunger, Eating)
 {
 	//Each date person eats one food
 	Person person(100, 0);
-	person.AddFood(std::make_shared<Food>(100));
-	person.AddFood(std::make_shared<Food>(100));
-	person.AddFood(std::make_shared<Food>(100));
+	person.AddFood(std::make_unique<Food>(100));
+	person.AddFood(std::make_unique<Food>(100));
+	person.AddFood(std::make_unique<Food>(100));
 	person.Update();
 	person.Update();
 	person.Update();
@@ -33,7 +33,7 @@ TEST(Hunger, EatingMixed)
 	Person person(100, 0);
 	person.Update();
 	person.Update();
-	person.AddFood(std::make_shared<Food>(100));
+	person.AddFood(std::make_unique<Food>(100));
 	person.Update();
 	EXPECT_EQ(person.GetHealth(), 95);
 }

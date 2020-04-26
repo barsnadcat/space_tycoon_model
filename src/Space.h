@@ -11,30 +11,30 @@ class Person;
 class SpaceIterator
 {
 public:
-	SpaceIterator(std::vector<std::shared_ptr<Food>>& foods, std::vector<std::shared_ptr<Person>>& people) : mFoods(foods), mPeople(people), mFoodIt(foods.begin()), mPersonIt(people.begin()) {}
+	SpaceIterator(std::vector<std::unique_ptr<Food>>& foods, std::vector<std::unique_ptr<Person>>& people) : mFoods(foods), mPeople(people), mFoodIt(foods.begin()), mPersonIt(people.begin()) {}
 	bool HasNext();
-	std::shared_ptr<Entity> Get();
+	Entity& Get();
 	void Next();
 	void Remove();
 private:
-	std::vector<std::shared_ptr<Food>>& mFoods;
-	std::vector<std::shared_ptr<Person>>& mPeople;
-	typename std::vector<std::shared_ptr<Food>>::iterator mFoodIt;
-	typename std::vector<std::shared_ptr<Person>>::iterator mPersonIt;
+	std::vector<std::unique_ptr<Food>>& mFoods;
+	std::vector<std::unique_ptr<Person>>& mPeople;
+	typename std::vector<std::unique_ptr<Food>>::iterator mFoodIt;
+	typename std::vector<std::unique_ptr<Person>>::iterator mPersonIt;
 };
 
 template<typename T>
 class VectorSpaceIterator
 {
 public:
-	VectorSpaceIterator(std::vector<std::shared_ptr<T>>& vector): mVector(vector), mIt(vector.begin()) { }
+	VectorSpaceIterator(std::vector<std::unique_ptr<T>>& vector): mVector(vector), mIt(vector.begin()) { }
 	bool HasNext() { return mIt != mVector.end(); }
-	std::shared_ptr<T> Get() { return *mIt; }
+	T& Get() { return **mIt; }
 	void Next() { assert(HasNext()); mIt++; }
 	void Remove() { mIt = mVector.erase(mIt); }
 private:
-	std::vector<std::shared_ptr<T>>& mVector;
-	typename std::vector<std::shared_ptr<T>>::iterator mIt;
+	std::vector<std::unique_ptr<T>>& mVector;
+	typename std::vector<std::unique_ptr<T>>::iterator mIt;
 };
 
 class Space
@@ -42,10 +42,10 @@ class Space
 public:
 	VectorSpaceIterator<Food> GetFoodIterator() { return VectorSpaceIterator<Food>(mFoods); }
 	VectorSpaceIterator<Person> GetPersonIterator() { return VectorSpaceIterator<Person>(mPeople); }
-	void AddPerson(std::shared_ptr<Person> person) { mPeople.push_back(person); }
-	void AddFood(std::shared_ptr<Food> person) { mFoods.push_back(person); }
+	void AddPerson(std::unique_ptr<Person> person) { mPeople.push_back(std::move(person)); }
+	void AddFood(std::unique_ptr<Food> person) { mFoods.push_back(std::move(person)); }
 	SpaceIterator GetSpaceIterator() { return SpaceIterator(mFoods, mPeople); };
 private:
-	std::vector<std::shared_ptr<Food>> mFoods;
-	std::vector<std::shared_ptr<Person>> mPeople;
+	std::vector<std::unique_ptr<Food>> mFoods;
+	std::vector<std::unique_ptr<Person>> mPeople;
 };

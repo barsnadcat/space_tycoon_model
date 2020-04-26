@@ -2,14 +2,15 @@
 
 #include "Space.h"
 
-void Update(SpaceIterator&& it)
+void Update(Space& space)
 {
+	SpaceIterator it = space.GetSpaceIterator();
 	while (it.HasNext())
 	{
-		Entity::Shared pEntity = it.Get();
-		Update(pEntity->GetSpaceIterator());
-		pEntity->Update();
-		if (pEntity->GetHealth() == 0)
+		Entity& entity = it.Get();
+		Update(entity);
+		entity.Update();
+		if (entity.GetHealth() == 0)
 		{
 			it.Remove();
 		}

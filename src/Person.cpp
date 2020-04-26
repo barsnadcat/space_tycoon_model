@@ -8,9 +8,8 @@ void Person::EntityChildUpdate()
 	VectorSpaceIterator<Food> foodIt = GetFoodIterator();
 	if (foodIt.HasNext())
 	{
-		Food::Shared food = foodIt.Get();
+		mEnergy = std::max(kMaxEnergy, mEnergy + foodIt.Get().GetEnergy());
 		foodIt.Remove();
-		mEnergy = std::max(kMaxEnergy, mEnergy + food->GetEnergy());
 	}
 
 	// Expend energy or hunger damage
