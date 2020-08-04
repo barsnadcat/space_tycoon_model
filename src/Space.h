@@ -8,20 +8,6 @@ class Entity;
 class Food;
 class Person;
 
-class SpaceIterator
-{
-public:
-	SpaceIterator(std::vector<std::unique_ptr<Food>>& foods, std::vector<std::unique_ptr<Person>>& people) : mFoods(foods), mPeople(people), mFoodIt(foods.begin()), mPersonIt(people.begin()) {}
-	bool HasNext();
-	Entity& Get();
-	void Next();
-	void Remove();
-private:
-	std::vector<std::unique_ptr<Food>>& mFoods;
-	std::vector<std::unique_ptr<Person>>& mPeople;
-	typename std::vector<std::unique_ptr<Food>>::iterator mFoodIt;
-	typename std::vector<std::unique_ptr<Person>>::iterator mPersonIt;
-};
 
 template<typename T>
 class VectorSpaceIterator
@@ -41,12 +27,16 @@ class Space
 {
 public:
 	virtual ~Space() {}
+    void Update();
 	VectorSpaceIterator<Food> GetFoodIterator() { return VectorSpaceIterator<Food>(mFoods); }
 	VectorSpaceIterator<Person> GetPersonIterator() { return VectorSpaceIterator<Person>(mPeople); }
 	void AddPerson(std::unique_ptr<Person> person) { mPeople.push_back(std::move(person)); }
 	void AddFood(std::unique_ptr<Food> person) { mFoods.push_back(std::move(person)); }
 	void MoveTo(Space& space);
-	SpaceIterator GetSpaceIterator() { return SpaceIterator(mFoods, mPeople); };
+private:
+    template <typename T>
+    void DeleteEntities(std::vector<std::unique_ptr<T>>& container);
+    virtual void OnSpaceUpdated(){};
 private:
 	std::vector<std::unique_ptr<Food>> mFoods;
 	std::vector<std::unique_ptr<Person>> mPeople;

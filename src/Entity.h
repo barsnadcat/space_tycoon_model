@@ -41,14 +41,14 @@ public:
 		}
 
 	}
-	void Update()
-	{
-		DamageHealth(1);
-		DamageMaxHealth(1);
-		EntityChildUpdate();
-	}
 private:
-	virtual void EntityChildUpdate() {}
+    virtual void OnSpaceUpdated() override
+    {
+        DamageHealth(1);
+        DamageMaxHealth(1);
+        OnEntityUpdated();
+    }
+	virtual void OnEntityUpdated() {}
 private:
 	uint32_t mHealth { 0 };
 	uint32_t mMaxHealth { 0 };

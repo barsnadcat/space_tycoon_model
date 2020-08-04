@@ -12,7 +12,7 @@ public:
 	using Shared = std::shared_ptr<Person>;
 	Person(uint32_t health, int32_t energy): Entity(health), mEnergy(energy) {}
 private:
-	virtual void EntityChildUpdate() override;
+	virtual void OnEntityUpdated() override;
 private:
 	int32_t mEnergy { 0 };
 };

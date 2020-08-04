@@ -2,7 +2,7 @@
 
 const int kMaxEnergy = 30;
 
-void Person::EntityChildUpdate()
+void Person::OnEntityUpdated()
 {
 	// Eat
 	VectorSpaceIterator<Food> foodIt = GetFoodIterator();
