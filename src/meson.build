@@ -3,9 +3,9 @@ src = files(
 	'Space.h',
 	'Space.cpp',
 	'Entity.h',
-	'Update.h',
 	'Food.h',
 	'Person.h',
 	'Person.cpp',
-	'Settlement.h'
+	'Settlement.h',
+	'Settlement.cpp'
 )

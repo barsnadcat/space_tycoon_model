@@ -3,9 +3,11 @@
 #include "Person.h"
 #include "Space.h"
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 class Settlement: public Space
 {
+public:
+	virtual void OnSpaceUpdated() override;
 };

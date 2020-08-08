@@ -5,11 +5,10 @@ const int kMaxEnergy = 30;
 void Person::OnEntityUpdated()
 {
 	// Eat
-	VectorSpaceIterator<Food> foodIt = GetFoodIterator();
-	if (foodIt.HasNext())
+	if (!GetFoods().empty())
 	{
-		mEnergy = std::min(kMaxEnergy, mEnergy + foodIt.Get().GetEnergy());
-		foodIt.Remove();
+		mEnergy = std::min(kMaxEnergy, mEnergy + GetFoods().back()->GetEnergy());
+		GetFoods().pop_back();
 	}
 
 	// Expend energy or hunger damage
