@@ -6,7 +6,7 @@
 TEST(Container, PersonPickup)
 {
 	Settlement settlement;
-	settlement.AddPerson(std::make_unique<Person>(1, 1));
+	settlement.AddPerson(std::make_unique<Person>(5, 1));
 	settlement.Update();
 	settlement.Update();
 	settlement.Update();

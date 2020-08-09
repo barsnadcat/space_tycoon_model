@@ -36,8 +36,27 @@ void Space::Update()
 	OnSpaceUpdated();
 }
 
+void Space::AddPerson(PersonPtr p)
+{
+	p->SetParent(this);
+	mPeople.push_back(std::move(p));
+}
+void Space::AddFood(FoodPtr p)
+{
+	p->SetParent(this);
+	mFoods.push_back(std::move(p));
+}
+
 void Space::MoveTo(Space& destination)
 {
+	for (auto& p : mFoods)
+	{
+		p->SetParent(&destination);
+	}
 	std::move(mFoods.begin(), mFoods.end(), std::back_inserter(destination.mFoods));
+	for (auto& p : mPeople)
+	{
+		p->SetParent(&destination);
+	}
 	std::move(mPeople.begin(), mPeople.end(), std::back_inserter(destination.mPeople));
 }

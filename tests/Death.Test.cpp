@@ -23,5 +23,5 @@ TEST(Container, Loot)
 	EXPECT_FALSE(settlement.GetPeople().empty());
 	settlement.Update();
 	EXPECT_TRUE(settlement.GetPeople().empty());
-	EXPECT_EQ(settlement.GetFoods().size(), 3);
+	EXPECT_EQ(settlement.GetFoods().size(), 2);
 }
