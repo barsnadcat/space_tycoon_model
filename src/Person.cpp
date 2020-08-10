@@ -4,7 +4,7 @@ const int kMaxEnergy = 30;
 
 void Person::OnEntityUpdated()
 {
-	// Pickup. Lol we need parent!
+    // Pickup. Lol we need parent!
 	Space* parent = GetParent();
 	if (parent)
 	{
@@ -17,14 +17,14 @@ void Person::OnEntityUpdated()
 		}
 	}
 
-	// Eat
+    // Eat
 	if (!GetFoods().empty())
 	{
 		mEnergy = std::min(kMaxEnergy, mEnergy + GetFoods().back()->GetEnergy());
 		GetFoods().pop_back();
 	}
 
-	// Expend energy or hunger damage
+    // Expend energy or hunger damage
 	if (mEnergy == 0)
 	{
 		DamageHealth(1);

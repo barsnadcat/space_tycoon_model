@@ -2,17 +2,17 @@
 #include <EntityArray.h>
 #include <easylogging++.h>
 
-TEST(EntityArray, GetByInvalidId) 
+TEST(EntityArray, GetByInvalidId)
 {
-	// We should get null pointer by invalid id
+    // We should get null pointer by invalid id
 	EntityArray<int> array;
 	int* val = array.Get({});
 	EXPECT_EQ(val, nullptr);
 }
 
-TEST(EntityArray, GetById) 
+TEST(EntityArray, GetById)
 {
-	// We should be able to retrive entity pointer by id
+    // We should be able to retrive entity pointer by id
 	EntityArray<int> array;
 	int val6 = 6;
 	EntityArray<int>::Id id = array.Insert(&val6);
@@ -22,7 +22,7 @@ TEST(EntityArray, GetById)
 
 TEST(EntityArray, Delete)
 {
-	// After deltion we should get null entity pointer
+    // After deltion we should get null entity pointer
 	EntityArray<int> array;
 	int val = 0;
 	auto id = array.Insert(&val);
@@ -34,13 +34,13 @@ TEST(EntityArray, Delete)
 
 TEST(EntityArray, DoubleDelete)
 {
-	// Deletion should be reentrant
+    // Deletion should be reentrant
 	EntityArray<int> array;
 	int val = 0;
 	array.Insert(&val);
 	auto id1 = array.Insert(&val);
 	auto id2 = array.Insert(&val);
-	array.Delete(id1);	
+	array.Delete(id1);
 	array.Delete(id2);
 	array.Delete(id2);
 	array.Insert(&val);
@@ -50,7 +50,7 @@ TEST(EntityArray, DoubleDelete)
 
 TEST(EntityArray, Reuse)
 {
-	// Entity id of deleted entity should return null entity pointer, even after new entity was put in same place
+    // Entity id of deleted entity should return null entity pointer, even after new entity was put in same place
 	EntityArray<int> array;
 	int val = 0;
 	array.Insert(&val);
@@ -78,7 +78,7 @@ TEST(EntityArray, Reuse)
 
 TEST(EntityArray, Iterate)
 {
-	// We should be able to iterate over existing entities, scipping deleted
+    // We should be able to iterate over existing entities, scipping deleted
 	EntityArray<int> array;
 	int val1 = 1;
 	int val2 = 2;
@@ -89,10 +89,10 @@ TEST(EntityArray, Iterate)
 	array.Insert(&val3);
 	array.Delete(id);
 	int sum = 0;
-	for(int* pValue: array)
+	for (int* pValue : array)
 	{
 		sum += *pValue;
 	}
-	
+
 	EXPECT_EQ(sum, 6);
 }

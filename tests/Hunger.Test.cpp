@@ -5,7 +5,7 @@
 
 TEST(Hunger, HungerDamageSlow)
 {
-	// Huger person looses health
+    // Huger person looses health
 	Person person(100, 0);
 	for (int i = 0; i < 10; ++i)
 	{
@@ -16,7 +16,7 @@ TEST(Hunger, HungerDamageSlow)
 
 TEST(Hunger, Eating)
 {
-	// Each date person eats one food
+    // Each date person eats one food
 	Person person(100, 0);
 	person.AddFood(std::make_unique<Food>(100));
 	person.AddFood(std::make_unique<Food>(100));
@@ -29,7 +29,7 @@ TEST(Hunger, Eating)
 
 TEST(Hunger, EatingMixed)
 {
-	// Each date person eats one food
+    // Each date person eats one food
 	Person person(100, 0);
 	person.Update();
 	person.Update();

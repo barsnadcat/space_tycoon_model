@@ -3,7 +3,6 @@
 #include <vector>
 #include <cstdint>
 
-
 template<typename TEntity>
 class EntityArray
 {
@@ -21,12 +20,12 @@ public:
 		uint32_t index { 0 };
 		uint8_t generation { 0 };
 
-		bool operator==(const Id &b) const
+		bool operator==(const Id& b) const
 		{
 			return b.index == index && b.generation == generation;
 		}
 
-		bool operator!=(const Id &b) const
+		bool operator!=(const Id& b) const
 		{
 			return !(*this == b);
 		}
@@ -35,7 +34,7 @@ public:
 		{
 			return index != 0 && generation != 0;
 		}
-		
+
 		operator size_t() = delete;
 		operator uint32_t() = delete;
 		operator uint8_t() = delete;
@@ -45,8 +44,8 @@ public:
 	class Iterator
 	{
 	public:
-		Iterator(typename std::vector<Element>::iterator i, 
-			typename std::vector<Element>::iterator end): mI(i), mEnd(end)
+		Iterator(typename std::vector<Element>::iterator i,
+		         typename std::vector<Element>::iterator end): mI(i), mEnd(end)
 		{
 		}
 
@@ -95,7 +94,7 @@ public:
 	{
 		if (!pEntity)
 		{
-			return {0, 0};
+			return { 0, 0 };
 		}
 
 		uint32_t index = 0;
@@ -114,7 +113,7 @@ public:
 		Element& e = mElements[index];
 		e.generation++;
 		e.pEntity = pEntity;
-		return {index, e.generation};
+		return { index, e.generation };
 	}
 
 	TEntity* Get(const Id id)

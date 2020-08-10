@@ -27,9 +27,9 @@ public:
 
 private:
 	void SetParent(Space* space) { mParent = space; }
-	template <typename T>
+	template<typename T>
 	void DeleteEntities(std::vector<std::unique_ptr<T>>& container);
-	virtual void OnSpaceUpdated(){};
+	virtual void OnSpaceUpdated(){}
 
 private:
 	Space* mParent = nullptr;

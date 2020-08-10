@@ -3,7 +3,7 @@
 #include "Food.h"
 #include "Person.h"
 
-template <typename T>
+template<typename T>
 void Space::DeleteEntities(std::vector<std::unique_ptr<T>>& container)
 {
 	for (auto it = container.begin(); it != container.end();)
