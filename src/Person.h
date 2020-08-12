@@ -13,7 +13,7 @@ public:
 	Person(uint32_t health, int32_t energy): Entity(health), mEnergy(energy) {}
 
 private:
-	virtual void OnEntityUpdated() override;
+	virtual void OnEntityUpdated(UpdateContext& uc) override;
 
 private:
 	int32_t mEnergy { 0 };

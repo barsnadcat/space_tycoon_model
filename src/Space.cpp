@@ -21,19 +21,19 @@ void Space::DeleteEntities(std::vector<std::unique_ptr<T>>& container)
 	}
 }
 
-void Space::Update()
+void Space::Update(UpdateContext& uc)
 {
 	for (auto& p : mPeople)
 	{
-		p->Update();
+		p->Update(uc);
 	}
 	for (auto& p : mFoods)
 	{
-		p->Update();
+		p->Update(uc);
 	}
 	DeleteEntities(mPeople);
 	DeleteEntities(mFoods);
-	OnSpaceUpdated();
+	OnSpaceUpdated(uc);
 }
 
 void Space::AddPerson(PersonPtr p)

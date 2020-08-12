@@ -1,14 +1,16 @@
 #include "Person.h"
+#include "UpdateContext.h"
 
 const int kMaxEnergy = 30;
 
-void Person::OnEntityUpdated()
+void Person::OnEntityUpdated(UpdateContext& uc)
 {
     // Pickup. Lol we need parent!
 	Space* parent = GetParent();
 	if (parent)
 	{
-		if (!parent->GetFoods().empty())
+		std::uniform_int_distribution<int> distribution(0, 1);		
+		if (!parent->GetFoods().empty() && distribution(uc.mRandomEngine))
 		{
 			Foods::iterator it = --parent->GetFoods().end();
 			FoodPtr food = std::move(*it);

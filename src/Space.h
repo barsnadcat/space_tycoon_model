@@ -7,6 +7,7 @@
 class Entity;
 class Food;
 class Person;
+struct UpdateContext;
 
 using FoodPtr = std::unique_ptr<Food>;
 using Foods = std::vector<FoodPtr>;
@@ -18,7 +19,7 @@ class Space
 public:
 	virtual ~Space() {}
 	Space* GetParent() { return mParent; }
-	void Update();
+	void Update(UpdateContext& uc);
 	void AddPerson(PersonPtr p);
 	void AddFood(FoodPtr p);
 	void MoveTo(Space& space);
@@ -29,7 +30,7 @@ private:
 	void SetParent(Space* space) { mParent = space; }
 	template<typename T>
 	void DeleteEntities(std::vector<std::unique_ptr<T>>& container);
-	virtual void OnSpaceUpdated(){}
+	virtual void OnSpaceUpdated(UpdateContext& uc){}
 
 private:
 	Space* mParent = nullptr;

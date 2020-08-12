@@ -46,13 +46,13 @@ public:
 	}
 
 private:
-	virtual void OnSpaceUpdated() override
+	virtual void OnSpaceUpdated(UpdateContext& uc) override
 	{
 		DamageHealth(1);
 		DamageMaxHealth(1);
-		OnEntityUpdated();
+		OnEntityUpdated(uc);
 	}
-	virtual void OnEntityUpdated() {}
+	virtual void OnEntityUpdated(UpdateContext& uc) {}
 
 private:
 	uint32_t mHealth { 0 };

@@ -9,5 +9,5 @@
 class Settlement: public Space
 {
 public:
-	virtual void OnSpaceUpdated() override;
+	virtual void OnSpaceUpdated(UpdateContext& uc) override;
 };

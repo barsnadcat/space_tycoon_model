@@ -2,18 +2,21 @@
 #include <gtest/gtest.h>
 
 #include "Settlement.h"
+#include "UpdateContext.h"
 
 TEST(Container, PersonDeath)
 {
+	UpdateContext uc;
 	Settlement settlement;
 	settlement.AddPerson(std::make_unique<Person>(0, 0));
 	EXPECT_FALSE(settlement.GetPeople().empty());
-	settlement.Update();
+	settlement.Update(uc);
 	EXPECT_TRUE(settlement.GetPeople().empty());
 }
 
 TEST(Container, Loot)
 {
+	UpdateContext uc;
 	Settlement settlement;
 	auto p = std::make_unique<Person>(0, 0);
 	p->AddFood(std::make_unique<Food>(100));
@@ -21,7 +24,7 @@ TEST(Container, Loot)
 	EXPECT_FALSE(p->GetFoods().empty());
 	settlement.AddPerson(std::move(p));
 	EXPECT_FALSE(settlement.GetPeople().empty());
-	settlement.Update();
+	settlement.Update(uc);
 	EXPECT_TRUE(settlement.GetPeople().empty());
 	EXPECT_EQ(settlement.GetFoods().size(), 2);
 }
