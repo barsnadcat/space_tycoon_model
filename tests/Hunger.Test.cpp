@@ -4,7 +4,7 @@
 #include <Person.h>
 #include <UpdateContext.h>
 
-TEST(Hunger, HungerDamageSlow)
+TEST(Person, HungerDamageSlow)
 {
     // Huger person looses health
 	UpdateContext uc;
@@ -16,7 +16,7 @@ TEST(Hunger, HungerDamageSlow)
 	EXPECT_EQ(person.GetHealth(), 80);
 }
 
-TEST(Hunger, Eating)
+TEST(Person, Eating)
 {
     // Each date person eats one food
 	UpdateContext uc;
@@ -30,7 +30,7 @@ TEST(Hunger, Eating)
 	EXPECT_EQ(person.GetHealth(), 97);
 }
 
-TEST(Hunger, EatingMixed)
+TEST(Person, EatingMixed)
 {
     // Each date person eats one food
 	UpdateContext uc;

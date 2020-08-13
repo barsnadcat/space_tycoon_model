@@ -4,7 +4,7 @@
 #include "Settlement.h"
 #include "UpdateContext.h"
 
-TEST(Container, PersonDeath)
+TEST(Person, Death)
 {
 	UpdateContext uc;
 	Settlement settlement;
@@ -14,7 +14,7 @@ TEST(Container, PersonDeath)
 	EXPECT_TRUE(settlement.GetPeople().empty());
 }
 
-TEST(Container, Loot)
+TEST(Person, Loot)
 {
 	UpdateContext uc;
 	Settlement settlement;

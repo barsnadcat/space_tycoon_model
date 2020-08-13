@@ -4,7 +4,7 @@
 #include "Settlement.h"
 #include "UpdateContext.h"
 
-TEST(Container, PersonPickup)
+TEST(Person, Pickup)
 {
 	UpdateContext uc;
 	Settlement settlement;

@@ -21,10 +21,10 @@ space_tycoon_model_dep = declare_dependency(include_directories: inc, link_with:
 gmock_dep = dependency('gmock', main : false, fallback: ['gtest', 'gmock_dep'])
 test_src = [
 	'tests/Main.Test.cpp', 
-	'tests/EntityArray.Test.cpp', 
 	'tests/Death.Test.cpp',
 	'tests/Hunger.Test.cpp',
-	'tests/Pickup.Test.cpp'
+	'tests/Pickup.Test.cpp',
+	'tests/Birth.Test.cpp'
 ]
 test_inc = include_directories('src', 'include')
 test_runner_exe = executable('test_runner', test_src + src, include_directories: test_inc, dependencies: [gmock_dep, easyloggingpp_dep])
