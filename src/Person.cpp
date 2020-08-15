@@ -5,11 +5,11 @@ const int kMaxEnergy = 30;
 
 void Person::OnEntityUpdated(UpdateContext& uc)
 {
-    // Pickup. Lol we need parent!
+    // Pickup
 	Space* parent = GetParent();
 	if (parent)
 	{
-		std::uniform_int_distribution<int> distribution(0, 1);		
+		std::bernoulli_distribution distribution(0.5);
 		if (!parent->GetFoods().empty() && distribution(uc.mRandomEngine))
 		{
 			Foods::iterator it = --parent->GetFoods().end();
@@ -34,5 +34,16 @@ void Person::OnEntityUpdated(UpdateContext& uc)
 	else
 	{
 		mEnergy--;
+	}
+
+	// Procreation
+	if (parent && mEnergy > 100)
+	{
+		std::bernoulli_distribution distribution(0.25);
+		if (distribution(uc.mRandomEngine))
+		{
+			mEnergy = 0;
+			parent->AddPerson(std::make_unique<Person>(30000, 0));
+		}
 	}
 }

@@ -7,5 +7,5 @@ struct UpdateContext
     {
         mRandomEngine.seed(seed);
     }
-    std::default_random_engine mRandomEngine;
+    std::mt19937 mRandomEngine;
 };
