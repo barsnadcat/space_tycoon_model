@@ -1,5 +1,6 @@
 #pragma once
 #include <random>
+#include <cstdint>
 
 struct UpdateContext
 {
@@ -7,5 +8,6 @@ struct UpdateContext
     {
         mRandomEngine.seed(seed);
     }
+    uint32_t mCurrentTime { 0 };
     std::mt19937 mRandomEngine;
 };
