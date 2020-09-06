@@ -1,7 +1,7 @@
 #include "Person.h"
 #include "UpdateContext.h"
 
-const int kMaxEnergy = 30;
+const int kMaxEnergy = 200;
 
 void Person::OnEntityUpdated(UpdateContext& uc)
 {
@@ -10,12 +10,18 @@ void Person::OnEntityUpdated(UpdateContext& uc)
 	if (parent)
 	{
 		std::bernoulli_distribution distribution(0.5);
-		if (!parent->GetFoods().empty() && distribution(uc.mRandomEngine))
+		if (distribution(uc.mRandomEngine))
 		{
-			Foods::iterator it = --parent->GetFoods().end();
-			FoodPtr food = std::move(*it);
-			parent->GetFoods().erase(it);
-			AddFood(std::move(food));
+			for (int i = 0; i < 3; i++)
+			{
+				if (!parent->GetFoods().empty())
+				{
+					Foods::iterator it = --parent->GetFoods().end();
+					FoodPtr food = std::move(*it);
+					parent->GetFoods().erase(it);
+					AddFood(std::move(food));
+				}
+			}
 		}
 	}
 
@@ -36,7 +42,7 @@ void Person::OnEntityUpdated(UpdateContext& uc)
 		mEnergy--;
 	}
 
-	// Procreation
+    // Procreation
 	if (parent && mEnergy > 100)
 	{
 		std::bernoulli_distribution distribution(0.25);
