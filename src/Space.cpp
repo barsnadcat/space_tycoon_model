@@ -3,6 +3,17 @@
 #include "Food.h"
 #include "Person.h"
 
+
+template<typename T>
+void UpdateEntities(std::vector<std::unique_ptr<T>>& container, UpdateContext& uc)
+{
+	const size_t size = container.size();
+	for (int i = 0; i < size; i++)
+	{
+		container[i]->Update(uc);
+	}
+}
+
 template<typename T>
 void Space::DeleteEntities(std::vector<std::unique_ptr<T>>& container)
 {
@@ -23,14 +34,8 @@ void Space::DeleteEntities(std::vector<std::unique_ptr<T>>& container)
 
 void Space::Update(UpdateContext& uc)
 {
-	for (auto& p : mPeople)
-	{
-		p->Update(uc);
-	}
-	for (auto& p : mFoods)
-	{
-		p->Update(uc);
-	}
+	UpdateEntities(mPeople, uc);
+	UpdateEntities(mFoods, uc);
 	DeleteEntities(mPeople);
 	DeleteEntities(mFoods);
 	OnSpaceUpdated(uc);
