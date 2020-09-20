@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <SpaceTycoonModel.h>
 #include <easylogging++.h>
 
 INITIALIZE_EASYLOGGINGPP
