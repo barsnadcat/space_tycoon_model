@@ -23,9 +23,9 @@ TEST(Person, Eating)
     // Each date person eats one food
 	UpdateContext uc;
 	Person person(100, 0);
-	person.AddFood(std::make_unique<Food>(100));
-	person.AddFood(std::make_unique<Food>(100));
-	person.AddFood(std::make_unique<Food>(100));
+	person.AddFood(std::make_shared<Food>(100));
+	person.AddFood(std::make_shared<Food>(100));
+	person.AddFood(std::make_shared<Food>(100));
 	person.Update(uc);
 	person.Update(uc);
 	person.Update(uc);
@@ -39,7 +39,7 @@ TEST(Person, EatingMixed)
 	Person person(100, 0);
 	person.Update(uc);
 	person.Update(uc);
-	person.AddFood(std::make_unique<Food>(100));
+	person.AddFood(std::make_shared<Food>(100));
 	person.Update(uc);
 	EXPECT_EQ(person.GetHealth(), 95);
 }

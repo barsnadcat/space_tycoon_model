@@ -10,8 +10,8 @@ TEST(Person, Claim)
 {
 	UpdateContext uc(10);
 	Settlement settlement;
-    settlement.AddPerson(std::make_unique<Person>(30000, 1));
-    settlement.AddBuilding(std::make_unique<Building>(1000000000));
+    settlement.AddPerson(std::make_shared<Person>(30000, 1));
+    settlement.AddBuilding(std::make_shared<Building>(1000000000));
     settlement.Update(uc);
 	//EXPECT_TRUE(settlement.GetBuildings().begin()->GetOwner());
 }

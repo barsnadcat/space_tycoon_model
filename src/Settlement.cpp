@@ -4,5 +4,5 @@
 
 void Settlement::OnSpaceUpdated(UpdateContext& uc)
 {
-	AddFood(std::make_unique<Food>(100));
+	AddFood(std::make_shared<Food>(100));
 }

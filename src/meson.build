@@ -1,5 +1,6 @@
 src = files(
 	'Space.cpp',
 	'Person.cpp',
-	'Settlement.cpp'
+	'Settlement.cpp',
+	'Property.cpp'
 )

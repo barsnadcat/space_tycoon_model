@@ -5,7 +5,7 @@
 #include <Building.h>
 
 template<typename T>
-void UpdateEntities(std::vector<std::unique_ptr<T>>& container, UpdateContext& uc)
+void UpdateEntities(std::vector<std::shared_ptr<T>>& container, UpdateContext& uc)
 {
 	const size_t size = container.size();
 	for (int i = 0; i < size; i++)
@@ -15,7 +15,7 @@ void UpdateEntities(std::vector<std::unique_ptr<T>>& container, UpdateContext& u
 }
 
 template<typename T>
-void Space::DeleteEntities(std::vector<std::unique_ptr<T>>& container)
+void Space::DeleteEntities(std::vector<std::shared_ptr<T>>& container)
 {
 	for (auto it = container.begin(); it != container.end();)
 	{
@@ -46,19 +46,19 @@ void Space::Update(UpdateContext& uc)
 void Space::AddPerson(PersonPtr p)
 {
 	p->SetParent(this);
-	mPeople.push_back(std::move(p));
+	mPeople.push_back(p);
 }
 
 void Space::AddFood(FoodPtr p)
 {
 	p->SetParent(this);
-	mFoods.push_back(std::move(p));
+	mFoods.push_back(p);
 }
 
 void Space::AddBuilding(BuildingPtr p)
 {
 	p->SetParent(this);
-	mBuildings.push_back(std::move(p));
+	mBuildings.push_back(p);
 }
 
 void Space::MoveTo(Space& destination)

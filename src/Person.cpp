@@ -19,9 +19,8 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 				if (!parent->GetFoods().empty())
 				{
 					Foods::iterator it = --parent->GetFoods().end();
-					FoodPtr food = std::move(*it);
+					AddFood(*it);
 					parent->GetFoods().erase(it);
-					AddFood(std::move(food));
 				}
 			}
 		}
@@ -51,7 +50,7 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 		if (distribution(uc.mRandomEngine))
 		{
 			mEnergy = 0;
-			parent->AddPerson(std::make_unique<Person>(30000, 0));
+			parent->AddPerson(std::make_shared<Person>(30000, 0));
 		}
 	}
 }
