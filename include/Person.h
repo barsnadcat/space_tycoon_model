@@ -1,19 +1,19 @@
 #pragma once
 
-#include "Entity.h"
-#include "Food.h"
+#include <Owner.h>
+#include <Food.h>
 
 #include <memory>
 #include <vector>
 
-class Person: public Entity
+class Person: public Owner
 {
 public:
 	using Shared = std::shared_ptr<Person>;
-	Person(uint32_t health, int32_t energy): Entity(health), mEnergy(energy) {}
+	Person(uint32_t health, int32_t energy): Owner(health), mEnergy(energy) {}
 
 private:
-	virtual void OnEntityUpdated(UpdateContext& uc) override;
+	virtual void OnOwnerUpdated(UpdateContext& uc) override;
 
 private:
 	int32_t mEnergy { 0 };

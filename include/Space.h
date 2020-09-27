@@ -7,12 +7,15 @@
 class Entity;
 class Food;
 class Person;
+class Building;
 struct UpdateContext;
 
 using FoodPtr = std::unique_ptr<Food>;
 using Foods = std::vector<FoodPtr>;
 using PersonPtr = std::unique_ptr<Person>;
 using People = std::vector<PersonPtr>;
+using BuildingPtr = std::unique_ptr<Building>;
+using Buildings = std::vector<BuildingPtr>;
 
 class Space
 {
@@ -20,11 +23,17 @@ public:
 	virtual ~Space() {}
 	Space* GetParent() { return mParent; }
 	void Update(UpdateContext& uc);
+
 	void AddPerson(PersonPtr p);
-	void AddFood(FoodPtr p);
-	void MoveTo(Space& space);
-	Foods& GetFoods() { return mFoods; }
 	People& GetPeople() { return mPeople; }
+
+	void AddFood(FoodPtr p);
+	Foods& GetFoods() { return mFoods; }
+
+	void AddBuilding(BuildingPtr p);
+	Buildings& GetBuildings() { return mBuildings; }
+
+	void MoveTo(Space& space);
 
 private:
 	void SetParent(Space* space) { mParent = space; }
@@ -36,4 +45,5 @@ private:
 	Space* mParent = nullptr;
 	Foods mFoods;
 	People mPeople;
+	Buildings mBuildings;
 };

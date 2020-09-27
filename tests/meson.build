@@ -3,5 +3,6 @@ test_src = files(
 	'Death.Test.cpp',
 	'Hunger.Test.cpp',
 	'Pickup.Test.cpp',
+    'Ownership.Test.cpp',
 	'Birth.Test.cpp'
 )

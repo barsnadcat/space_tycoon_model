@@ -1,9 +1,11 @@
 #include "Person.h"
-#include "UpdateContext.h"
+
+#include <UpdateContext.h>
+#include <Building.h>
 
 const int kMaxEnergy = 200;
 
-void Person::OnEntityUpdated(UpdateContext& uc)
+void Person::OnOwnerUpdated(UpdateContext& uc)
 {
     // Pickup
 	Space* parent = GetParent();

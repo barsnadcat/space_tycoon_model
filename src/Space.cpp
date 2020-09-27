@@ -1,8 +1,8 @@
 #include "Space.h"
 
-#include "Food.h"
-#include "Person.h"
-
+#include <Food.h>
+#include <Person.h>
+#include <Building.h>
 
 template<typename T>
 void UpdateEntities(std::vector<std::unique_ptr<T>>& container, UpdateContext& uc)
@@ -36,8 +36,10 @@ void Space::Update(UpdateContext& uc)
 {
 	UpdateEntities(mPeople, uc);
 	UpdateEntities(mFoods, uc);
+	UpdateEntities(mBuildings, uc);
 	DeleteEntities(mPeople);
 	DeleteEntities(mFoods);
+	DeleteEntities(mBuildings);
 	OnSpaceUpdated(uc);
 }
 
@@ -46,10 +48,17 @@ void Space::AddPerson(PersonPtr p)
 	p->SetParent(this);
 	mPeople.push_back(std::move(p));
 }
+
 void Space::AddFood(FoodPtr p)
 {
 	p->SetParent(this);
 	mFoods.push_back(std::move(p));
+}
+
+void Space::AddBuilding(BuildingPtr p)
+{
+	p->SetParent(this);
+	mBuildings.push_back(std::move(p));
 }
 
 void Space::MoveTo(Space& destination)
@@ -59,9 +68,16 @@ void Space::MoveTo(Space& destination)
 		p->SetParent(&destination);
 	}
 	std::move(mFoods.begin(), mFoods.end(), std::back_inserter(destination.mFoods));
+
 	for (auto& p : mPeople)
 	{
 		p->SetParent(&destination);
 	}
 	std::move(mPeople.begin(), mPeople.end(), std::back_inserter(destination.mPeople));
+
+	for (auto& p : mBuildings)
+	{
+		p->SetParent(&destination);
+	}
+	std::move(mBuildings.begin(), mBuildings.end(), std::back_inserter(destination.mBuildings));
 }

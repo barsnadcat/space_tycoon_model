@@ -1,8 +1,10 @@
 #include <easylogging++.h>
 #include <gtest/gtest.h>
 
+#include <Building.h>
 #include <Person.h>
 #include <UpdateContext.h>
+
 
 TEST(Person, HungerDamageSlow)
 {
