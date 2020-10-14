@@ -23,7 +23,6 @@ class Space: public Property
 {
 public:
 	virtual ~Space() {}
-	Space* GetParent() { return mParent; }
 	void Update(UpdateContext& uc);
 
 	void AddPerson(PersonPtr p);
@@ -38,13 +37,11 @@ public:
 	void MoveTo(Space& space);
 
 private:
-	void SetParent(Space* space) { mParent = space; }
 	template<typename T>
 	void DeleteEntities(std::vector<std::shared_ptr<T>>& container);
 	virtual void OnSpaceUpdated(UpdateContext& uc){}
 
 private:
-	Space* mParent = nullptr;
 	Foods mFoods;
 	People mPeople;
 	Buildings mBuildings;

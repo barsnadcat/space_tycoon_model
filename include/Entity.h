@@ -7,7 +7,7 @@
 #include <memory>
 #include <vector>
 
-class Entity: public Space
+class Entity: public Property
 {
 public:
 	using Shared = std::shared_ptr<Entity>;
@@ -45,16 +45,21 @@ public:
 		}
 	}
 
-private:
-	virtual void OnSpaceUpdated(UpdateContext& uc) override
+	void Update(UpdateContext& uc)
 	{
 		DamageHealth(1);
 		DamageMaxHealth(1);
 		OnEntityUpdated(uc);
 	}
+
+	void SetParent(Space* space) { mParent = space; }
+	Space* GetParent() { return mParent; }
+
+private:
 	virtual void OnEntityUpdated(UpdateContext& uc) {}
 
 private:
+	Space* mParent = nullptr;
 	uint32_t mHealth { 0 };
 	uint32_t mMaxHealth { 0 };
 };

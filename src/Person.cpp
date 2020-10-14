@@ -19,23 +19,26 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 				if (!parent->GetFoods().empty())
 				{
 					Foods::iterator it = --parent->GetFoods().end();
-					AddFood(*it);
-					parent->GetFoods().erase(it);
+					//ClaimFood(*it);
+					//parent->GetFoods().erase(it);
 				}
 			}
 		}
 	}
 
-	// Claim. Where the person is? Can person be inside building?
-	// If person can be inside building it makes a lot of interactions a lot more complicated. 
-	// I.e. to trade with other person you need to go to parent and child spaces, same with claim.
+	// Here is problem = we still need to opeate food in our space.
+	// 1 check foods space vs our space on each food
+	// 2 store ownership per space. This will make movement between spaces rather complicated!
+	// 3 Regardless interfaces like GetMyStuff in this space is good for us.
+	// Question. What potentially can you do with property NOT in your space?
+	// -- Sell it
 
     // Eat
-	if (!GetFoods().empty())
+	/*if (!GetMyFoods().empty())
 	{
-		mEnergy = std::min(kMaxEnergy, mEnergy + GetFoods().back()->GetEnergy());
-		GetFoods().pop_back();
-	}
+		mEnergy = std::min(kMaxEnergy, mEnergy + GetMyFoods().back()->GetEnergy());
+		GetMyFoods().pop_back();
+	}*/
 
     // Expend energy or hunger damage
 	if (mEnergy == 0)

@@ -22,7 +22,6 @@ void Space::DeleteEntities(std::vector<std::shared_ptr<T>>& container)
 		Entity& entity = **it;
 		if (entity.GetHealth() == 0)
 		{
-			entity.MoveTo(*this);
 			it = container.erase(it);
 		}
 		else
