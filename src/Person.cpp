@@ -7,7 +7,7 @@ const int kMaxEnergy = 200;
 
 void Person::OnOwnerUpdated(UpdateContext& uc)
 {
-    // Pickup
+    // Pickup food	
 	Space* parent = GetParent();
 	if (parent)
 	{
@@ -25,6 +25,10 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 			}
 		}
 	}
+
+	// Claim. Where the person is? Can person be inside building?
+	// If person can be inside building it makes a lot of interactions a lot more complicated. 
+	// I.e. to trade with other person you need to go to parent and child spaces, same with claim.
 
     // Eat
 	if (!GetFoods().empty())

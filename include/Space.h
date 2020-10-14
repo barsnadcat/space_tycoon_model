@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Property.h>
+
 #include <cassert>
 #include <memory>
 #include <vector>
@@ -17,7 +19,7 @@ using People = std::vector<PersonPtr>;
 using BuildingPtr = std::shared_ptr<Building>;
 using Buildings = std::vector<BuildingPtr>;
 
-class Space
+class Space: public Property
 {
 public:
 	virtual ~Space() {}

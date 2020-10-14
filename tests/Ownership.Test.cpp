@@ -11,7 +11,8 @@ TEST(Person, Claim)
 	UpdateContext uc(10);
 	Settlement settlement;
     settlement.AddPerson(std::make_shared<Person>(30000, 1));
-    settlement.AddBuilding(std::make_shared<Building>(1000000000));
+    BuildingPtr building = std::make_shared<Building>(1000000000);
+    settlement.AddBuilding(building);
     settlement.Update(uc);
-	//EXPECT_TRUE(settlement.GetBuildings().begin()->GetOwner());
+	EXPECT_TRUE(building->GetOwner());
 }

@@ -2,5 +2,12 @@
 
 Person* Property::GetOwner() 
 {
-    return nullptr; 
+    if (auto p = mOwner.lock())
+    {
+        return p.get();
+    }
+    else
+    {
+        return nullptr;        
+    }
 }
