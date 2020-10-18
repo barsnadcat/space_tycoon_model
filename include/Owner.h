@@ -12,6 +12,8 @@ class Owner: public Entity
 public:
 	Owner(uint32_t health): Entity(health) {}
     void ClaimFood(std::shared_ptr<Food> food);
+    FoodWeakPtrs& GetMyFoods() { return mFoods; }
+    std::shared_ptr<Food> GetMyNearFood();
 
 private:
 	virtual void OnEntityUpdated(UpdateContext& uc)
