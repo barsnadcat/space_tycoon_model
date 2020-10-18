@@ -1,6 +1,7 @@
 #include <Property.h>
+#include <Owner.h>
 
-Person* Property::GetOwner() 
+Owner* Property::GetOwner() const
 {
     if (auto p = mOwner.lock())
     {
@@ -10,4 +11,9 @@ Person* Property::GetOwner()
     {
         return nullptr;        
     }
+}
+
+void Property::SetOwner(std::shared_ptr<Owner> owner)
+{
+    mOwner = owner;
 }

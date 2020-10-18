@@ -1,11 +1,13 @@
 #pragma once
 
-#include "Space.h"
+#include <Property.h>
 
 #include <algorithm>
 #include <cstdint>
-#include <memory>
 #include <vector>
+
+struct UpdateContext;
+class Space;
 
 class Entity: public Property
 {

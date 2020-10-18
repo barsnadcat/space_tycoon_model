@@ -1,6 +1,7 @@
-#include "Person.h"
+#include <Person.h>
 
 #include <UpdateContext.h>
+#include <Space.h>
 #include <Building.h>
 
 const int kMaxEnergy = 200;
@@ -18,7 +19,7 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 			{
 				if (!parent->GetFoods().empty())
 				{
-					Foods::iterator it = --parent->GetFoods().end();
+					//Foods::iterator it = --parent->GetFoods().end();
 					//ClaimFood(*it);
 					//parent->GetFoods().erase(it);
 				}

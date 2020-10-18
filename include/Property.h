@@ -2,12 +2,13 @@
 
 #include <memory>
 
-class Person;
+class Owner;
 
-class Property
+class Property: public std::enable_shared_from_this<Property>
 {
 public:
-    Person* GetOwner();
+    Owner* GetOwner() const;
+    void SetOwner(std::shared_ptr<Owner> person);
 private:
-    std::weak_ptr<Person> mOwner;
+    std::weak_ptr<Owner> mOwner;
 };
