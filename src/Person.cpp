@@ -31,23 +31,12 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 		}
 	}
 
-    // Here is problem = we still need to opeate food in our space.
-    // 1 check foods space vs our space on each food
-    // 2 store ownership per space. This will make movement between spaces rather complicated!
-    // 3 Regardless interfaces like GetMyStuff in this space is good for us.
-    // Question. What potentially can you do with property NOT in your space?
-    // -- Sell it
-
     // Eat
 	FoodPtr food = GetMyNearFood();
 	if (food)
     {
         mEnergy = std::min(kMaxEnergy, mEnergy + food->GetEnergy());
-		if (Space* foodSpace = food->GetParent())
-		{
-			auto& vec = foodSpace->GetFoods();
-			vec.erase(std::remove(vec.begin(), vec.end(), food), vec.end());
-		}
+		food->SetMaxHealth(0);
     }
 
     // Expend energy or hunger damage

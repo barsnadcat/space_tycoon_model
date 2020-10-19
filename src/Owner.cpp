@@ -14,7 +14,7 @@ std::shared_ptr<Food> Owner::GetMyNearFood()
         std::shared_ptr<Food> food = (*it).lock();
 		if (food)
 		{
-            if (food->GetParent() == GetParent())
+            if (food->GetParent() == GetParent() && food->GetHealth() > 0)
             {
                 return food;
             }
@@ -28,4 +28,5 @@ std::shared_ptr<Food> Owner::GetMyNearFood()
             it = mFoods.erase(it);
 		}
 	}
+	return nullptr;
 }
