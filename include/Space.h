@@ -1,23 +1,17 @@
 #pragma once
 
+#include <EntitiesDeclarations.h>
 #include <Property.h>
 
 #include <cassert>
 #include <memory>
 #include <vector>
 
-class Entity;
-class Food;
-class Person;
-class Building;
-struct UpdateContext;
 
-using FoodPtr = std::shared_ptr<Food>;
-using Foods = std::vector<FoodPtr>;
-using PersonPtr = std::shared_ptr<Person>;
-using People = std::vector<PersonPtr>;
-using BuildingPtr = std::shared_ptr<Building>;
-using Buildings = std::vector<BuildingPtr>;
+struct UpdateContext;
+using Foods = std::vector<FoodSP>;
+using People = std::vector<PersonSP>;
+using Buildings = std::vector<BuildingSP>;
 
 class Space: public Property
 {
@@ -25,13 +19,13 @@ public:
 	virtual ~Space() {}
 	void Update(UpdateContext& uc);
 
-	void AddPerson(PersonPtr p);
+	void AddPerson(PersonSP p);
 	People& GetPeople() { return mPeople; }
 
-	void AddFood(FoodPtr p);
+	void AddFood(FoodSP p);
 	Foods& GetFoods() { return mFoods; }
 
-	void AddBuilding(BuildingPtr p);
+	void AddBuilding(BuildingSP p);
 	Buildings& GetBuildings() { return mBuildings; }
 
 	void MoveTo(Space& space);

@@ -15,24 +15,19 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 		std::bernoulli_distribution distribution(0.5);
 		if (distribution(uc.mRandomEngine))
 		{
-			int claimed = 0;
-			for (FoodPtr& food : parent->GetFoods())
+			for (FoodSP& food : parent->GetFoods())
 			{
 				if (food->GetOwner() == nullptr)
 				{
-					claimed++;
 					ClaimFood(food);
-					if (claimed == 3)
-					{
-						break;
-					}
+					break;
 				}
 			}
 		}
 	}
 
     // Eat
-	FoodPtr food = GetMyNearFood();
+	FoodSP food = GetMyNearFood();
 	if (food)
     {
         mEnergy = std::min(kMaxEnergy, mEnergy + food->GetEnergy());

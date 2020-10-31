@@ -42,19 +42,19 @@ void Space::Update(UpdateContext& uc)
 	OnSpaceUpdated(uc);
 }
 
-void Space::AddPerson(PersonPtr p)
+void Space::AddPerson(PersonSP p)
 {
 	p->SetParent(this);
 	mPeople.push_back(p);
 }
 
-void Space::AddFood(FoodPtr p)
+void Space::AddFood(FoodSP p)
 {
 	p->SetParent(this);
 	mFoods.push_back(p);
 }
 
-void Space::AddBuilding(BuildingPtr p)
+void Space::AddBuilding(BuildingSP p)
 {
 	p->SetParent(this);
 	mBuildings.push_back(p);

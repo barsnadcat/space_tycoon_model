@@ -1,19 +1,15 @@
 #pragma once
 
 #include <Entity.h>
-
-class Food;
-
-using FoodWeakPtr = std::weak_ptr<Food>;
-using FoodWeakPtrs = std::vector<FoodWeakPtr>;
+#include <EntitiesDeclarations.h>
 
 class Owner: public Entity
 {
 public:
 	Owner(uint32_t health): Entity(health) {}
-    void ClaimFood(std::shared_ptr<Food> food);
-    FoodWeakPtrs& GetMyFoods() { return mFoods; }
-    std::shared_ptr<Food> GetMyNearFood();
+    void ClaimFood(FoodSP food);
+    std::vector<FoodWP>& GetMyFoods() { return mFoods; }
+    FoodSP GetMyNearFood();
 
 private:
 	virtual void OnEntityUpdated(UpdateContext& uc)
@@ -21,5 +17,5 @@ private:
 		OnOwnerUpdated(uc);
 	}
 	virtual void OnOwnerUpdated(UpdateContext& uc) {}
-    FoodWeakPtrs mFoods;
+    std::vector<FoodWP> mFoods;
 };
