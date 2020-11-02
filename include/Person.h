@@ -14,7 +14,7 @@ public:
 
 private:
 	virtual void OnOwnerUpdated(UpdateContext& uc) override;
-
+	void Scavenge();
 private:
 	int32_t mEnergy { 0 };
 };

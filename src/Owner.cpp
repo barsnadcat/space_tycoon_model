@@ -1,11 +1,19 @@
 #include <Owner.h>
 #include <Food.h>
+#include <Building.h>
 
 void Owner::ClaimFood(FoodSP food)
 {
 	food->SetOwner(std::static_pointer_cast<Owner>(shared_from_this()));
 	mFoods.push_back(food);
 }
+
+void Owner::ClaimBuilding(BuildingSP building)
+{
+	building->SetOwner(std::static_pointer_cast<Owner>(shared_from_this()));
+	mBuildings.push_back(building);
+}
+
 
 FoodSP Owner::GetMyNearFood()
 {

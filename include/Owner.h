@@ -8,6 +8,7 @@ class Owner: public Entity
 public:
 	Owner(uint32_t health): Entity(health) {}
     void ClaimFood(FoodSP food);
+	void ClaimBuilding(BuildingSP building);
     std::vector<FoodWP>& GetMyFoods() { return mFoods; }
     FoodSP GetMyNearFood();
 
@@ -17,5 +18,7 @@ private:
 		OnOwnerUpdated(uc);
 	}
 	virtual void OnOwnerUpdated(UpdateContext& uc) {}
+	
     std::vector<FoodWP> mFoods;
+	std::vector<BuildingWP> mBuildings;
 };
