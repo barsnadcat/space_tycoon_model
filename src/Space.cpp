@@ -35,10 +35,10 @@ void Space::Update(UpdateContext& uc)
 {
 	UpdateEntities(mPeople, uc);
 	UpdateEntities(mFoods, uc);
-	UpdateEntities(mBuildings, uc);
+	UpdateEntities(mFarms, uc);
 	DeleteEntities(mPeople);
 	DeleteEntities(mFoods);
-	DeleteEntities(mBuildings);
+	DeleteEntities(mFarms);
 	OnSpaceUpdated(uc);
 }
 
@@ -54,10 +54,10 @@ void Space::AddFood(FoodSP p)
 	mFoods.push_back(p);
 }
 
-void Space::AddBuilding(BuildingSP p)
+void Space::AddBuilding(FarmSP p)
 {
 	p->SetParent(this);
-	mBuildings.push_back(p);
+	mFarms.push_back(p);
 }
 
 void Space::MoveTo(Space& destination)
@@ -74,9 +74,9 @@ void Space::MoveTo(Space& destination)
 	}
 	std::move(mPeople.begin(), mPeople.end(), std::back_inserter(destination.mPeople));
 
-	for (auto& p : mBuildings)
+	for (auto& p : mFarms)
 	{
 		p->SetParent(&destination);
 	}
-	std::move(mBuildings.begin(), mBuildings.end(), std::back_inserter(destination.mBuildings));
+	std::move(mFarms.begin(), mFarms.end(), std::back_inserter(destination.mFarms));
 }

@@ -10,5 +10,5 @@ using PersonSP = std::shared_ptr<Person>;
 using PersonWP = std::weak_ptr<Person>;
 
 class Farm;
-using BuildingSP = std::shared_ptr<Farm>;
-using BuildingWP = std::weak_ptr<Farm>;
+using FarmSP = std::shared_ptr<Farm>;
+using FarmWP = std::weak_ptr<Farm>;

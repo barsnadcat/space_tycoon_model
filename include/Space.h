@@ -11,7 +11,7 @@
 struct UpdateContext;
 using Foods = std::vector<FoodSP>;
 using People = std::vector<PersonSP>;
-using Buildings = std::vector<BuildingSP>;
+using Farms = std::vector<FarmSP>;
 
 class Space: public Property
 {
@@ -25,8 +25,8 @@ public:
 	void AddFood(FoodSP p);
 	Foods& GetFoods() { return mFoods; }
 
-	void AddBuilding(BuildingSP p);
-	Buildings& GetBuildings() { return mBuildings; }
+	void AddBuilding(FarmSP p);
+	Farms& GetFarms() { return mFarms; }
 
 	void MoveTo(Space& space);
 
@@ -38,5 +38,5 @@ private:
 private:
 	Foods mFoods;
 	People mPeople;
-	Buildings mBuildings;
+	Farms mFarms;
 };

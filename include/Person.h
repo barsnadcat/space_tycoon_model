@@ -16,5 +16,7 @@ private:
 	virtual void OnOwnerUpdated(UpdateContext& uc) override;
 	void Scavenge();
 private:
+	bool mLikeToBuild = false;
+	bool mLikeToFarm = false;
 	int32_t mEnergy { 0 };
 };

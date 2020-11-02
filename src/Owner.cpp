@@ -8,10 +8,10 @@ void Owner::ClaimFood(FoodSP food)
 	mFoods.push_back(food);
 }
 
-void Owner::ClaimBuilding(BuildingSP building)
+void Owner::ClaimFarm(FarmSP building)
 {
 	building->SetOwner(std::static_pointer_cast<Owner>(shared_from_this()));
-	mBuildings.push_back(building);
+	mFarms.push_back(building);
 }
 
 

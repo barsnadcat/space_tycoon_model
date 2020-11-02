@@ -9,6 +9,7 @@ const int kMaxEnergy = 200;
 void Person::OnOwnerUpdated(UpdateContext& uc)
 {
 	Space* parent = GetParent();
+
     // Claim food from parent space
 	std::bernoulli_distribution distribution(0.5);
 	if (parent && distribution(uc.mRandomEngine))
@@ -35,7 +36,7 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 	}
 
     // Procreation
-	
+
 	if (parent && mEnergy > 100)
 	{
 		std::bernoulli_distribution distribution(0.25);
@@ -52,12 +53,15 @@ void Person::Scavenge()
 	Space* parent = GetParent();
 	assert(parent);
 
-	for (BuildingSP& building : parent->GetBuildings())
+	if (mLikeToFarm)
 	{
-		if (building->GetOwner() == nullptr)
+		for (FarmSP& farm : parent->GetFarms())
 		{
-			ClaimBuilding(building);
-			return;
+			if (farm->GetOwner() == nullptr)
+			{
+				ClaimFarm(farm);
+				return;
+			}
 		}
 	}
 
