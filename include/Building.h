@@ -2,10 +2,10 @@
 
 #include <Entity.h>
 
-class Building: public Entity
+class Farm: public Entity
 {
 public:
-    Building(uint32_t health): Entity(health) {}
+    Farm(uint32_t health): Entity(health) {}
 private:
     virtual void OnEntityUpdated(UpdateContext &uc) override
     {
