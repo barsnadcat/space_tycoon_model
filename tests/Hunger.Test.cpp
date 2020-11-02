@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 
 #include <EntitiesDeclarations.h>
-#include <Building.h>
+#include <Farm.h>
 #include <Person.h>
 #include <UpdateContext.h>
 

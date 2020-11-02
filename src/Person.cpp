@@ -2,7 +2,7 @@
 
 #include <UpdateContext.h>
 #include <Space.h>
-#include <Building.h>
+#include <Farm.h>
 
 const int kMaxEnergy = 200;
 

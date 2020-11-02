@@ -1,6 +1,6 @@
 #include <Owner.h>
 #include <Food.h>
-#include <Building.h>
+#include <Farm.h>
 
 void Owner::ClaimFood(FoodSP food)
 {

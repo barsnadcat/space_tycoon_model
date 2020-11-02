@@ -3,7 +3,6 @@
 
 #include <Settlement.h>
 #include <UpdateContext.h>
-#include <Building.h>
 
 TEST(Person, Death)
 {

@@ -4,7 +4,7 @@
 #include <Settlement.h>
 #include <UpdateContext.h>
 #include <Person.h>
-#include <Building.h>
+#include <Farm.h>
 
 TEST(Person, Claim)
 {
