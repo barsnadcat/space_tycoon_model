@@ -9,7 +9,7 @@ TEST(Person, Pickup)
 {
 	UpdateContext uc(10);
 	Settlement settlement;
-	settlement.AddPerson(std::make_shared<Person>(5, 1));
+	settlement.AddPerson(std::make_shared<Person>(5, 1, false, false));
 	settlement.Update(uc);
 	settlement.Update(uc);
 	settlement.Update(uc);

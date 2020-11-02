@@ -10,7 +10,7 @@ TEST(Person, Claim)
 {
 	UpdateContext uc(10);
 	Settlement settlement;
-    settlement.AddPerson(std::make_shared<Person>(30000, 1));
+    settlement.AddPerson(std::make_shared<Person>(30000, 1, true, true));
     FarmSP building = std::make_shared<Farm>(1000000000);
     settlement.AddBuilding(building);
     settlement.Update(uc);

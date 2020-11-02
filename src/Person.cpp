@@ -43,7 +43,7 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 		if (distribution(uc.mRandomEngine))
 		{
 			mEnergy = 0;
-			parent->AddPerson(std::make_shared<Person>(30000, 0));
+			parent->AddPerson(std::make_shared<Person>(30000, 0, mLikeToBuild, mLikeToFarm));
 		}
 	}
 }
