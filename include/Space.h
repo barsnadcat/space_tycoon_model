@@ -6,12 +6,11 @@
 #include <cassert>
 #include <memory>
 #include <vector>
+#include <map>
 
 
 struct UpdateContext;
-using Foods = std::vector<FoodSP>;
 using People = std::vector<PersonSP>;
-using Farms = std::vector<FarmSP>;
 
 class Space: public Property
 {
@@ -23,10 +22,10 @@ public:
 	People& GetPeople() { return mPeople; }
 
 	void AddFood(FoodSP p);
-	Foods& GetFoods() { return mFoods; }
+	EntitySPs& GetFoods() { return mProducts[kFoodId]; }
 
 	void AddBuilding(FarmSP p);
-	Farms& GetFarms() { return mFarms; }
+	EntitySPs& GetFarms() { return mProducts[kFarmId]; }
 
 	void MoveTo(Space& space);
 
@@ -36,7 +35,6 @@ private:
 	virtual void OnSpaceUpdated(UpdateContext& uc){}
 
 private:
-	Foods mFoods;
+	std::map<ProductId, EntitySPs> mProducts;
 	People mPeople;
-	Farms mFarms;
 };

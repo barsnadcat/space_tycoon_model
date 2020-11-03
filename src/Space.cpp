@@ -34,11 +34,11 @@ void Space::DeleteEntities(std::vector<std::shared_ptr<T>>& container)
 void Space::Update(UpdateContext& uc)
 {
 	UpdateEntities(mPeople, uc);
-	UpdateEntities(mFoods, uc);
-	UpdateEntities(mFarms, uc);
+	UpdateEntities(mProducts[kFoodId], uc);
+	UpdateEntities(mProducts[kFarmId], uc);
 	DeleteEntities(mPeople);
-	DeleteEntities(mFoods);
-	DeleteEntities(mFarms);
+	DeleteEntities(mProducts[kFoodId]);
+	DeleteEntities(mProducts[kFarmId]);
 	OnSpaceUpdated(uc);
 }
 
@@ -51,22 +51,22 @@ void Space::AddPerson(PersonSP p)
 void Space::AddFood(FoodSP p)
 {
 	p->SetParent(this);
-	mFoods.push_back(p);
+	mProducts[kFoodId].push_back(p);
 }
 
 void Space::AddBuilding(FarmSP p)
 {
 	p->SetParent(this);
-	mFarms.push_back(p);
+	mProducts[kFarmId].push_back(p);
 }
 
 void Space::MoveTo(Space& destination)
 {
-	for (auto& p : mFoods)
+	for (auto& p : mProducts[kFoodId])
 	{
 		p->SetParent(&destination);
 	}
-	std::move(mFoods.begin(), mFoods.end(), std::back_inserter(destination.mFoods));
+	std::move(mProducts[kFoodId].begin(), mProducts[kFoodId].end(), std::back_inserter(destination.mProducts[kFoodId]));
 
 	for (auto& p : mPeople)
 	{
@@ -74,9 +74,9 @@ void Space::MoveTo(Space& destination)
 	}
 	std::move(mPeople.begin(), mPeople.end(), std::back_inserter(destination.mPeople));
 
-	for (auto& p : mFarms)
+	for (auto& p : mProducts[kFarmId])
 	{
 		p->SetParent(&destination);
 	}
-	std::move(mFarms.begin(), mFarms.end(), std::back_inserter(destination.mFarms));
+	std::move(mProducts[kFarmId].begin(), mProducts[kFarmId].end(), std::back_inserter(destination.mProducts[kFarmId]));
 }
