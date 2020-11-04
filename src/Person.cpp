@@ -10,44 +10,44 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 {
 	Space* parent = GetParent();
 
-	// Select what to do	
-	// max value = 0;
-	// best activity = none;
-	// for all activities:
-	//  n = get how much of output owned
-	//  m = how muc of output is produced by activity
-	//  cur value = m/n * mActivityPreference[currActivity]
-	//  if curr value > max value:
-	//     max value = curr value
-	//     best activity = currActivity
+    // Select what to do
+    // max value = 0;
+    // best activity = none;
+    // for all activities:
+    //  n = get how much of output owned
+    //  m = how muc of output is produced by activity
+    //  cur value = m/n * mActivityPreference[currActivity]
+    //  if curr value > max value:
+    //     max value = curr value
+    //     best activity = currActivity
 
-	// We need production type enum
-	// And we need product type enum
-	// We need production - product association
-	// We need production - tool association
-	// Ie. Production1
-	// Input - Product1
-	// Tool - Product2
-	// Outpout - quantity of Product3, quantity of Product4
-	// Scavenging need this too
+    // We need production type enum
+    // And we need product type enum
+    // We need production - product association
+    // We need production - tool association
+    // Ie. Production1
+    // Input - Product1
+    // Tool - Product2
+    // Outpout - quantity of Product3, quantity of Product4
+    // Scavenging need this too
 
-	// Production enum sv production object?
-	// Object is closer to data driven system
-	// Ojbect for product type?
-	// We need production id and product id types
+    // Production enum sv production object?
+    // Object is closer to data driven system
+    // Ojbect for product type?
+    // We need production id and product id types
 
 	bool hasFarm = false;
 	if (hasFarm)
 	{
 		if (mLikeToFarm)
 		{
-			// Farm
-		}		
+            // Farm
+		}
 	}
-	
+
 	if (mLikeToBuild)
 	{
-		//Build
+        //Build
 	}
 
     // Claim food from parent space
@@ -99,7 +99,7 @@ void Person::Scavenge()
 		{
 			if (farm->GetOwner() == nullptr)
 			{
-				ClaimFarm(std::static_pointer_cast<Farm>(farm));
+				ClaimFarm(farm);
 				return;
 			}
 		}
@@ -109,7 +109,7 @@ void Person::Scavenge()
 	{
 		if (food->GetOwner() == nullptr)
 		{
-			ClaimFood(std::static_pointer_cast<Food>(food));
+			ClaimFood(food);
 			return;
 		}
 	}

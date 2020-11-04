@@ -2,15 +2,16 @@
 
 #include <Entity.h>
 #include <EntitiesDeclarations.h>
+#include <map>
 
 class Owner: public Entity
 {
 public:
 	Owner(uint32_t health): Entity(health) {}
-    void ClaimFood(FoodSP food);
-	void ClaimFarm(FarmSP building);
-    std::vector<FoodWP>& GetMyFoods() { return mFoods; }
-    FoodSP GetMyNearFood();
+	void ClaimFood(EntitySP food);
+	void ClaimFarm(EntitySP building);
+	EntityWPs& GetMyFoods() { return mEntities[kFoodId]; }
+	FoodSP GetMyNearFood();
 
 private:
 	virtual void OnEntityUpdated(UpdateContext& uc)
@@ -18,7 +19,5 @@ private:
 		OnOwnerUpdated(uc);
 	}
 	virtual void OnOwnerUpdated(UpdateContext& uc) {}
-
-    std::vector<FoodWP> mFoods;
-	std::vector<FarmWP> mFarms;
+	std::map<ProductId, EntityWPs> mEntities;
 };
