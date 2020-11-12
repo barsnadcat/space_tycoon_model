@@ -46,10 +46,11 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
     // maxValue = 0;
     // bestProductionId = InvalidProductionId;
 	// for productionSettings: productionSttings:
-	//    currValue = GetProductionValue(productionSettings)
-    //  if currValue > maxValue:
-    //     maxValue = currValue
-    //     bestProductionId = currProductionId
+	//    if (CanDoProduction(prouctionSettings))
+	//       currValue = GetProductionValue(productionSettings)
+    //       if currValue > maxValue:
+    //           maxValue = currValue
+    //           bestProductionId = currProductionId
 	// 
 	// switch betstProductionId
 	// case kScavengingId:
@@ -69,8 +70,12 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 
 	// If person does not know how to use tool - its personal modifer for its utility should be 0. It still may hold 'resell' value
 
-    // Problem: productionSettings, and objectiveUtiltiy objects are where? 
+    // Problem: productionSettings, and objectiveUtiltiy objects are where?
+	//  1 - on person
+	//  2 - on context
 	// Problem: Where is verification that we have necessary ingredient for production?
+	//  1 - Inside GetValue - meh
+	//  2 - Separate function
 
 
 
