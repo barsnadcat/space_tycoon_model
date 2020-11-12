@@ -3,5 +3,6 @@ src = files(
 	'Person.cpp',
 	'Settlement.cpp',
 	'Owner.cpp',
-	'Property.cpp'
+	'Property.cpp',
+	'ObjectiveUtility.cpp'
 )
