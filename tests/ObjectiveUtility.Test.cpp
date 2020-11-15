@@ -5,7 +5,7 @@
 
 TEST(ObjectiveUtility, Farm)
 {
-    ObjectiveUtility u(1,2,3);
+    ObjectiveUtility u(1.0f, 1, 2, 3);
     EXPECT_FLOAT_EQ(u.GetTotalUtility(0), 0.0f);
     EXPECT_FLOAT_EQ(u.GetTotalUtility(1), 1.0f);
     EXPECT_FLOAT_EQ(u.GetTotalUtility(2), 1.0f);

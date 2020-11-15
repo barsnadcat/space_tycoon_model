@@ -73,9 +73,14 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
     // Problem: productionSettings, and objectiveUtiltiy objects are where?
 	//  1 - on person
 	//  2 - on context
+	// Problem: objectiveUtility maybe has to be person specific, place specific or global?
+	//  - Leave 0-1 multiplier on person, and move all arbitrary values to objective utility
 	// Problem: Where is verification that we have necessary ingredient for production?
 	//  1 - Inside GetValue - meh
 	//  2 - Separate function
+	// Porblem: reproduction doesn not have any thing that can be tracked as "owned", nor does scavenging
+	// For savenging we can calculate total owned.
+	// For reproduction we can have separate counter in owner class.
 
 
 
