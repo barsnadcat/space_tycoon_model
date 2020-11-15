@@ -1,6 +1,7 @@
 #pragma once
 #include <random>
 #include <cstdint>
+#include <ObjectiveUtility.h>
 
 struct UpdateContext
 {
@@ -10,4 +11,5 @@ struct UpdateContext
     }
     uint32_t mCurrentTime { 0 };
     std::mt19937 mRandomEngine;
+    std::map<ProductId, ObjectiveUtility> mObjectiveUtilities;
 };

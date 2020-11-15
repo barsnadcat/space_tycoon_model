@@ -12,6 +12,7 @@ public:
 	void ClaimFarm(EntitySP building);
 	EntityWPs& GetMyFoods() { return mEntities[kFoodId]; }
 	FoodSP GetMyNearFood();
+	int GetOwned(ProductId productId) const;
 
 private:
 	virtual void OnEntityUpdated(UpdateContext& uc)

@@ -5,10 +5,15 @@
 using ProductId = std::size_t;
 const ProductId kFoodId = std::hash<std::string>{}("Food");
 const ProductId kFarmId = std::hash<std::string>{}("Farm");
+const ProductId kEffortId = std::hash<std::string>{}("Effort");
+const ProductId kFamilyMemberId = std::hash<std::string>{}("FamilyMember");
+const ProductId kRandomProductId = std::hash<std::string>{}("RandomProduct");
+
 using ProductionId = std::size_t;
 const ProductionId kBuildFarmId = std::hash<std::string>{}("BuildFarm");
 const ProductionId kFarmFoodId = std::hash<std::string>{}("FarmFood");
 const ProductionId kScavengeId = std::hash<std::string>{}("Scavenge");
+const ProductionId kReproductionId = std::hash<std::string>{}("Reproduction");
 
 class Entity;
 using EntitySP = std::shared_ptr<Entity>;

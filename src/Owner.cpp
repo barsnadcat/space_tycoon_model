@@ -37,3 +37,27 @@ FoodSP Owner::GetMyNearFood()
 	}
 	return nullptr;
 }
+
+int Owner::GetOwned(ProductId productId) const
+{
+	if(productId == kRandomProductId)
+	{
+		int total = 0;
+		for (const auto& p: mEntities)
+		{
+			total += p.second.size();
+		}
+	}
+	else
+	{
+		const auto& it = mEntities.find(productId);
+		if (it == mEntities.end())
+		{
+			return 0;
+		}
+		else
+		{
+			return it->second.size();
+		}
+	}
+}
