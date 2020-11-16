@@ -40,13 +40,14 @@ FoodSP Owner::GetMyNearFood()
 
 int Owner::GetOwned(ProductId productId) const
 {
-	if(productId == kRandomProductId)
+	if (productId == kRandomProductId)
 	{
 		int total = 0;
-		for (const auto& p: mEntities)
+		for (const auto& p : mEntities)
 		{
 			total += p.second.size();
 		}
+		return total;
 	}
 	else
 	{

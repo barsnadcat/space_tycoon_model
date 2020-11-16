@@ -22,5 +22,6 @@ private:
 private:
 	bool mLikeToBuild = false;
 	bool mLikeToFarm = false;
-	int32_t mEnergy { 0 };
+	int32_t mEnergy = 0;
+	int32_t mChildren = 0;
 };

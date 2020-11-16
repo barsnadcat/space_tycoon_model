@@ -6,7 +6,6 @@
 
 const int kMaxEnergy = 200;
 
-
 float Person::GetMarginalUtility(UpdateContext& uc, ProductId productId, int number) const
 {
 	int owned = 0;
@@ -16,12 +15,18 @@ float Person::GetMarginalUtility(UpdateContext& uc, ProductId productId, int num
 	}
 	else
 	{
-		owned = GetOwned(productId);
+		if (kReproductionId)
+		{
+			owned = mChildren;
+		}
+		else
+		{
+			owned = GetOwned(productId);
+		}
 	}
-	
+
 	return GetPersonalPreference(productId) * uc.mObjectiveUtilities[productId].GetMarginalUtility(owned, number);
 }
-
 
 void Person::OnOwnerUpdated(UpdateContext& uc)
 {
@@ -146,6 +151,7 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 		if (distribution(uc.mRandomEngine))
 		{
 			mEnergy = 0;
+			mChildren++;
 			parent->AddPerson(std::make_shared<Person>(30000, 0, mLikeToBuild, mLikeToFarm));
 		}
 	}
