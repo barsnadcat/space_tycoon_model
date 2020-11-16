@@ -1,15 +1,16 @@
 #pragma once
+#include <stdint.h>
 
 class ObjectiveUtility
 {
 public:
 	ObjectiveUtility() = default;
-	ObjectiveUtility(float max, int optimal, int useless, int harmfull);
-	float GetMarginalUtility(int owned, int number) const;
-	float GetTotalUtility(int number) const;
+	ObjectiveUtility(float max, int32_t optimal, int32_t useless, int32_t harmfull);
+	float GetMarginalUtility(int32_t owned, int32_t number) const;
+	float GetTotalUtility(int32_t number) const;
 private:
 	const float mMax = 0.0f;
-	const int mOptimal = 0;
-	const int mUseless = 0;
-    const int mHarmfull = 0;
+	const int32_t mOptimal = 0;
+	const int32_t mUseless = 0;
+    const int32_t mHarmfull = 0;
 };

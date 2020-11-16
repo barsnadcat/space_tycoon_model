@@ -5,7 +5,7 @@
 
 struct UpdateContext
 {
-    UpdateContext(int seed = 1)
+    UpdateContext(int32_t seed = 1)
     {
         mRandomEngine.seed(seed);
     }

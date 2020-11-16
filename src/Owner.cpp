@@ -38,11 +38,11 @@ FoodSP Owner::GetMyNearFood()
 	return nullptr;
 }
 
-int Owner::GetOwned(ProductId productId) const
+int32_t Owner::GetOwned(ProductId productId) const
 {
 	if (productId == kRandomProductId)
 	{
-		int total = 0;
+		int32_t total = 0;
 		for (const auto& p : mEntities)
 		{
 			total += p.second.size();

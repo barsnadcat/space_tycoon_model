@@ -1,7 +1,7 @@
 #include <ObjectiveUtility.h>
 #include <easylogging++.h>
 
-ObjectiveUtility::ObjectiveUtility(float max, int optimal, int useless, int harmfull): mMax(max), mOptimal(optimal), mUseless(useless), mHarmfull(harmfull)
+ObjectiveUtility::ObjectiveUtility(float max, int32_t optimal, int32_t useless, int32_t harmfull): mMax(max), mOptimal(optimal), mUseless(useless), mHarmfull(harmfull)
 {
 	if (max <= 0)
 	{
@@ -19,7 +19,7 @@ ObjectiveUtility::ObjectiveUtility(float max, int optimal, int useless, int harm
 	}
 }
 
-float ObjectiveUtility::GetTotalUtility(int number) const
+float ObjectiveUtility::GetTotalUtility(int32_t number) const
 {
 	if (number < mOptimal)
 	{
@@ -38,7 +38,7 @@ float ObjectiveUtility::GetTotalUtility(int number) const
 	}
 }
 
-float ObjectiveUtility::GetMarginalUtility(int owned, int number) const
+float ObjectiveUtility::GetMarginalUtility(int32_t owned, int32_t number) const
 {
 	return GetTotalUtility(owned + number) - GetTotalUtility(owned);
 }

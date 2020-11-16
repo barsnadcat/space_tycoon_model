@@ -13,7 +13,7 @@ public:
 	Person(uint32_t health, int32_t energy, bool likeToBuild, bool likeToFarm): Owner(health),
 		mEnergy(energy), mLikeToFarm(likeToFarm), mLikeToBuild(likeToBuild) {}
 
-	float GetMarginalUtility(UpdateContext& uc, ProductId productId, int number) const;
+	float GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t number) const;
 	float GetPersonalPreference(ProductId) const { return 1.0f; }
 private:
 	

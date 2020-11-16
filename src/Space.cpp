@@ -8,7 +8,7 @@ template<typename T>
 void UpdateEntities(std::vector<std::shared_ptr<T>>& container, UpdateContext& uc)
 {
 	const size_t size = container.size();
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		container[i]->Update(uc);
 	}

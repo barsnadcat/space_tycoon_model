@@ -4,11 +4,11 @@
 #include <Space.h>
 #include <Farm.h>
 
-const int kMaxEnergy = 200;
+const int32_t kMaxEnergy = 200;
 
-float Person::GetMarginalUtility(UpdateContext& uc, ProductId productId, int number) const
+float Person::GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t number) const
 {
-	int owned = 0;
+	int32_t owned = 0;
 	if (productId == kEffortId)
 	{
 		owned = mEnergy;

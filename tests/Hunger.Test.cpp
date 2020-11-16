@@ -12,7 +12,7 @@ TEST(Person, HungerDamageSlow)
     // Huger person looses health
 	UpdateContext uc;
 	PersonSP person = std::make_shared<Person>(100, 0, false, false);
-	for (int i = 0; i < 10; ++i)
+	for (int32_t i = 0; i < 10; ++i)
 	{
 		person->Update(uc);
 	}
