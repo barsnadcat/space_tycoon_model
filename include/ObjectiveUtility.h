@@ -5,6 +5,7 @@ class ObjectiveUtility
 {
 public:
 	ObjectiveUtility() = default;
+	~ObjectiveUtility() = default;
 	ObjectiveUtility(float max, int32_t optimal, int32_t useless, int32_t harmfull);
 	float GetMarginalUtility(int32_t owned, int32_t number) const;
 	float GetTotalUtility(int32_t number) const;
