@@ -3,6 +3,7 @@
 #include <vector>
 
 using ProductId = std::size_t;
+const ProductId kInvalidId = 0;
 const ProductId kFoodId = std::hash<std::string>{}("Food");
 const ProductId kFarmId = std::hash<std::string>{}("Farm");
 const ProductId kEffortId = std::hash<std::string>{}("Effort");

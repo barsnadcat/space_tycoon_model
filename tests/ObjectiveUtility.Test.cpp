@@ -14,4 +14,5 @@ TEST(ObjectiveUtility, Farm)
     EXPECT_FLOAT_EQ(u.GetMarginalUtility(1, 1), 0.0f);
     EXPECT_FLOAT_EQ(u.GetMarginalUtility(0, 1), 1.0f);
     EXPECT_FLOAT_EQ(u.GetMarginalUtility(2, 1), -1.0f);
+    EXPECT_FLOAT_EQ(u.GetMarginalUtility(1, -1), -1.0f);
 }

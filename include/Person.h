@@ -15,10 +15,13 @@ public:
 
 	float GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t number) const;
 	float GetPersonalPreference(ProductId) const { return 1.0f; }
+	float GetProductionValue(UpdateContext& uc, ProductionId productionId) const;
 private:
 	
 	virtual void OnOwnerUpdated(UpdateContext& uc) override;
 	void Scavenge();
+	void Reproduce(UpdateContext& uc);
+	void Produce(UpdateContext& uc, ProductionId productionId);
 private:
 	bool mLikeToBuild = false;
 	bool mLikeToFarm = false;
