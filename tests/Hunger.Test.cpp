@@ -11,7 +11,7 @@ TEST(Person, HungerDamageSlow)
 {
     // Huger person looses health
 	UpdateContext uc;
-	PersonSP person = std::make_shared<Person>(100, 0, false, false);
+	PersonSP person = std::make_shared<Person>(100, 0);
 	for (int32_t i = 0; i < 10; ++i)
 	{
 		person->Update(uc);
@@ -23,7 +23,7 @@ TEST(Person, Eating)
 {
     // Each date person eats one food
 	UpdateContext uc;
-	PersonSP person = std::make_shared<Person>(100, 0, false, false);
+	PersonSP person = std::make_shared<Person>(100, 0);
 	auto food1 = std::make_shared<Food>(100);
 	auto food2 = std::make_shared<Food>(100);
 	auto food3 = std::make_shared<Food>(100);
@@ -40,7 +40,7 @@ TEST(Person, EatingMixed)
 {
     // Each date person eats one food
 	UpdateContext uc;
-	PersonSP person = std::make_shared<Person>(100, 0, false, false);
+	PersonSP person = std::make_shared<Person>(100, 0);
 	person->Update(uc);
 	person->Update(uc);
 	auto food1 = std::make_shared<Food>(100);

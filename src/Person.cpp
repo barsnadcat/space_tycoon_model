@@ -38,10 +38,8 @@ float Person::GetProductionValue(UpdateContext& uc, ProductionId productionId) c
 	return res;
 }
 
-void Person::OnOwnerUpdated(UpdateContext& uc)
+ProductionId Person::GetBestProduction(UpdateContext& uc) const
 {
-	Space* parent = GetParent();
-
 	float bestProductionValue = 0;
 	ProductionId bestProductionId = kInvalidId;
 	for (const auto& p : uc.mProductions)
@@ -54,38 +52,61 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 			bestProductionValue = productionValue;
 		}
 	}
+	return bestProductionId;
+}
 
-	if (bestProductionId == kScavengeId)
+void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
+{
+	if (productionId == kInvalidId)
 	{
-		Scavenge();
-	}
-	else
-	{
-		if (bestProductionId == kReproductionId)
-		{
-			Reproduce(uc);
-		}
-		else
-		{
-			Produce(uc, bestProductionId);
-		}
+		return;
 	}
 
+	if (productionId == kScavengeId)
+	{
+		Scavenge(space);
+		return;
+	}
 
-    // If person does not know how to use tool - its personal modifer for its utility should be 0. It still may hold 'resell' value
+	if (productionId == kReproductionId)
+	{
+		Reproduce(uc, space);
+		return;
+	}
 
-    // Problem: productionSettings, and objectiveUtiltiy objects are where?
-    //  1 - on person
-    //  2 - on context
-    // Problem: objectiveUtility maybe has to be person specific, place specific or global?
-    //  - Leave 0-1 multiplier on person, and move all arbitrary values to objective utility
-    // Porblem: reproduction doesn not have any thing that can be tracked as "owned", nor does scavenging
-    // For savenging we can calculate total owned.
-    // For reproduction we can have separate counter in owner class.
-    // Problem: Where is verification that we have necessary ingredient for production?
-    //  1 - Inside GetValue - meh
-    //  2 - Separate function
+	for (auto it : uc.mProductions[productionId])
+	{
+		if (it.first == kEffortId)
+		{
+			mEnergy += it.second;
+		}
+		if (it.first == kFarmId)
+		{
+			for (int32_t i = 0; i < it.second; ++i)
+			{
+				auto farm = std::make_shared<Farm>(5000);
+				space->AddBuilding(farm);
+				ClaimFarm(farm);
+			}
+		}
+		if (it.first == kFoodId)
+		{
+			for (int32_t i = 0; i < it.second; ++i)
+			{
+				auto food = std::make_shared<Food>(100);
+				space->AddFood(food);
+				ClaimFood(food);
+			}
+		}
+	}
+}
 
+void Person::OnOwnerUpdated(UpdateContext& uc)
+{
+	if (Space* space = GetParent())
+	{
+		Produce(uc, space, GetBestProduction(uc));
+	}
 
     // Eat
 	FoodSP food = GetMyNearFood();
@@ -106,73 +127,28 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 	}
 }
 
-void Person::Produce(UpdateContext& uc, ProductionId productionId)
+void Person::Reproduce(UpdateContext& uc, Space* space)
 {
-	Space* parent = GetParent();
-	assert(parent);
-
-	for (auto it: uc.mProductions[productionId])
+	if (mEnergy > 100)
 	{
-		if (it.first == kEffortId)				
-		{
-			mEnergy += it.second;
-		}
-		if (it.first == kFarmId)
-		{
-			for (int32_t i = 0; i < it.second; ++i)
-			{
-				auto farm = std::make_shared<Farm>(5000);
-				parent->AddBuilding(farm);
-				ClaimFarm(farm);
-			}
-		}
-		if (it.first == kFoodId)				
-		{
-			for (int32_t i = 0; i < it.second; ++i)
-			{
-				auto food = std::make_shared<Food>(100);
-				parent->AddFood(food);
-				ClaimFood(food);
-			}
-		}		
+		mEnergy = 0;
+		mChildren++;
+		space->AddPerson(std::make_shared<Person>(30000, 0));
 	}
 }
 
-void Person::Reproduce(UpdateContext& uc)
+void Person::Scavenge(Space* space)
 {
-	Space* parent = GetParent();
-	assert(parent);
-
-	if (parent && mEnergy > 100)
+	for (EntitySP& farm : space->GetFarms())
 	{
-		std::bernoulli_distribution distribution(0.25);
-		if (distribution(uc.mRandomEngine))
+		if (farm->GetOwner() == nullptr)
 		{
-			mEnergy = 0;
-			mChildren++;
-			parent->AddPerson(std::make_shared<Person>(30000, 0, mLikeToBuild, mLikeToFarm));
-		}
-	}
-}
-
-void Person::Scavenge()
-{
-	Space* parent = GetParent();
-	assert(parent);
-
-	if (mLikeToFarm)
-	{
-		for (EntitySP& farm : parent->GetFarms())
-		{
-			if (farm->GetOwner() == nullptr)
-			{
-				ClaimFarm(farm);
-				return;
-			}
+			ClaimFarm(farm);
+			return;
 		}
 	}
 
-	for (EntitySP& food : parent->GetFoods())
+	for (EntitySP& food : space->GetFoods())
 	{
 		if (food->GetOwner() == nullptr)
 		{
