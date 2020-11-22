@@ -9,8 +9,8 @@ TEST(Person, ScavengeFood)
 {
 	UpdateContext uc;
 	Settlement settlement;
-	auto person1 = std::make_shared<Person>(3000, 0);
-	auto person2 = std::make_shared<Person>(3000, 0);
+	auto person1 = std::shared_ptr<Person>(new Person(3000, 0, {}));
+	auto person2 = std::shared_ptr<Person>(new Person(3000, 0, {}));
 	auto food1 = std::make_shared<Food>(100);
 	auto food2 = std::make_shared<Food>(100);
 	person1->ClaimFood(food1);

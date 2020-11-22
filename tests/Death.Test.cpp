@@ -8,7 +8,7 @@ TEST(Person, Death)
 {
 	UpdateContext uc;
 	Settlement settlement;
-	settlement.AddPerson(std::make_shared<Person>(0, 0));
+	settlement.AddPerson(std::shared_ptr<Person>(new Person(0, 0, {})));
 	EXPECT_FALSE(settlement.GetPeople().empty());
 	settlement.Update(uc);
 	EXPECT_TRUE(settlement.GetPeople().empty());

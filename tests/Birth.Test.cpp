@@ -9,7 +9,7 @@ TEST(Person, Birth)
 	UpdateContext uc;
 	Settlement settlement;
 	EXPECT_TRUE(settlement.GetPeople().empty());
-	auto person = std::make_shared<Person>(30000, 200);
+	auto person = std::shared_ptr<Person>(new Person(30000, 200, {}));
 	person->Produce(uc, &settlement, kReproductionId);
 	EXPECT_FALSE(settlement.GetPeople().empty());
 }

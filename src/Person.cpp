@@ -133,7 +133,7 @@ void Person::Reproduce(UpdateContext& uc, Space* space)
 	{
 		mEnergy = 0;
 		mChildren++;
-		space->AddPerson(std::make_shared<Person>(30000, 0));
+		space->AddPerson(std::make_shared<Person>(30000, 0, mPreferences));
 	}
 }
 
@@ -156,4 +156,18 @@ void Person::Scavenge(Space* space)
 			return;
 		}
 	}
+}
+
+float Person::GetPersonalPreference(ProductId productId) const
+{
+	auto it = mPreferences.find(productId);
+	if (it != mPreferences.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		return 0.5f;
+	}
+	
 }
