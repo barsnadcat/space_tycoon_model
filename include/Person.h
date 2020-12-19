@@ -20,6 +20,7 @@ private:
 	float GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t number) const;
 	float GetPersonalPreference(ProductId) const;
 	float GetProductionValue(UpdateContext& uc, ProductionId productionId) const;
+	bool CanDoProduction(UpdateContext& uc, ProductionId productionId) const;
 	void Scavenge(Space* space);
 	void Reproduce(UpdateContext& uc, Space* space);
 private:

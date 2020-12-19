@@ -30,6 +30,20 @@ float Person::GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t
 
 float Person::GetProductionValue(UpdateContext& uc, ProductionId productionId) const
 {
+	for (auto input : uc.mProductions[productionId])
+	{
+		ProductId productId = input.first;
+		int32_t number = input.second;
+		if (number + GetOwned(productId) < 0)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool Person::CanDoProduction(UpdateContext& uc, ProductionId productionId) const
+{
 	float res = 0;
 	for (auto input : uc.mProductions[productionId])
 	{
@@ -44,12 +58,14 @@ ProductionId Person::GetBestProduction(UpdateContext& uc) const
 	ProductionId bestProductionId = kInvalidId;
 	for (const auto& p : uc.mProductions)
 	{
-        //    if (CanDoProduction(prouctionSettings))
-		float productionValue = GetProductionValue(uc, p.first);
-		if (productionValue > bestProductionValue)
+		if (CanDoProduction(uc, p.first))
 		{
-			bestProductionId = p.first;
-			bestProductionValue = productionValue;
+			float productionValue = GetProductionValue(uc, p.first);
+			if (productionValue > bestProductionValue)
+			{
+				bestProductionId = p.first;
+				bestProductionValue = productionValue;
+			}
 		}
 	}
 	return bestProductionId;
@@ -169,5 +185,4 @@ float Person::GetPersonalPreference(ProductId productId) const
 	{
 		return 0.5f;
 	}
-	
 }
