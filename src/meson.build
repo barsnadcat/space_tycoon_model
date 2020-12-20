@@ -4,5 +4,7 @@ src = files(
 	'Settlement.cpp',
 	'Owner.cpp',
 	'Property.cpp',
-	'ObjectiveUtility.cpp'
+	'ObjectiveUtility.cpp',
+	'ObjectiveUtilitiesConfig.cpp',
+	'ProductionsConfig.cpp'
 )

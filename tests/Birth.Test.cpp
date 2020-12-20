@@ -1,12 +1,10 @@
 #include <easylogging++.h>
-#include <gtest/gtest.h>
+#include <UpdateContextTestFixture.h>
 
 #include <Settlement.h>
-#include <UpdateContext.h>
 
-TEST(Person, Birth)
+TEST_F(UpdateContextTestFixture, Birth)
 {
-	UpdateContext uc;
 	Settlement settlement;
 	EXPECT_TRUE(settlement.GetPeople().empty());
 	auto person = std::shared_ptr<Person>(new Person(30000, 200, {}));

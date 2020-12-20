@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <vector>
 #include <ObjectiveUtility.h>
+#include <EntitiesDeclarations.h>
 
 struct UpdateContext
 {

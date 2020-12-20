@@ -1,32 +1,26 @@
 #include <easylogging++.h>
-#include <gtest/gtest.h>
+#include <UpdateContextTestFixture.h>
 
 #include <Person.h>
-#include <UpdateContext.h>
-#include <ObjectiveUtilitiesConfig.h>
-#include <ProductionsConfig.h>
 
-TEST(Person, NoProductionIfNoResources)
+TEST_F(UpdateContextTestFixture, NoProductionIfNoResources)
 {
-    UpdateContext uc;
-    uc.mObjectiveUtilities = GetObjectiveUtilities();
-    uc.mProductions = GetProductions();
     auto person = std::shared_ptr<Person>(new Person(3000, 0, {}));
     EXPECT_EQ(person->GetBestProduction(uc), kInvalidId);
 }
 
-TEST(Person, NoProductionIfNoTools)
+TEST_F(UpdateContextTestFixture, NoProductionIfNoTools)
 {
 }
 
-TEST(Person, NoProductionIfHasEnough)
+TEST_F(UpdateContextTestFixture, NoProductionIfHasEnough)
 {
 }
 
-TEST(Person, NoProductionIfDoesNotLikeOutput)
+TEST_F(UpdateContextTestFixture, NoProductionIfDoesNotLikeOutput)
 {
 }
 
-TEST(Person, ProductionIfDoesNotLikeOutputButHasNotEnough)
+TEST_F(UpdateContextTestFixture, ProductionIfDoesNotLikeOutputButHasNotEnough)
 {
 }

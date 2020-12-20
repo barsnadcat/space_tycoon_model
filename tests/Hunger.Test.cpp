@@ -1,16 +1,13 @@
 #include <easylogging++.h>
-#include <gtest/gtest.h>
+#include <UpdateContextTestFixture.h>
 
-#include <EntitiesDeclarations.h>
 #include <Farm.h>
 #include <Person.h>
-#include <UpdateContext.h>
 
 
-TEST(Person, HungerDamageSlow)
+TEST_F(UpdateContextTestFixture, HungerDamageSlow)
 {
     // Huger person looses health
-	UpdateContext uc;
 	PersonSP person = std::shared_ptr<Person>(new Person(100, 0, {}));
 	for (int32_t i = 0; i < 10; ++i)
 	{
@@ -19,10 +16,9 @@ TEST(Person, HungerDamageSlow)
 	EXPECT_EQ(person->GetHealth(), 80);
 }
 
-TEST(Person, Eating)
+TEST_F(UpdateContextTestFixture, Eating)
 {
     // Each date person eats one food
-	UpdateContext uc;
 	PersonSP person = std::shared_ptr<Person>(new Person(100, 0, {}));
 	auto food1 = std::make_shared<Food>(100);
 	auto food2 = std::make_shared<Food>(100);
@@ -36,10 +32,9 @@ TEST(Person, Eating)
 	EXPECT_EQ(person->GetHealth(), 97);
 }
 
-TEST(Person, EatingMixed)
+TEST_F(UpdateContextTestFixture, EatingMixed)
 {
     // Each date person eats one food
-	UpdateContext uc;
 	PersonSP person = std::shared_ptr<Person>(new Person(100, 0, {}));
 	person->Update(uc);
 	person->Update(uc);

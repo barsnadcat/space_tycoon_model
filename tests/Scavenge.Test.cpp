@@ -1,13 +1,11 @@
 #include <easylogging++.h>
-#include <gtest/gtest.h>
+#include <UpdateContextTestFixture.h>
 
 #include <Settlement.h>
-#include <UpdateContext.h>
 #include <Farm.h>
 
-TEST(Person, ScavengeFood)
+TEST_F(UpdateContextTestFixture, ScavengeFood)
 {
-	UpdateContext uc;
 	Settlement settlement;
 	auto person1 = std::shared_ptr<Person>(new Person(3000, 0, {}));
 	auto person2 = std::shared_ptr<Person>(new Person(3000, 0, {}));
