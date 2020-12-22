@@ -21,6 +21,7 @@ private:
 	float GetPersonalPreference(ProductId) const;
 	float GetProductionValue(UpdateContext& uc, ProductionId productionId) const;
 	bool CanDoProduction(UpdateContext& uc, ProductionId productionId) const;
+	int32_t GetPersonOwned(ProductId productId) const;
 	void Scavenge(Space* space);
 	void Reproduce(UpdateContext& uc, Space* space);
 private:

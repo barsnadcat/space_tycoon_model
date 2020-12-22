@@ -6,35 +6,37 @@
 
 const int32_t kMaxEnergy = 200;
 
-float Person::GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t number) const
+int32_t Person::GetPersonOwned(ProductId productId) const
 {
-	int32_t owned = 0;
 	if (productId == kEffortId)
 	{
-		owned = mEnergy;
+		return mEnergy;
 	}
 	else
 	{
-		if (kReproductionId)
+		if (productId == kReproductionId)
 		{
-			owned = mChildren;
+			return mChildren;
 		}
 		else
 		{
-			owned = GetOwned(productId);
+			return GetOwned(productId);
 		}
 	}
-
-	return GetPersonalPreference(productId) * uc.mObjectiveUtilities[productId].GetMarginalUtility(owned, number);
 }
 
-float Person::GetProductionValue(UpdateContext& uc, ProductionId productionId) const
+float Person::GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t number) const
+{
+	return GetPersonalPreference(productId) * uc.mObjectiveUtilities[productId].GetMarginalUtility(GetPersonOwned(productId), number);
+}
+
+bool Person::CanDoProduction(UpdateContext& uc, ProductionId productionId) const
 {
 	for (auto input : uc.mProductions[productionId])
 	{
 		ProductId productId = input.first;
 		int32_t number = input.second;
-		if (number + GetOwned(productId) < 0)
+		if (number + GetPersonOwned(productId) < 0)
 		{
 			return false;
 		}
@@ -42,7 +44,7 @@ float Person::GetProductionValue(UpdateContext& uc, ProductionId productionId) c
 	return true;
 }
 
-bool Person::CanDoProduction(UpdateContext& uc, ProductionId productionId) const
+float Person::GetProductionValue(UpdateContext& uc, ProductionId productionId) const
 {
 	float res = 0;
 	for (auto input : uc.mProductions[productionId])
