@@ -1,11 +1,11 @@
 #include <ProductionsConfig.h>
 
-std::map<ProductionId, std::vector<std::pair<ProductId, int32_t>>> GetProductions()
+std::map<ProductionId, std::vector<ProductionConfig>> GetProductions()
 {
-    auto res = std::map<ProductionId, std::vector<std::pair<ProductId, int32_t>>>();
-    res[kBuildFarmId] = { std::make_pair(kEffortId, -50), std::make_pair(kFarmId, 1) };
-    res[kFarmFoodId] = { std::make_pair(kEffortId, -20), std::make_pair(kFoodId, 10) }; // Requires farm!
-    res[kScavengeId] = { std::make_pair(kEffortId, -10), std::make_pair(kRandomProductId, 1) };
-    res[kReproductionId] = { std::make_pair(kEffortId, -100), std::make_pair(kFamilyMemberId, 1) };
+    auto res = std::map<ProductionId, std::vector<ProductionConfig>>();
+    res[kBuildFarmId] = { {kEffortId, -50, false}, {kFarmId, 1, false} };
+    res[kFarmFoodId] = { {kEffortId, -20, false}, {kFarmId, -1, true}, {kFoodId, 10, false} };
+    res[kScavengeId] = { {kEffortId, -10, false}, {kRandomProductId, 1, false} };
+    res[kReproductionId] = { {kEffortId, -100, false}, {kFamilyMemberId, 1, false} };
     return res;
 }

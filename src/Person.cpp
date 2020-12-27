@@ -32,11 +32,9 @@ float Person::GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t
 
 bool Person::CanDoProduction(UpdateContext& uc, ProductionId productionId) const
 {
-	for (auto input : uc.mProductions[productionId])
+	for (auto it : uc.mProductions[productionId])
 	{
-		ProductId productId = input.first;
-		int32_t number = input.second;
-		if (number + GetPersonOwned(productId) < 0)
+		if (it.number + GetPersonOwned(it.productId) < 0)
 		{
 			return false;
 		}
@@ -47,9 +45,9 @@ bool Person::CanDoProduction(UpdateContext& uc, ProductionId productionId) const
 float Person::GetProductionValue(UpdateContext& uc, ProductionId productionId) const
 {
 	float res = 0;
-	for (auto input : uc.mProductions[productionId])
+	for (auto it : uc.mProductions[productionId])
 	{
-		res += GetMarginalUtility(uc, input.first, input.second);
+		res += GetMarginalUtility(uc, it.productId, it.number);
 	}
 	return res;
 }
@@ -94,26 +92,29 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 
 	for (auto it : uc.mProductions[productionId])
 	{
-		if (it.first == kEffortId)
+		if (!it.tool)
 		{
-			mEnergy += it.second;
-		}
-		if (it.first == kFarmId)
-		{
-			for (int32_t i = 0; i < it.second; ++i)
+			if (it.productId == kEffortId)
 			{
-				auto farm = std::make_shared<Farm>(5000);
-				space->AddBuilding(farm);
-				ClaimFarm(farm);
+				mEnergy += it.number;
 			}
-		}
-		if (it.first == kFoodId)
-		{
-			for (int32_t i = 0; i < it.second; ++i)
+			if (it.productId == kFarmId)
 			{
-				auto food = std::make_shared<Food>(100);
-				space->AddFood(food);
-				ClaimFood(food);
+				for (int32_t i = 0; i < it.number; ++i)
+				{
+					auto farm = std::make_shared<Farm>(5000);
+					space->AddBuilding(farm);
+					ClaimFarm(farm);
+				}
+			}
+			if (it.productId == kFoodId)
+			{
+				for (int32_t i = 0; i < it.number; ++i)
+				{
+					auto food = std::make_shared<Food>(100);
+					space->AddFood(food);
+					ClaimFood(food);
+				}
 			}
 		}
 	}

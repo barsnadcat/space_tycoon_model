@@ -3,4 +3,12 @@
 #include <vector>
 #include <EntitiesDeclarations.h>
 
-std::map<ProductionId, std::vector<std::pair<ProductId, int32_t>>> GetProductions();
+struct ProductionConfig
+{
+    ProductId productId = kInvalidId;
+    int32_t number = 0;
+    bool tool = false;
+
+};
+
+std::map<ProductionId, std::vector<ProductionConfig>> GetProductions();
