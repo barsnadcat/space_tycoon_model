@@ -47,7 +47,10 @@ float Person::GetProductionValue(UpdateContext& uc, ProductionId productionId) c
 	float res = 0;
 	for (auto it : uc.mProductions[productionId])
 	{
-		res += GetMarginalUtility(uc, it.productId, it.number);
+		if (!it.tool)
+		{
+			res += GetMarginalUtility(uc, it.productId, it.number);
+		}
 	}
 	return res;
 }

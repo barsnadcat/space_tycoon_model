@@ -35,10 +35,18 @@ TEST_F(UpdateContextTestFixture, NoProductionIfDoesNotLikeOutput)
 	EXPECT_EQ(person->GetBestProduction(uc), kScavengeId);
 }
 
-TEST_F(UpdateContextTestFixture, ProductionIfDoesNotLikeOutputButHasNotEnough)
-{
-}
-
 TEST_F(UpdateContextTestFixture, NoProductionIfNoTools)
 {
+	auto person = std::shared_ptr<Person>(new Person(3000, 80, {{ kFarmId, 0.01f }, { kRandomProductId, 0.01f }}));
+	EXPECT_EQ(person->GetBestProduction(uc), kInvalidId);
 }
+
+
+TEST_F(UpdateContextTestFixture, ProductionIfDoesNotLikeOutputButHasNotEnough)
+{
+	auto person = std::shared_ptr<Person>(new Person(3000, 80, {{ kFoodId, 0.1f }, { kRandomProductId, 0.1f }}));
+	auto farm = std::shared_ptr<Farm>(new Farm(10000));
+	person->ClaimFarm(farm);
+	EXPECT_EQ(person->GetBestProduction(uc), kFarmFoodId);
+}
+
