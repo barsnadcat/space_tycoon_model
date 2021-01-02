@@ -180,7 +180,7 @@ void Person::Reproduce(UpdateContext& uc, Space* space)
 	{
 		mEnergy = 0;
 		mChildren++;
-		space->AddPerson(std::make_shared<Person>(30000, 0, Mutate(uc, mPreferences)));
+		space->AddPerson(std::make_shared<Person>(30000, 100, Mutate(uc, mPreferences)));
 	}
 }
 

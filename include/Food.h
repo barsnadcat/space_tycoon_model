@@ -8,5 +8,5 @@ class Food: public Entity
 
 public:
 	using Shared = std::shared_ptr<Food>;
-	int32_t GetEnergy() { return 2; }
+	int32_t GetEnergy() { return 3; }
 };
