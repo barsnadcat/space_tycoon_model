@@ -6,6 +6,31 @@
 
 const int32_t kMaxEnergy = 200;
 
+std::map<ProductId, float> Mutate(UpdateContext& uc, std::map<ProductId, float> preferences)
+{
+	if (!preferences.empty())
+	{
+		auto it = preferences.begin();
+		auto sizeDist = std::uniform_int_distribution<size_t>(0, preferences.size() - 1);
+		auto floatDist = std::uniform_real_distribution<float>(0.0f, 1.0f);
+		std::advance(it, sizeDist(uc.mRandomEngine));
+		it->second = (it->second + floatDist(uc.mRandomEngine)) / 2.0f;
+	}
+	return preferences;
+}
+
+std::map<ProductId, float> RandomPreferences(UpdateContext& uc)
+{
+	std::map<ProductId, float> preferences;
+	auto floatDist = std::uniform_real_distribution<float>(0.0f, 1.0f);
+	preferences[kFoodId] = floatDist(uc.mRandomEngine);
+	preferences[kFarmId] = floatDist(uc.mRandomEngine);
+	preferences[kEffortId] = floatDist(uc.mRandomEngine);
+	preferences[kFamilyMemberId] = floatDist(uc.mRandomEngine);
+	preferences[kRandomProductId] = floatDist(uc.mRandomEngine);
+	return preferences;
+}
+
 int32_t Person::GetPersonOwned(ProductId productId) const
 {
 	if (productId == kEffortId)
@@ -155,7 +180,7 @@ void Person::Reproduce(UpdateContext& uc, Space* space)
 	{
 		mEnergy = 0;
 		mChildren++;
-		space->AddPerson(std::make_shared<Person>(30000, 0, mPreferences));
+		space->AddPerson(std::make_shared<Person>(30000, 0, Mutate(uc, mPreferences)));
 	}
 }
 

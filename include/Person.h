@@ -6,6 +6,9 @@
 #include <memory>
 #include <vector>
 
+std::map<ProductId, float> Mutate(UpdateContext& uc, std::map<ProductId, float>);
+std::map<ProductId, float> RandomPreferences(UpdateContext& uc);
+
 class Person: public Owner
 {
 public:
