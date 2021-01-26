@@ -4,7 +4,10 @@ release
 subprojects/easyloggingpp
 subprojects/googletest*
 subprojects/packagecache
+
 .vscode
+
+.orig
 
 # Prerequisites
 *.d
