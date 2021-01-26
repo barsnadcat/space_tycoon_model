@@ -13,7 +13,7 @@ TEST_F(UpdateContextTestFixture, HungerDamageSlow)
 	{
 		person->Update(uc);
 	}
-	EXPECT_EQ(person->GetHealth(), 80);
+	EXPECT_EQ(person->GetHealth(), 80u);
 }
 
 TEST_F(UpdateContextTestFixture, Eating)
@@ -29,7 +29,7 @@ TEST_F(UpdateContextTestFixture, Eating)
 	person->Update(uc);
 	person->Update(uc);
 	person->Update(uc);
-	EXPECT_EQ(person->GetHealth(), 97);
+	EXPECT_EQ(person->GetHealth(), 97u);
 }
 
 TEST_F(UpdateContextTestFixture, EatingMixed)
@@ -41,5 +41,5 @@ TEST_F(UpdateContextTestFixture, EatingMixed)
 	auto food1 = std::make_shared<Food>(100);
 	person->ClaimFood(food1);
 	person->Update(uc);
-	EXPECT_EQ(person->GetHealth(), 95);
+	EXPECT_EQ(person->GetHealth(), 95u);
 }
