@@ -1,60 +1,45 @@
-#include <gtest/gtest.h>
 #include <easylogging++.h>
+#include <UpdateContextTestFixture.h>
 
+#include <Farm.h>
 #include <Person.h>
 
 
-TEST(Hunger, HungerDamage) 
+TEST_F(UpdateContextTestFixture, HungerDamageSlow)
 {
-	//Huger person looses health
-	Person person(100, 0);
-	person.Update(10);
-	EXPECT_EQ(person.GetHealth(), 80);
-}
-
-TEST(Hunger, HungerDamageSlow) 
-{
-	//Huger person looses health
-	Person person(100, 0);
-	for (int i = 0; i < 10; ++i)
+    // Huger person looses health
+	PersonSP person = std::shared_ptr<Person>(new Person(100, 0, {}));
+	for (int32_t i = 0; i < 10; ++i)
 	{
-		person.Update(1);
+		person->Update(uc);
 	}
-	EXPECT_EQ(person.GetHealth(), 80);
+	EXPECT_EQ(person->GetHealth(), 80);
 }
 
-
-TEST(Hunger, Eating)
+TEST_F(UpdateContextTestFixture, Eating)
 {
-	//Each date person eats one food
-	Person person(100, 0);
-	person.AddFood(std::make_shared<Food>(100));
-	person.AddFood(std::make_shared<Food>(100));
-	person.AddFood(std::make_shared<Food>(100));
-	person.Update(1);
-	person.Update(1);
-	person.Update(1);
-	EXPECT_EQ(person.GetHealth(), 97);
+    // Each date person eats one food
+	PersonSP person = std::shared_ptr<Person>(new Person(100, 0, {}));
+	auto food1 = std::make_shared<Food>(100);
+	auto food2 = std::make_shared<Food>(100);
+	auto food3 = std::make_shared<Food>(100);
+	person->ClaimFood(food1);
+	person->ClaimFood(food2);
+	person->ClaimFood(food3);
+	person->Update(uc);
+	person->Update(uc);
+	person->Update(uc);
+	EXPECT_EQ(person->GetHealth(), 97);
 }
 
-TEST(Hunger, EatingSlow)
+TEST_F(UpdateContextTestFixture, EatingMixed)
 {
-	//Each date person eats one food
-	Person person(100, 0);
-	person.AddFood(std::make_shared<Food>(100));
-	person.AddFood(std::make_shared<Food>(100));
-	person.AddFood(std::make_shared<Food>(100));
-	person.Update(3);
-	EXPECT_EQ(person.GetHealth(), 97);
-}
-
-TEST(Hunger, EatingMixed)
-{
-	//Each date person eats one food
-	Person person(100, 0);
-	person.Update(1);
-	person.Update(1);
-	person.AddFood(std::make_shared<Food>(100));
-	person.Update(1);
-	EXPECT_EQ(person.GetHealth(), 96);
+    // Each date person eats one food
+	PersonSP person = std::shared_ptr<Person>(new Person(100, 0, {}));
+	person->Update(uc);
+	person->Update(uc);
+	auto food1 = std::make_shared<Food>(100);
+	person->ClaimFood(food1);
+	person->Update(uc);
+	EXPECT_EQ(person->GetHealth(), 95);
 }

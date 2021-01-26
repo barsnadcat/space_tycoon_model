@@ -1,1 +1,0 @@
-bool Do(int param);

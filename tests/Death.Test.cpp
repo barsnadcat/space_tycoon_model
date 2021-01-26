@@ -1,18 +1,14 @@
-#include <gtest/gtest.h>
 #include <easylogging++.h>
+#include <UpdateContextTestFixture.h>
 
-#include <Food.h>
+#include <Settlement.h>
 
-
-TEST(EntityVector, RemoveDead) 
+TEST_F(UpdateContextTestFixture, Death)
 {
-	// Dead entities have to be removed from vector.
-	std::vector<std::shared_ptr<Food>> inventory;
-	std::shared_ptr<Food> food = std::make_shared<Food>(100);
-	food->SetHealth(0);
-	inventory.push_back(food);
-	food.reset();
-	RemoveDead<Food>(inventory);
-	EXPECT_TRUE(inventory.empty());
+	Settlement settlement;
+	settlement.AddPerson(std::shared_ptr<Person>(new Person(0, 0, {})));
+	EXPECT_FALSE(settlement.GetPeople().empty());
+	settlement.Update(uc);
+	EXPECT_TRUE(settlement.GetPeople().empty());
 }
 
