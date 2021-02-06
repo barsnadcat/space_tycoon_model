@@ -17,18 +17,11 @@ void UpdateEntities(std::vector<std::shared_ptr<T>>& container, UpdateContext& u
 template<typename T>
 void Space::DeleteEntities(std::vector<std::shared_ptr<T>>& container)
 {
-	for (auto it = container.begin(); it != container.end();)
+	auto predicate = [](auto const& p)
 	{
-		Entity& entity = **it;
-		if (entity.GetHealth() == 0)
-		{
-			it = container.erase(it);
-		}
-		else
-		{
-			it++;
-		}
-	}
+		return p->GetHealth() == 0;
+	};
+	container.erase(std::remove_if(container.begin(), container.end(), predicate), container.end());
 }
 
 void Space::Update(UpdateContext& uc)
