@@ -12,7 +12,7 @@
 struct UpdateContext;
 using People = std::vector<PersonSP>;
 
-class Space: public Property
+class Space
 {
 public:
 	virtual ~Space() {}
