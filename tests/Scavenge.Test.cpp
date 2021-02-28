@@ -17,12 +17,12 @@ TEST_F(UpdateContextTestFixture, ScavengeFood)
 	auto person2 = ConstructPerson(3000, 0, {});
 	auto food1 = ConstructFood(100);
 	auto food2 = ConstructFood(100);
-	person1->mOwner->ClaimFood(food1);
-	EXPECT_EQ(food1->mProperty->GetOwner(), person1);
+	person1->owner->ClaimFood(food1);
+	EXPECT_EQ(food1->property->GetOwner(), person1);
 
-	settlement->mSpace->AddFood(food1);
-	settlement->mSpace->AddFood(food2);
-	person2->mPerson->Produce(uc, settlement->mSpace.get(), kScavengeId);
-	EXPECT_EQ(food1->mProperty->GetOwner(), person1);
-	EXPECT_EQ(food2->mProperty->GetOwner(), person2);
+	settlement->space->AddFood(food1);
+	settlement->space->AddFood(food2);
+	person2->person->Produce(uc, settlement->space.get(), kScavengeId);
+	EXPECT_EQ(food1->property->GetOwner(), person1);
+	EXPECT_EQ(food2->property->GetOwner(), person2);
 }

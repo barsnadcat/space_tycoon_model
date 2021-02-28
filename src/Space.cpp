@@ -14,7 +14,7 @@ void DeleteObjects(ObjectSPs& container)
 {
 	auto predicate = [](auto const& p)
 					 {
-						 return p->mEntity->GetHealth() == 0;
+						 return p->entity->GetHealth() == 0;
 					 };
 	container.erase(std::remove_if(container.begin(), container.end(), predicate), container.end());
 }
@@ -31,19 +31,19 @@ void Space::Update(UpdateContext& uc)
 
 void Space::AddPerson(ObjectSP p)
 {
-	p->mEntity->SetParent(mThisObject.shared_from_this());
+	p->entity->SetParent(mThisObject.shared_from_this());
 	mPeople.push_back(p);
 }
 
 void Space::AddFood(ObjectSP p)
 {
-	p->mEntity->SetParent(mThisObject.shared_from_this());
+	p->entity->SetParent(mThisObject.shared_from_this());
 	mProducts[kFoodId].push_back(p);
 }
 
 void Space::AddBuilding(ObjectSP p)
 {
-	p->mEntity->SetParent(mThisObject.shared_from_this());
+	p->entity->SetParent(mThisObject.shared_from_this());
 	mProducts[kFarmId].push_back(p);
 }
 
@@ -51,19 +51,19 @@ void Space::MoveTo(ObjectSP destination)
 {
 	for (auto& p : mProducts[kFoodId])
 	{
-		p->mEntity->SetParent(destination);
+		p->entity->SetParent(destination);
 	}
-	std::move(mProducts[kFoodId].begin(), mProducts[kFoodId].end(), std::back_inserter(destination->mSpace->mProducts[kFoodId]));
+	std::move(mProducts[kFoodId].begin(), mProducts[kFoodId].end(), std::back_inserter(destination->space->mProducts[kFoodId]));
 
 	for (auto& p : mPeople)
 	{
-		p->mEntity->SetParent(destination);
+		p->entity->SetParent(destination);
 	}
-	std::move(mPeople.begin(), mPeople.end(), std::back_inserter(destination->mSpace->mPeople));
+	std::move(mPeople.begin(), mPeople.end(), std::back_inserter(destination->space->mPeople));
 
 	for (auto& p : mProducts[kFarmId])
 	{
-		p->mEntity->SetParent(destination);
+		p->entity->SetParent(destination);
 	}
-	std::move(mProducts[kFarmId].begin(), mProducts[kFarmId].end(), std::back_inserter(destination->mSpace->mProducts[kFarmId]));
+	std::move(mProducts[kFarmId].begin(), mProducts[kFarmId].end(), std::back_inserter(destination->space->mProducts[kFarmId]));
 }

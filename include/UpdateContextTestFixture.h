@@ -11,8 +11,8 @@ protected:
 	void SetUp() override
 	{
 		uc = UpdateContext();
-		uc.mObjectiveUtilities = GetObjectiveUtilities();
-		uc.mProductions = GetProductions();
+		uc.objectiveUtilities = GetObjectiveUtilities();
+		uc.productions = GetProductions();
 	}
 
 	UpdateContext uc;

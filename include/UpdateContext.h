@@ -10,10 +10,10 @@ struct UpdateContext
 {
 	UpdateContext(int32_t seed = 1)
 	{
-		mRandomEngine.seed(seed);
+		randomEngine.seed(seed);
 	}
-	uint32_t mCurrentTime { 0 };
-	std::mt19937 mRandomEngine;
-	std::map<ProductId, ObjectiveUtility> mObjectiveUtilities;
-	std::map<ProductionId, std::vector<ProductionConfig>> mProductions;
+	uint32_t currentTime { 0 };
+	std::mt19937 randomEngine;
+	std::map<ProductId, ObjectiveUtility> objectiveUtilities;
+	std::map<ProductionId, std::vector<ProductionConfig>> productions;
 };

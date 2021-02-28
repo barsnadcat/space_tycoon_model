@@ -14,20 +14,20 @@ Object::~Object() {}
 
 void Object::Update(UpdateContext& uc)
 {
-	if (mEntity)
+	if (entity)
 	{
-		mEntity->Update(uc);
+		entity->Update(uc);
 	}
-	if (mSpace)
+	if (space)
 	{
-		mSpace->Update(uc);
+		space->Update(uc);
 	}
-	if (mSettlement)
+	if (settlement)
 	{
-		mSettlement->Update(uc);
+		settlement->Update(uc);
 	}
-	if (mPerson)
+	if (person)
 	{
-		mPerson->Update(uc);
+		person->Update(uc);
 	}
 }

@@ -17,7 +17,7 @@ TEST_F(UpdateContextTestFixture, HungerDamageSlow)
 	{
 		person->Update(uc);
 	}
-	EXPECT_EQ(person->mEntity->GetHealth(), 80u);
+	EXPECT_EQ(person->entity->GetHealth(), 80u);
 }
 
 TEST_F(UpdateContextTestFixture, Eating)
@@ -27,13 +27,13 @@ TEST_F(UpdateContextTestFixture, Eating)
 	auto food1 = ConstructFood(100);
 	auto food2 = ConstructFood(100);
 	auto food3 = ConstructFood(100);
-	person->mOwner->ClaimFood(food1);
-	person->mOwner->ClaimFood(food2);
-	person->mOwner->ClaimFood(food3);
+	person->owner->ClaimFood(food1);
+	person->owner->ClaimFood(food2);
+	person->owner->ClaimFood(food3);
 	person->Update(uc);
 	person->Update(uc);
 	person->Update(uc);
-	EXPECT_EQ(person->mEntity->GetHealth(), 97u);
+	EXPECT_EQ(person->entity->GetHealth(), 97u);
 }
 
 TEST_F(UpdateContextTestFixture, EatingMixed)
@@ -43,7 +43,7 @@ TEST_F(UpdateContextTestFixture, EatingMixed)
 	person->Update(uc);
 	person->Update(uc);
 	auto food1 = ConstructFood(100);
-	person->mOwner->ClaimFood(food1);
+	person->owner->ClaimFood(food1);
 	person->Update(uc);
-	EXPECT_EQ(person->mEntity->GetHealth(), 95u);
+	EXPECT_EQ(person->entity->GetHealth(), 95u);
 }

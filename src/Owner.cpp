@@ -6,13 +6,13 @@
 
 void Owner::ClaimFood(ObjectSP food)
 {
-	food->mProperty->SetOwner(mThisObject.shared_from_this());
+	food->property->SetOwner(mThisObject.shared_from_this());
 	mEntities[kFoodId].push_back(food);
 }
 
 void Owner::ClaimFarm(ObjectSP farm)
 {
-	farm->mProperty->SetOwner(mThisObject.shared_from_this());
+	farm->property->SetOwner(mThisObject.shared_from_this());
 	mEntities[kFarmId].push_back(farm);
 }
 
@@ -23,7 +23,7 @@ ObjectSP Owner::GetMyNearFood()
 		ObjectSP food = (*it).lock();
 		if (food)
 		{
-			if (food->mEntity->GetParent() == mThisObject.mEntity->GetParent() && food->mEntity->GetHealth() > 0)
+			if (food->entity->GetParent() == mThisObject.entity->GetParent() && food->entity->GetHealth() > 0)
 			{
 				return food;
 			}

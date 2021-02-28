@@ -13,9 +13,9 @@ const int32_t kMaxEnergy = 200;
 ObjectSP ConstructPerson(uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences)
 {
 	auto person = std::make_shared<Object>();
-	person->mPerson = std::make_unique<Person>(*person, energy, preferences);
-	person->mEntity = std::make_unique<Entity>(health);
-	person->mOwner = std::make_unique<Owner>(*person);
+	person->person = std::make_unique<Person>(*person, energy, preferences);
+	person->entity = std::make_unique<Entity>(health);
+	person->owner = std::make_unique<Owner>(*person);
 	return person;
 }
 
@@ -26,8 +26,8 @@ std::map<ProductId, float> Mutate(UpdateContext& uc, std::map<ProductId, float> 
 		auto it = preferences.begin();
 		auto sizeDist = std::uniform_int_distribution<size_t>(0, preferences.size() - 1);
 		auto floatDist = std::uniform_real_distribution<float>(0.0f, 1.0f);
-		std::advance(it, sizeDist(uc.mRandomEngine));
-		it->second = (it->second + floatDist(uc.mRandomEngine)) / 2.0f;
+		std::advance(it, sizeDist(uc.randomEngine));
+		it->second = (it->second + floatDist(uc.randomEngine)) / 2.0f;
 	}
 	return preferences;
 }
@@ -36,11 +36,11 @@ std::map<ProductId, float> RandomPreferences(UpdateContext& uc)
 {
 	std::map<ProductId, float> preferences;
 	auto floatDist = std::uniform_real_distribution<float>(0.0f, 1.0f);
-	preferences[kFoodId] = floatDist(uc.mRandomEngine);
-	preferences[kFarmId] = floatDist(uc.mRandomEngine);
-	preferences[kEffortId] = floatDist(uc.mRandomEngine);
-	preferences[kFamilyMemberId] = floatDist(uc.mRandomEngine);
-	preferences[kRandomProductId] = floatDist(uc.mRandomEngine);
+	preferences[kFoodId] = floatDist(uc.randomEngine);
+	preferences[kFarmId] = floatDist(uc.randomEngine);
+	preferences[kEffortId] = floatDist(uc.randomEngine);
+	preferences[kFamilyMemberId] = floatDist(uc.randomEngine);
+	preferences[kRandomProductId] = floatDist(uc.randomEngine);
 	return preferences;
 }
 
@@ -58,19 +58,19 @@ int32_t Person::GetPersonOwned(ProductId productId) const
 		}
 		else
 		{
-			return mThisObject.mOwner->GetOwned(productId);
+			return mThisObject.owner->GetOwned(productId);
 		}
 	}
 }
 
 float Person::GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t number) const
 {
-	return GetPersonalPreference(productId) * uc.mObjectiveUtilities[productId].GetMarginalUtility(GetPersonOwned(productId), number);
+	return GetPersonalPreference(productId) * uc.objectiveUtilities[productId].GetMarginalUtility(GetPersonOwned(productId), number);
 }
 
 bool Person::CanDoProduction(UpdateContext& uc, ProductionId productionId) const
 {
-	for (auto it : uc.mProductions[productionId])
+	for (auto it : uc.productions[productionId])
 	{
 		if (it.number + GetPersonOwned(it.productId) < 0)
 		{
@@ -83,7 +83,7 @@ bool Person::CanDoProduction(UpdateContext& uc, ProductionId productionId) const
 float Person::GetProductionValue(UpdateContext& uc, ProductionId productionId) const
 {
 	float res = 0;
-	for (auto it : uc.mProductions[productionId])
+	for (auto it : uc.productions[productionId])
 	{
 		if (!it.tool)
 		{
@@ -97,7 +97,7 @@ ProductionId Person::GetBestProduction(UpdateContext& uc) const
 {
 	float bestProductionValue = 0;
 	ProductionId bestProductionId = kInvalidId;
-	for (const auto& p : uc.mProductions)
+	for (const auto& p : uc.productions)
 	{
 		if (CanDoProduction(uc, p.first))
 		{
@@ -131,7 +131,7 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 		return;
 	}
 
-	for (auto it : uc.mProductions[productionId])
+	for (auto it : uc.productions[productionId])
 	{
 		if (!it.tool)
 		{
@@ -145,7 +145,7 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 				{
 					auto farm = ConstructFarm(5000);
 					space->AddBuilding(farm);
-					mThisObject.mOwner->ClaimFarm(farm);
+					mThisObject.owner->ClaimFarm(farm);
 				}
 			}
 			if (it.productId == kFoodId)
@@ -154,7 +154,7 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 				{
 					auto food = ConstructFood(100);
 					space->AddFood(food);
-					mThisObject.mOwner->ClaimFood(food);
+					mThisObject.owner->ClaimFood(food);
 				}
 			}
 		}
@@ -163,23 +163,23 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 
 void Person::Update(UpdateContext& uc)
 {
-	if (ObjectSP space = mThisObject.mEntity->GetParent())
+	if (ObjectSP space = mThisObject.entity->GetParent())
 	{
-		Produce(uc, space->mSpace.get(), GetBestProduction(uc));
+		Produce(uc, space->space.get(), GetBestProduction(uc));
 	}
 
     // Eat
-	ObjectSP food = mThisObject.mOwner->GetMyNearFood();
+	ObjectSP food = mThisObject.owner->GetMyNearFood();
 	if (food)
 	{
-		mEnergy = std::min(kMaxEnergy, mEnergy + food->mFood->GetEnergy());
-		food->mEntity->SetMaxHealth(0);
+		mEnergy = std::min(kMaxEnergy, mEnergy + food->food->GetEnergy());
+		food->entity->SetMaxHealth(0);
 	}
 
     // Expend energy or hunger damage
 	if (mEnergy == 0)
 	{
-		mThisObject.mEntity->DamageHealth(1);
+		mThisObject.entity->DamageHealth(1);
 	}
 	else
 	{
@@ -201,18 +201,18 @@ void Person::Scavenge(Space* space)
 {
 	for (ObjectSP& farm : space->GetFarms())
 	{
-		if (farm->mProperty->GetOwner() == nullptr)
+		if (farm->property->GetOwner() == nullptr)
 		{
-			mThisObject.mOwner->ClaimFarm(farm);
+			mThisObject.owner->ClaimFarm(farm);
 			return;
 		}
 	}
 
 	for (ObjectSP& food : space->GetFoods())
 	{
-		if (food->mProperty->GetOwner() == nullptr)
+		if (food->property->GetOwner() == nullptr)
 		{
-			mThisObject.mOwner->ClaimFood(food);
+			mThisObject.owner->ClaimFood(food);
 			return;
 		}
 	}
