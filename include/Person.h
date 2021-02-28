@@ -13,21 +13,19 @@ std::map<ProductId, float> RandomPreferences(UpdateContext& uc);
 class Person
 {
 public:
-	Person(Object& thisObject, int32_t energy, const std::map<ProductId, float>& preferences):mThisObject(thisObject), mEnergy(energy), mPreferences(preferences)
-	{
-	}
-
+	Person(Object& thisObject, int32_t energy, const std::map<ProductId, float>& preferences):
+		mThisObject(thisObject), mEnergy(energy), mPreferences(preferences) {}
 	void Update(UpdateContext& uc);
 	ProductionId GetBestProduction(UpdateContext& uc) const;
-	void Produce(UpdateContext& uc, Space* space, ProductionId productionId);
+	void Produce(UpdateContext& uc, Object& workSpace, ProductionId productionId);
 private:
 	float GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t number) const;
 	float GetPersonalPreference(ProductId) const;
 	float GetProductionValue(UpdateContext& uc, ProductionId productionId) const;
 	bool CanDoProduction(UpdateContext& uc, ProductionId productionId) const;
 	int32_t GetPersonOwned(ProductId productId) const;
-	void Scavenge(Space* space);
-	void Reproduce(UpdateContext& uc, Space* space);
+	void Scavenge(Object& workSpace);
+	void Reproduce(UpdateContext& uc, Object& workSpace);
 private:
 	Object& mThisObject;
 	int32_t mEnergy = 0;

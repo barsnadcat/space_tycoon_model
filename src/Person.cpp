@@ -112,7 +112,7 @@ ProductionId Person::GetBestProduction(UpdateContext& uc) const
 	return bestProductionId;
 }
 
-void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
+void Person::Produce(UpdateContext& uc, Object& workSpace, ProductionId productionId)
 {
 	if (productionId == kInvalidId)
 	{
@@ -121,13 +121,13 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 
 	if (productionId == kScavengeId)
 	{
-		Scavenge(space);
+		Scavenge(workSpace);
 		return;
 	}
 
 	if (productionId == kReproductionId)
 	{
-		Reproduce(uc, space);
+		Reproduce(uc, workSpace);
 		return;
 	}
 
@@ -144,7 +144,7 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 				for (int32_t i = 0; i < it.number; ++i)
 				{
 					auto farm = ConstructFarm(5000);
-					space->AddBuilding(farm);
+					workSpace.space->AddBuilding(farm);
 					mThisObject.owner->ClaimFarm(farm);
 				}
 			}
@@ -153,7 +153,7 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 				for (int32_t i = 0; i < it.number; ++i)
 				{
 					auto food = ConstructFood(100);
-					space->AddFood(food);
+					workSpace.space->AddFood(food);
 					mThisObject.owner->ClaimFood(food);
 				}
 			}
@@ -163,9 +163,9 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 
 void Person::Update(UpdateContext& uc)
 {
-	if (ObjectSP space = mThisObject.entity->GetParent())
+	if (ObjectSP workSpace = mThisObject.entity->GetParent())
 	{
-		Produce(uc, space->space.get(), GetBestProduction(uc));
+		Produce(uc, *workSpace, GetBestProduction(uc));
 	}
 
     // Eat
@@ -187,19 +187,19 @@ void Person::Update(UpdateContext& uc)
 	}
 }
 
-void Person::Reproduce(UpdateContext& uc, Space* space)
+void Person::Reproduce(UpdateContext& uc, Object& workSpace)
 {
 	if (mEnergy > 100)
 	{
 		mEnergy = 0;
 		mChildren++;
-		space->AddPerson(ConstructPerson(30000, 100, Mutate(uc, mPreferences)));
+		workSpace.space->AddPerson(ConstructPerson(30000, 100, Mutate(uc, mPreferences)));
 	}
 }
 
-void Person::Scavenge(Space* space)
+void Person::Scavenge(Object& workSpace)
 {
-	for (ObjectSP& farm : space->GetFarms())
+	for (ObjectSP& farm : workSpace.space->GetFarms())
 	{
 		if (farm->property->GetOwner() == nullptr)
 		{
@@ -208,7 +208,7 @@ void Person::Scavenge(Space* space)
 		}
 	}
 
-	for (ObjectSP& food : space->GetFoods())
+	for (ObjectSP& food : workSpace.space->GetFoods())
 	{
 		if (food->property->GetOwner() == nullptr)
 		{
