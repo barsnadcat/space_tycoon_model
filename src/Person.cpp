@@ -147,7 +147,7 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 			{
 				for (int32_t i = 0; i < it.number; ++i)
 				{
-					auto food = std::make_shared<Food>(100);
+					auto food = ConstructFood(100);
 					space->AddFood(food);
 					mOwner->ClaimFood(food);
 				}
@@ -167,7 +167,7 @@ void Person::OnObjectUpdated(UpdateContext& uc)
 	ObjectSP food = mOwner->GetMyNearFood();
 	if (food)
 	{
-		mEnergy = std::min(kMaxEnergy, mEnergy + std::static_pointer_cast<Food>(food)->GetEnergy());
+		mEnergy = std::min(kMaxEnergy, mEnergy + food->mFood->GetEnergy());
 		food->mEntity->SetMaxHealth(0);
 	}
 

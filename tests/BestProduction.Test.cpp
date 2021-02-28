@@ -21,7 +21,7 @@ TEST_F(UpdateContextTestFixture, NoProductionIfHasEnough)
 	person->mOwner->ClaimFarm(farm);
 	for (int i = 0; i < 20; i++)
 	{
-		auto food = std::shared_ptr<Food>(new Food(500));
+		auto food = ConstructFood(500);
 		settlement->mSpace->AddFood(food);
 		person->mOwner->ClaimFood(food);
 	}

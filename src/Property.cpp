@@ -1,16 +1,9 @@
-#include <Property.h>
 #include <Owner.h>
+#include <Property.h>
 
-Object* Property::GetOwner() const
+ObjectSP Property::GetOwner() const
 {
-	if (auto p = mOwner.lock())
-	{
-		return p.get();
-	}
-	else
-	{
-		return nullptr;
-	}
+	return mOwner.lock();
 }
 
 void Property::SetOwner(ObjectSP owner)

@@ -1,12 +1,12 @@
 #pragma once
 
 #include <memory>
-#include <EntitiesDeclarations.h>
+#include <Object.h>
 
 class Property
 {
 public:
-	Object* GetOwner() const;
+	ObjectSP GetOwner() const;
 	void SetOwner(ObjectSP owner);
 private:
 	ObjectWP mOwner;

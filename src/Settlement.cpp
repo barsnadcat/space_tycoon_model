@@ -1,4 +1,5 @@
 #include <Settlement.h>
+#include <Entity.h>
 #include <Food.h>
 #include <Space.h>
 #include <Owner.h>
@@ -12,5 +13,5 @@ std::shared_ptr<Settlement> ConstructSettelment()
 
 void Settlement::OnObjectUpdated(UpdateContext& uc)
 {
-	mSpace->AddFood(std::make_shared<Food>(100));
+	mSpace->AddFood(ConstructFood(100));
 }

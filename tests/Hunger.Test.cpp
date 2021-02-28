@@ -21,9 +21,9 @@ TEST_F(UpdateContextTestFixture, Eating)
 {
     // Each date person eats one food
 	std::shared_ptr<Person> person = ConstructPerson(100, 0, {});
-	auto food1 = std::make_shared<Food>(100);
-	auto food2 = std::make_shared<Food>(100);
-	auto food3 = std::make_shared<Food>(100);
+	auto food1 = ConstructFood(100);
+	auto food2 = ConstructFood(100);
+	auto food3 = ConstructFood(100);
 	person->mOwner->ClaimFood(food1);
 	person->mOwner->ClaimFood(food2);
 	person->mOwner->ClaimFood(food3);
@@ -39,7 +39,7 @@ TEST_F(UpdateContextTestFixture, EatingMixed)
 	std::shared_ptr<Person> person = ConstructPerson(100, 0, {});
 	person->Update(uc);
 	person->Update(uc);
-	auto food1 = std::make_shared<Food>(100);
+	auto food1 = ConstructFood(100);
 	person->mOwner->ClaimFood(food1);
 	person->Update(uc);
 	EXPECT_EQ(person->mEntity->GetHealth(), 95u);
