@@ -6,6 +6,14 @@
 
 const int32_t kMaxEnergy = 200;
 
+std::shared_ptr<Person> ConstructPerson(uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences)
+{
+	auto person = std::make_shared<Person>(energy, preferences);
+	person->mEntity = std::make_unique<Entity>(health);
+	person->mOwner = std::make_unique<Owner>(person);
+	return person;
+}
+
 std::map<ProductId, float> Mutate(UpdateContext& uc, std::map<ProductId, float> preferences)
 {
 	if (!preferences.empty())
@@ -45,7 +53,7 @@ int32_t Person::GetPersonOwned(ProductId productId) const
 		}
 		else
 		{
-			return GetOwned(productId);
+			return mOwner->GetOwned(productId);
 		}
 	}
 }
@@ -132,7 +140,7 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 				{
 					auto farm = std::make_shared<Farm>(5000);
 					space->AddBuilding(farm);
-					ClaimFarm(farm);
+					mOwner->ClaimFarm(farm);
 				}
 			}
 			if (it.productId == kFoodId)
@@ -141,32 +149,32 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 				{
 					auto food = std::make_shared<Food>(100);
 					space->AddFood(food);
-					ClaimFood(food);
+					mOwner->ClaimFood(food);
 				}
 			}
 		}
 	}
 }
 
-void Person::OnOwnerUpdated(UpdateContext& uc)
+void Person::OnObjectUpdated(UpdateContext& uc)
 {
-	if (Space* space = GetParent())
+	if (ObjectSP space = mEntity->GetParent())
 	{
-		Produce(uc, space, GetBestProduction(uc));
+		Produce(uc, space->mSpace.get(), GetBestProduction(uc));
 	}
 
     // Eat
-	FoodSP food = GetMyNearFood();
+	ObjectSP food = mOwner->GetMyNearFood();
 	if (food)
 	{
-		mEnergy = std::min(kMaxEnergy, mEnergy + food->GetEnergy());
-		food->SetMaxHealth(0);
+		mEnergy = std::min(kMaxEnergy, mEnergy + std::static_pointer_cast<Food>(food)->GetEnergy());
+		food->mEntity->SetMaxHealth(0);
 	}
 
     // Expend energy or hunger damage
 	if (mEnergy == 0)
 	{
-		DamageHealth(1);
+		mEntity->DamageHealth(1);
 	}
 	else
 	{
@@ -180,26 +188,26 @@ void Person::Reproduce(UpdateContext& uc, Space* space)
 	{
 		mEnergy = 0;
 		mChildren++;
-		space->AddPerson(std::make_shared<Person>(30000, 100, Mutate(uc, mPreferences)));
+		space->AddPerson(ConstructPerson(30000, 100, Mutate(uc, mPreferences)));
 	}
 }
 
 void Person::Scavenge(Space* space)
 {
-	for (EntitySP& farm : space->GetFarms())
+	for (ObjectSP& farm : space->GetFarms())
 	{
-		if (farm->GetOwner() == nullptr)
+		if (farm->mProperty->GetOwner() == nullptr)
 		{
-			ClaimFarm(farm);
+			mOwner->ClaimFarm(farm);
 			return;
 		}
 	}
 
-	for (EntitySP& food : space->GetFoods())
+	for (ObjectSP& food : space->GetFoods())
 	{
-		if (food->GetOwner() == nullptr)
+		if (food->mProperty->GetOwner() == nullptr)
 		{
-			ClaimFood(food);
+			mOwner->ClaimFood(food);
 			return;
 		}
 	}

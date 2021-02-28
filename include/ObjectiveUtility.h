@@ -13,5 +13,5 @@ private:
 	const float mMax = 0.0f;
 	const int32_t mOptimal = 0;
 	const int32_t mUseless = 0;
-    const int32_t mHarmfull = 0;
+	const int32_t mHarmfull = 0;
 };

@@ -1,15 +1,15 @@
 #pragma once
 
+#include <Object.h>
+#include <Property.h>
 #include <Entity.h>
 
-class Farm: public Entity
+class Farm: public Object
 {
 public:
-    Farm(uint32_t health): Entity(health) {}
-private:
-    virtual void OnEntityUpdated(UpdateContext &uc) override
-    {
-        OnBuildingUpdated(uc);
-    }
-    virtual void OnBuildingUpdated(UpdateContext &uc) {}
+	Farm(uint32_t health)
+	{
+		mEntity = std::make_unique<Entity>(health);
+		mProperty = std::make_unique<Property>();
+	}
 };

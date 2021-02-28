@@ -8,33 +8,30 @@
 #include <vector>
 #include <map>
 
-
 struct UpdateContext;
-using People = std::vector<PersonSP>;
 
 class Space
 {
 public:
-	virtual ~Space() {}
+	Space(ObjectSP thisObject): mThisObject(thisObject)
+	{
+		assert(thisObject);
+	}
 	void Update(UpdateContext& uc);
 
-	void AddPerson(PersonSP p);
-	People& GetPeople() { return mPeople; }
+	void AddPerson(ObjectSP p);
+	ObjectSPs& GetPeople() { return mPeople; }
 
-	void AddFood(FoodSP p);
-	EntitySPs& GetFoods() { return mProducts[kFoodId]; }
+	void AddFood(ObjectSP p);
+	ObjectSPs& GetFoods() { return mProducts[kFoodId]; }
 
-	void AddBuilding(FarmSP p);
-	EntitySPs& GetFarms() { return mProducts[kFarmId]; }
+	void AddBuilding(ObjectSP p);
+	ObjectSPs& GetFarms() { return mProducts[kFarmId]; }
 
-	void MoveTo(Space& space);
-
-private:
-	template<typename T>
-	void DeleteEntities(std::vector<std::shared_ptr<T>>& container);
-	virtual void OnSpaceUpdated(UpdateContext& uc){}
+	void MoveTo(ObjectSP space);
 
 private:
-	std::map<ProductId, EntitySPs> mProducts;
-	People mPeople;
+	ObjectWP mThisObject;
+	std::map<ProductId, ObjectSPs> mProducts;
+	ObjectSPs mPeople;
 };

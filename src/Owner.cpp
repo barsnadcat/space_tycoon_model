@@ -1,29 +1,30 @@
 #include <Owner.h>
-#include <Food.h>
-#include <Farm.h>
+#include <Property.h>
+#include <Space.h>
+#include <Entity.h>
 
-void Owner::ClaimFood(EntitySP food)
+void Owner::ClaimFood(ObjectSP food)
 {
-	food->SetOwner(std::static_pointer_cast<Owner>(shared_from_this()));
+	food->mProperty->SetOwner(mThisObject.lock());
 	mEntities[kFoodId].push_back(food);
 }
 
-void Owner::ClaimFarm(EntitySP building)
+void Owner::ClaimFarm(ObjectSP farm)
 {
-	building->SetOwner(std::static_pointer_cast<Owner>(shared_from_this()));
-	mEntities[kFarmId].push_back(building);
+	farm->mProperty->SetOwner(mThisObject.lock());
+	mEntities[kFarmId].push_back(farm);
 }
 
-FoodSP Owner::GetMyNearFood()
+ObjectSP Owner::GetMyNearFood()
 {
 	for (auto it = mEntities[kFoodId].begin(); it != mEntities[kFoodId].end();)
 	{
-		EntitySP food = (*it).lock();
+		ObjectSP food = (*it).lock();
 		if (food)
 		{
-			if (food->GetParent() == GetParent() && food->GetHealth() > 0)
+			if (food->mEntity->GetParent() == mThisObject.lock()->mEntity->GetParent() && food->mEntity->GetHealth() > 0)
 			{
-				return std::static_pointer_cast<Food>(food);
+				return food;
 			}
 			else
 			{

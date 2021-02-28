@@ -1,75 +1,72 @@
-#include "Space.h"
+#include <Space.h>
+#include <Owner.h>
 
 #include <Food.h>
 #include <Person.h>
 #include <Farm.h>
 
-template<typename T>
-void UpdateEntities(std::vector<std::shared_ptr<T>>& container, UpdateContext& uc)
+void UpdateObjects(ObjectSPs& container, UpdateContext& uc)
 {
-	const size_t size = container.size();
-	for (size_t i = 0; i < size; i++)
+	for (ObjectSP object : container)
 	{
-		container[i]->Update(uc);
+		object->Update(uc);
 	}
 }
 
-template<typename T>
-void Space::DeleteEntities(std::vector<std::shared_ptr<T>>& container)
+void DeleteObjects(ObjectSPs& container)
 {
 	auto predicate = [](auto const& p)
-	{
-		return p->GetHealth() == 0;
-	};
+					 {
+						 return p->mEntity->GetHealth() == 0;
+					 };
 	container.erase(std::remove_if(container.begin(), container.end(), predicate), container.end());
 }
 
 void Space::Update(UpdateContext& uc)
 {
-	UpdateEntities(mPeople, uc);
-	UpdateEntities(mProducts[kFoodId], uc);
-	UpdateEntities(mProducts[kFarmId], uc);
-	DeleteEntities(mPeople);
-	DeleteEntities(mProducts[kFoodId]);
-	DeleteEntities(mProducts[kFarmId]);
-	OnSpaceUpdated(uc);
+	UpdateObjects(mPeople, uc);
+	UpdateObjects(mProducts[kFoodId], uc);
+	UpdateObjects(mProducts[kFarmId], uc);
+	DeleteObjects(mPeople);
+	DeleteObjects(mProducts[kFoodId]);
+	DeleteObjects(mProducts[kFarmId]);
 }
 
-void Space::AddPerson(PersonSP p)
+void Space::AddPerson(ObjectSP p)
 {
-	p->SetParent(this);
+	p->mEntity->SetParent(mThisObject.lock());
 	mPeople.push_back(p);
 }
 
-void Space::AddFood(FoodSP p)
+void Space::AddFood(ObjectSP p)
 {
-	p->SetParent(this);
+	p->mEntity->SetParent(mThisObject.lock());
 	mProducts[kFoodId].push_back(p);
 }
 
-void Space::AddBuilding(FarmSP p)
+void Space::AddBuilding(ObjectSP p)
 {
-	p->SetParent(this);
+	p->mEntity->SetParent(mThisObject.lock());
 	mProducts[kFarmId].push_back(p);
 }
 
-void Space::MoveTo(Space& destination)
+void Space::MoveTo(ObjectSP destination)
 {
 	for (auto& p : mProducts[kFoodId])
 	{
-		p->SetParent(&destination);
+		p->mEntity->SetParent(destination);
 	}
-	std::move(mProducts[kFoodId].begin(), mProducts[kFoodId].end(), std::back_inserter(destination.mProducts[kFoodId]));
+	std::move(mProducts[kFoodId].begin(), mProducts[kFoodId].end(), std::back_inserter(destination->mSpace->mProducts[kFoodId]));
 
 	for (auto& p : mPeople)
 	{
-		p->SetParent(&destination);
+		p->mEntity->SetParent(destination);
 	}
-	std::move(mPeople.begin(), mPeople.end(), std::back_inserter(destination.mPeople));
+	std::move(mPeople.begin(), mPeople.end(), std::back_inserter(destination->mSpace->mPeople));
 
 	for (auto& p : mProducts[kFarmId])
 	{
-		p->SetParent(&destination);
+		p->mEntity->SetParent(destination);
 	}
-	std::move(mProducts[kFarmId].begin(), mProducts[kFarmId].end(), std::back_inserter(destination.mProducts[kFarmId]));
+	std::move(mProducts[kFarmId].begin(), mProducts[kFarmId].end(), std::back_inserter(destination->mSpace->mProducts[kFarmId]));
 }

@@ -1,14 +1,13 @@
 #pragma once
 
 #include <memory>
+#include <EntitiesDeclarations.h>
 
-class Owner;
-
-class Property: public std::enable_shared_from_this<Property>
+class Property
 {
 public:
-    Owner* GetOwner() const;
-    void SetOwner(std::shared_ptr<Owner> person);
+	Object* GetOwner() const;
+	void SetOwner(ObjectSP owner);
 private:
-    std::weak_ptr<Owner> mOwner;
+	ObjectWP mOwner;
 };

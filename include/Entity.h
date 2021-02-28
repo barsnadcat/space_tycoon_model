@@ -1,19 +1,17 @@
 #pragma once
 
-#include <Property.h>
-
+#include <Object.h>
+#include <EntitiesDeclarations.h>
 #include <algorithm>
 #include <cstdint>
 #include <vector>
+#include <memory>
 
 struct UpdateContext;
-class Space;
 
-class Entity: public Property
+class Entity
 {
 public:
-	using Shared = std::shared_ptr<Entity>;
-
 	Entity(uint32_t health): mHealth(health), mMaxHealth(health) {}
 	virtual ~Entity() = default;
 	uint32_t GetHealth() const { return mHealth; }
@@ -51,17 +49,13 @@ public:
 	{
 		DamageHealth(1);
 		DamageMaxHealth(1);
-		OnEntityUpdated(uc);
 	}
 
-	void SetParent(Space* space) { mParent = space; }
-	Space* GetParent() { return mParent; }
+	void SetParent(ObjectSP space) { mParent = space; }
+	ObjectSP GetParent() { return mParent.lock(); }
 
 private:
-	virtual void OnEntityUpdated(UpdateContext& uc) {}
-
-private:
-	Space* mParent = nullptr;
+	ObjectWP mParent;
 	uint32_t mHealth { 0 };
 	uint32_t mMaxHealth { 0 };
 };

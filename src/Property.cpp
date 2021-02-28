@@ -1,19 +1,19 @@
 #include <Property.h>
 #include <Owner.h>
 
-Owner* Property::GetOwner() const
+Object* Property::GetOwner() const
 {
-    if (auto p = mOwner.lock())
-    {
-        return p.get();
-    }
-    else
-    {
-        return nullptr;        
-    }
+	if (auto p = mOwner.lock())
+	{
+		return p.get();
+	}
+	else
+	{
+		return nullptr;
+	}
 }
 
-void Property::SetOwner(std::shared_ptr<Owner> owner)
+void Property::SetOwner(ObjectSP owner)
 {
-    mOwner = owner;
+	mOwner = owner;
 }

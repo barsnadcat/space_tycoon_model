@@ -1,4 +1,5 @@
 src = files(
+	'Object.cpp',
 	'Space.cpp',
 	'Person.cpp',
 	'Settlement.cpp',

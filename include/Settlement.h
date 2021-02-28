@@ -1,13 +1,12 @@
 #pragma once
 
-#include "Person.h"
-#include "Space.h"
+#include <Object.h>
+#include <Space.h>
 
-#include <memory>
-#include <vector>
-
-class Settlement: public Space
+class Settlement: public Object
 {
 public:
-	virtual void OnSpaceUpdated(UpdateContext& uc) override;
+	virtual void OnObjectUpdated(UpdateContext& uc) override;
 };
+
+std::shared_ptr<Settlement> ConstructSettelment();

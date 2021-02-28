@@ -1,24 +1,26 @@
 #pragma once
 
-#include <Entity.h>
 #include <EntitiesDeclarations.h>
-#include <map>
+#include <Object.h>
 
-class Owner: public Entity
+#include <memory>
+#include <map>
+#include <cassert>
+
+class Owner
 {
 public:
-	Owner(uint32_t health): Entity(health) {}
-	void ClaimFood(EntitySP food);
-	void ClaimFarm(EntitySP building);
-	EntityWPs& GetMyFoods() { return mEntities[kFoodId]; }
-	FoodSP GetMyNearFood();
+	Owner(ObjectSP thisObject): mThisObject(thisObject)
+	{
+		assert(thisObject);
+	}
+	void ClaimFood(ObjectSP food);
+	void ClaimFarm(ObjectSP building);
+	ObjectWPs& GetMyFoods() { return mEntities[kFoodId]; }
+	ObjectSP GetMyNearFood();
 	int32_t GetOwned(ProductId productId) const;
 
 private:
-	virtual void OnEntityUpdated(UpdateContext& uc)
-	{
-		OnOwnerUpdated(uc);
-	}
-	virtual void OnOwnerUpdated(UpdateContext& uc) {}
-	std::map<ProductId, EntityWPs> mEntities;
+	ObjectWP mThisObject;
+	std::map<ProductId, ObjectWPs> mEntities;
 };
