@@ -19,13 +19,13 @@ public:
 	~Object();
 	void Update(UpdateContext& uc);
 
-	std::unique_ptr<Entity> mEntity;
-	std::unique_ptr<Space> mSpace;
-	std::unique_ptr<Property> mProperty;
-	std::unique_ptr<Owner> mOwner;
-	std::unique_ptr<Food> mFood;
-	std::unique_ptr<Settlement> mSettlement;
-	std::unique_ptr<Person> mPerson;
+	std::unique_ptr<Entity> entity;
+	std::unique_ptr<Space> space;
+	std::unique_ptr<Property> property;
+	std::unique_ptr<Owner> owner;
+	std::unique_ptr<Food> food;
+	std::unique_ptr<Settlement> settlement;
+	std::unique_ptr<Person> person;
 };
 
 using ObjectSP = std::shared_ptr<Object>;
