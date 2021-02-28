@@ -1,11 +1,8 @@
 #pragma once
 
 #include <Object.h>
-#include <EntitiesDeclarations.h>
-#include <algorithm>
 #include <cstdint>
-#include <vector>
-#include <memory>
+#include <algorithm>
 
 struct UpdateContext;
 

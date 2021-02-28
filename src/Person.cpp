@@ -139,7 +139,7 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 			{
 				for (int32_t i = 0; i < it.number; ++i)
 				{
-					auto farm = std::make_shared<Farm>(5000);
+					auto farm = ConstructFarm(5000);
 					space->AddBuilding(farm);
 					mOwner->ClaimFarm(farm);
 				}

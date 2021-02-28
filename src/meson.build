@@ -3,6 +3,7 @@ src = files(
 	'Space.cpp',
 	'Person.cpp',
 	'Food.cpp',
+	'Farm.cpp',
 	'Settlement.cpp',
 	'Owner.cpp',
 	'Property.cpp',

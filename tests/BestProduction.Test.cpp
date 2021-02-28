@@ -18,7 +18,7 @@ TEST_F(UpdateContextTestFixture, NoProductionIfHasEnough)
 	auto settlement = ConstructSettlement();
 	auto person = ConstructPerson(3000, 80, {});
 	settlement->mSpace->AddPerson(person);
-	auto farm = std::shared_ptr<Farm>(new Farm(10000));
+	auto farm = ConstructFarm(10000);
 	settlement->mSpace->AddBuilding(farm);
 	person->mOwner->ClaimFarm(farm);
 	for (int i = 0; i < 20; i++)
@@ -52,7 +52,7 @@ TEST_F(UpdateContextTestFixture, ProductionIfDoesNotLikeOutputButHasNotEnough)
 	auto person = ConstructPerson(3000, 80, {
 		{ kFoodId, 0.1f }, { kRandomProductId, 0.1f }
 	});
-	auto farm = std::shared_ptr<Farm>(new Farm(10000));
+	auto farm = ConstructFarm(10000);
 	person->mOwner->ClaimFarm(farm);
 	EXPECT_EQ(person->GetBestProduction(uc), kFarmFoodId);
 }
