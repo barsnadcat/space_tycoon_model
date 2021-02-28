@@ -3,7 +3,6 @@
 #include <EntitiesDeclarations.h>
 #include <Object.h>
 
-#include <cassert>
 #include <memory>
 #include <vector>
 #include <map>
@@ -13,9 +12,8 @@ struct UpdateContext;
 class Space
 {
 public:
-	Space(ObjectSP thisObject): mThisObject(thisObject)
+	Space(Object& thisObject): mThisObject(thisObject)
 	{
-		assert(thisObject);
 	}
 	void Update(UpdateContext& uc);
 
@@ -31,7 +29,7 @@ public:
 	void MoveTo(ObjectSP space);
 
 private:
-	ObjectWP mThisObject;
+	Object& mThisObject;
 	std::map<ProductId, ObjectSPs> mProducts;
 	ObjectSPs mPeople;
 };

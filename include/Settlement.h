@@ -6,13 +6,12 @@
 class Settlement
 {
 public:
-	Settlement(ObjectSP thisObject): mThisObject(thisObject)
+	Settlement(Object& thisObject): mThisObject(thisObject)
 	{
-		assert(thisObject);
 	}
 	void Update(UpdateContext& uc);
 private:
-	ObjectWP mThisObject;
+	Object& mThisObject;
 };
 
 ObjectSP ConstructSettlement();

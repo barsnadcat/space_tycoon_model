@@ -5,14 +5,12 @@
 
 #include <memory>
 #include <map>
-#include <cassert>
 
 class Owner
 {
 public:
-	Owner(ObjectSP thisObject): mThisObject(thisObject)
+	Owner(Object& thisObject): mThisObject(thisObject)
 	{
-		assert(thisObject);
 	}
 	void ClaimFood(ObjectSP food);
 	void ClaimFarm(ObjectSP building);
@@ -21,6 +19,6 @@ public:
 	int32_t GetOwned(ProductId productId) const;
 
 private:
-	ObjectWP mThisObject;
+	Object& mThisObject;
 	std::map<ProductId, ObjectWPs> mEntities;
 };

@@ -31,19 +31,19 @@ void Space::Update(UpdateContext& uc)
 
 void Space::AddPerson(ObjectSP p)
 {
-	p->mEntity->SetParent(mThisObject.lock());
+	p->mEntity->SetParent(mThisObject.shared_from_this());
 	mPeople.push_back(p);
 }
 
 void Space::AddFood(ObjectSP p)
 {
-	p->mEntity->SetParent(mThisObject.lock());
+	p->mEntity->SetParent(mThisObject.shared_from_this());
 	mProducts[kFoodId].push_back(p);
 }
 
 void Space::AddBuilding(ObjectSP p)
 {
-	p->mEntity->SetParent(mThisObject.lock());
+	p->mEntity->SetParent(mThisObject.shared_from_this());
 	mProducts[kFarmId].push_back(p);
 }
 
