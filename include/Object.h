@@ -9,6 +9,7 @@ class Property;
 class Owner;
 class Food;
 class Settlement;
+class Person;
 struct UpdateContext;
 
 class Object
@@ -17,7 +18,6 @@ public:
 	Object();
 	~Object();
 	void Update(UpdateContext& uc);
-	virtual void OnObjectUpdated(UpdateContext& uc) {}
 
 	std::unique_ptr<Entity> mEntity;
 	std::unique_ptr<Space> mSpace;
@@ -25,6 +25,7 @@ public:
 	std::unique_ptr<Owner> mOwner;
 	std::unique_ptr<Food> mFood;
 	std::unique_ptr<Settlement> mSettlement;
+	std::unique_ptr<Person> mPerson;
 };
 
 using ObjectSP = std::shared_ptr<Object>;

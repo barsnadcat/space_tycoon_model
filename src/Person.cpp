@@ -10,9 +10,10 @@
 
 const int32_t kMaxEnergy = 200;
 
-std::shared_ptr<Person> ConstructPerson(uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences)
+ObjectSP ConstructPerson(uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences)
 {
-	auto person = std::make_shared<Person>(energy, preferences);
+	auto person = std::make_shared<Object>();
+	person->mPerson = std::make_unique<Person>(person, energy, preferences);
 	person->mEntity = std::make_unique<Entity>(health);
 	person->mOwner = std::make_unique<Owner>(person);
 	return person;
@@ -57,7 +58,7 @@ int32_t Person::GetPersonOwned(ProductId productId) const
 		}
 		else
 		{
-			return mOwner->GetOwned(productId);
+			return mThisObject.lock()->mOwner->GetOwned(productId);
 		}
 	}
 }
@@ -144,7 +145,7 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 				{
 					auto farm = ConstructFarm(5000);
 					space->AddBuilding(farm);
-					mOwner->ClaimFarm(farm);
+					mThisObject.lock()->mOwner->ClaimFarm(farm);
 				}
 			}
 			if (it.productId == kFoodId)
@@ -153,22 +154,22 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 				{
 					auto food = ConstructFood(100);
 					space->AddFood(food);
-					mOwner->ClaimFood(food);
+					mThisObject.lock()->mOwner->ClaimFood(food);
 				}
 			}
 		}
 	}
 }
 
-void Person::OnObjectUpdated(UpdateContext& uc)
+void Person::Update(UpdateContext& uc)
 {
-	if (ObjectSP space = mEntity->GetParent())
+	if (ObjectSP space = mThisObject.lock()->mEntity->GetParent())
 	{
 		Produce(uc, space->mSpace.get(), GetBestProduction(uc));
 	}
 
     // Eat
-	ObjectSP food = mOwner->GetMyNearFood();
+	ObjectSP food = mThisObject.lock()->mOwner->GetMyNearFood();
 	if (food)
 	{
 		mEnergy = std::min(kMaxEnergy, mEnergy + food->mFood->GetEnergy());
@@ -178,7 +179,7 @@ void Person::OnObjectUpdated(UpdateContext& uc)
     // Expend energy or hunger damage
 	if (mEnergy == 0)
 	{
-		mEntity->DamageHealth(1);
+		mThisObject.lock()->mEntity->DamageHealth(1);
 	}
 	else
 	{
@@ -202,7 +203,7 @@ void Person::Scavenge(Space* space)
 	{
 		if (farm->mProperty->GetOwner() == nullptr)
 		{
-			mOwner->ClaimFarm(farm);
+			mThisObject.lock()->mOwner->ClaimFarm(farm);
 			return;
 		}
 	}
@@ -211,7 +212,7 @@ void Person::Scavenge(Space* space)
 	{
 		if (food->mProperty->GetOwner() == nullptr)
 		{
-			mOwner->ClaimFood(food);
+			mThisObject.lock()->mOwner->ClaimFood(food);
 			return;
 		}
 	}

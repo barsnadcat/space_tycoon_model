@@ -6,6 +6,7 @@
 #include <Property.h>
 #include <Owner.h>
 #include <Food.h>
+#include <Person.h>
 #include <UpdateContext.h>
 
 Object::Object() {}
@@ -25,5 +26,8 @@ void Object::Update(UpdateContext& uc)
 	{
 		mSettlement->Update(uc);
 	}
-	OnObjectUpdated(uc);
+	if (mPerson)
+	{
+		mPerson->Update(uc);
+	}
 }

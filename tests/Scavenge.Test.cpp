@@ -22,7 +22,7 @@ TEST_F(UpdateContextTestFixture, ScavengeFood)
 
 	settlement->mSpace->AddFood(food1);
 	settlement->mSpace->AddFood(food2);
-	person2->Produce(uc, settlement->mSpace.get(), kScavengeId);
+	person2->mPerson->Produce(uc, settlement->mSpace.get(), kScavengeId);
 	EXPECT_EQ(food1->mProperty->GetOwner(), person1);
 	EXPECT_EQ(food2->mProperty->GetOwner(), person2);
 }

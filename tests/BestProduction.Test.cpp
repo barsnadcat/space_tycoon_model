@@ -12,7 +12,7 @@
 TEST_F(UpdateContextTestFixture, NoProductionIfNoResources)
 {
 	auto person = ConstructPerson(3000, 0, {});
-	EXPECT_EQ(person->GetBestProduction(uc), kInvalidId);
+	EXPECT_EQ(person->mPerson->GetBestProduction(uc), kInvalidId);
 }
 
 TEST_F(UpdateContextTestFixture, NoProductionIfHasEnough)
@@ -30,7 +30,7 @@ TEST_F(UpdateContextTestFixture, NoProductionIfHasEnough)
 		person->mOwner->ClaimFood(food);
 	}
 
-	EXPECT_EQ(person->GetBestProduction(uc), kInvalidId);
+	EXPECT_EQ(person->mPerson->GetBestProduction(uc), kInvalidId);
 }
 
 TEST_F(UpdateContextTestFixture, NoProductionIfDoesNotLikeOutput)
@@ -38,7 +38,7 @@ TEST_F(UpdateContextTestFixture, NoProductionIfDoesNotLikeOutput)
 	auto person = ConstructPerson(3000, 80, {
 		{ kFarmId, 0.01f }, { kFoodId, 0.01f }
 	});
-	EXPECT_EQ(person->GetBestProduction(uc), kScavengeId);
+	EXPECT_EQ(person->mPerson->GetBestProduction(uc), kScavengeId);
 }
 
 TEST_F(UpdateContextTestFixture, NoProductionIfNoTools)
@@ -46,7 +46,7 @@ TEST_F(UpdateContextTestFixture, NoProductionIfNoTools)
 	auto person = ConstructPerson(3000, 80, {
 		{ kFarmId, 0.01f }, { kRandomProductId, 0.01f }
 	});
-	EXPECT_EQ(person->GetBestProduction(uc), kInvalidId);
+	EXPECT_EQ(person->mPerson->GetBestProduction(uc), kInvalidId);
 }
 
 TEST_F(UpdateContextTestFixture, ProductionIfDoesNotLikeOutputButHasNotEnough)
@@ -56,5 +56,5 @@ TEST_F(UpdateContextTestFixture, ProductionIfDoesNotLikeOutputButHasNotEnough)
 	});
 	auto farm = ConstructFarm(10000);
 	person->mOwner->ClaimFarm(farm);
-	EXPECT_EQ(person->GetBestProduction(uc), kFarmFoodId);
+	EXPECT_EQ(person->mPerson->GetBestProduction(uc), kFarmFoodId);
 }
