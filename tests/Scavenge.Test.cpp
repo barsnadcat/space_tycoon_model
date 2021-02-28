@@ -1,12 +1,14 @@
 #include <easylogging++.h>
 #include <UpdateContextTestFixture.h>
 
-#include <Object.h>
 #include <Person.h>
 #include <Settlement.h>
+#include <Property.h>
 #include <Farm.h>
 #include <Entity.h>
 #include <Space.h>
+#include <Food.h>
+#include <Owner.h>
 
 TEST_F(UpdateContextTestFixture, ScavengeFood)
 {

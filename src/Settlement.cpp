@@ -1,8 +1,7 @@
 #include <Settlement.h>
-#include <Entity.h>
-#include <Food.h>
+
 #include <Space.h>
-#include <Owner.h>
+#include <Food.h>
 
 ObjectSP ConstructSettlement()
 {

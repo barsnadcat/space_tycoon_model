@@ -1,11 +1,12 @@
 #pragma once
 
-#include <Owner.h>
-#include <Entity.h>
-#include <Food.h>
+#include <EntitiesDeclarations.h>
+#include <Object.h>
 
-#include <memory>
-#include <vector>
+#include <cstdint>
+#include <map>
+
+class Space;
 
 std::map<ProductId, float> Mutate(UpdateContext& uc, std::map<ProductId, float>);
 std::map<ProductId, float> RandomPreferences(UpdateContext& uc);

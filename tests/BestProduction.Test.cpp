@@ -4,8 +4,10 @@
 #include <Settlement.h>
 #include <Space.h>
 #include <Entity.h>
+#include <Owner.h>
 #include <Person.h>
 #include <Farm.h>
+#include <Food.h>
 
 TEST_F(UpdateContextTestFixture, NoProductionIfNoResources)
 {

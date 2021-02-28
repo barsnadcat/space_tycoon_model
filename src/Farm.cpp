@@ -1,9 +1,7 @@
 #include <Farm.h>
-#include <Property.h>
-#include <Entity.h>
-#include <Space.h>
-#include <Settlement.h>
 
+#include <Entity.h>
+#include <Property.h>
 
 ObjectSP ConstructFarm(uint32_t health)
 {

@@ -1,10 +1,6 @@
 #include <Space.h>
 
-#include <Settlement.h>
-#include <Owner.h>
-#include <Food.h>
-#include <Person.h>
-#include <Farm.h>
+#include <Entity.h>
 
 void UpdateObjects(ObjectSPs& container, UpdateContext& uc)
 {

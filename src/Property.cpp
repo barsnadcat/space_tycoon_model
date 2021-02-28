@@ -1,4 +1,3 @@
-#include <Owner.h>
 #include <Property.h>
 
 ObjectSP Property::GetOwner() const

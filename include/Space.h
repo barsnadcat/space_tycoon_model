@@ -1,7 +1,7 @@
 #pragma once
 
 #include <EntitiesDeclarations.h>
-#include <Property.h>
+#include <Object.h>
 
 #include <cassert>
 #include <memory>

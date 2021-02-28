@@ -6,6 +6,8 @@
 #include <Farm.h>
 #include <Person.h>
 #include <Settlement.h>
+#include <Food.h>
+#include <Entity.h>
 
 TEST_F(UpdateContextTestFixture, HungerDamageSlow)
 {

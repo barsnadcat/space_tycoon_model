@@ -1,9 +1,12 @@
 #include <Person.h>
 
 #include <UpdateContext.h>
+#include <Entity.h>
+#include <Owner.h>
 #include <Space.h>
-#include <Settlement.h>
 #include <Farm.h>
+#include <Food.h>
+#include <Property.h>
 
 const int32_t kMaxEnergy = 200;
 
