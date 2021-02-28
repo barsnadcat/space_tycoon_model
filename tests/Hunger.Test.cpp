@@ -5,11 +5,12 @@
 #include <Owner.h>
 #include <Farm.h>
 #include <Person.h>
+#include <Settlement.h>
 
 TEST_F(UpdateContextTestFixture, HungerDamageSlow)
 {
     // Huger person looses health
-	std::shared_ptr<Person> person = ConstructPerson(100, 0, {});
+	auto person = ConstructPerson(100, 0, {});
 	for (int32_t i = 0; i < 10; ++i)
 	{
 		person->Update(uc);
@@ -20,7 +21,7 @@ TEST_F(UpdateContextTestFixture, HungerDamageSlow)
 TEST_F(UpdateContextTestFixture, Eating)
 {
     // Each date person eats one food
-	std::shared_ptr<Person> person = ConstructPerson(100, 0, {});
+	auto person = ConstructPerson(100, 0, {});
 	auto food1 = ConstructFood(100);
 	auto food2 = ConstructFood(100);
 	auto food3 = ConstructFood(100);
@@ -36,7 +37,7 @@ TEST_F(UpdateContextTestFixture, Eating)
 TEST_F(UpdateContextTestFixture, EatingMixed)
 {
     // Each date person eats one food
-	std::shared_ptr<Person> person = ConstructPerson(100, 0, {});
+	auto person = ConstructPerson(100, 0, {});
 	person->Update(uc);
 	person->Update(uc);
 	auto food1 = ConstructFood(100);

@@ -1,13 +1,16 @@
 #include <easylogging++.h>
 #include <UpdateContextTestFixture.h>
 
+#include <Object.h>
 #include <Person.h>
 #include <Settlement.h>
 #include <Farm.h>
+#include <Entity.h>
+#include <Space.h>
 
 TEST_F(UpdateContextTestFixture, ScavengeFood)
 {
-	auto settlement = ConstructSettelment();
+	auto settlement = ConstructSettlement();
 	auto person1 = ConstructPerson(3000, 0, {});
 	auto person2 = ConstructPerson(3000, 0, {});
 	auto food1 = ConstructFood(100);

@@ -2,6 +2,7 @@
 
 #include <Entity.h>
 #include <Space.h>
+#include <Settlement.h>
 
 void Object::Update(UpdateContext& uc)
 {
@@ -12,6 +13,10 @@ void Object::Update(UpdateContext& uc)
 	if (mSpace)
 	{
 		mSpace->Update(uc);
+	}
+	if (mSettlement)
+	{
+		mSettlement->Update(uc);
 	}
 	OnObjectUpdated(uc);
 }

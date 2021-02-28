@@ -1,6 +1,7 @@
 #include <Space.h>
-#include <Owner.h>
 
+#include <Settlement.h>
+#include <Owner.h>
 #include <Food.h>
 #include <Person.h>
 #include <Farm.h>

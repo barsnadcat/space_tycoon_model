@@ -8,6 +8,7 @@ class Space;
 class Property;
 class Owner;
 class Food;
+class Settlement;
 struct UpdateContext;
 
 class Object
@@ -21,6 +22,7 @@ public:
 	std::unique_ptr<Property> mProperty;
 	std::unique_ptr<Owner> mOwner;
     std::unique_ptr<Food> mFood;
+    std::unique_ptr<Settlement> mSettlement;
 };
 
 using ObjectSP = std::shared_ptr<Object>;

@@ -4,14 +4,15 @@
 #include <Space.h>
 #include <Owner.h>
 
-std::shared_ptr<Settlement> ConstructSettelment()
+ObjectSP ConstructSettlement()
 {
-	auto settelment = std::make_shared<Settlement>();
-	settelment->mSpace = std::make_unique<Space>(settelment);
-	return settelment;
+	auto settlement = std::make_shared<Object>();
+	settlement->mSpace = std::make_unique<Space>(settlement);
+	settlement->mSettlement = std::make_unique<Settlement>(settlement);
+	return settlement;
 }
 
-void Settlement::OnObjectUpdated(UpdateContext& uc)
+void Settlement::Update(UpdateContext& uc)
 {
-	mSpace->AddFood(ConstructFood(100));
+	mThisObject.lock()->mSpace->AddFood(ConstructFood(100));
 }

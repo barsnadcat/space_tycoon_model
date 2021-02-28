@@ -2,6 +2,8 @@
 #include <UpdateContextTestFixture.h>
 
 #include <Settlement.h>
+#include <Space.h>
+#include <Entity.h>
 #include <Person.h>
 #include <Farm.h>
 
@@ -13,7 +15,7 @@ TEST_F(UpdateContextTestFixture, NoProductionIfNoResources)
 
 TEST_F(UpdateContextTestFixture, NoProductionIfHasEnough)
 {
-	auto settlement = ConstructSettelment();
+	auto settlement = ConstructSettlement();
 	auto person = ConstructPerson(3000, 80, {});
 	settlement->mSpace->AddPerson(person);
 	auto farm = std::shared_ptr<Farm>(new Farm(10000));

@@ -2,6 +2,7 @@
 
 #include <UpdateContext.h>
 #include <Space.h>
+#include <Settlement.h>
 #include <Farm.h>
 
 const int32_t kMaxEnergy = 200;

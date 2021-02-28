@@ -1,12 +1,18 @@
 #pragma once
 
 #include <Object.h>
-#include <Space.h>
+#include <cassert>
 
-class Settlement: public Object
+class Settlement
 {
 public:
-	virtual void OnObjectUpdated(UpdateContext& uc) override;
+	Settlement(ObjectSP thisObject): mThisObject(thisObject)
+	{
+		assert(thisObject);
+	}
+	void Update(UpdateContext& uc);
+private:
+	ObjectWP mThisObject;
 };
 
-std::shared_ptr<Settlement> ConstructSettelment();
+ObjectSP ConstructSettlement();
