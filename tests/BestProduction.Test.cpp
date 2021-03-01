@@ -22,12 +22,12 @@ TEST_F(UpdateContextTestFixture, NoProductionIfHasEnough)
 	settlement->space->AddPerson(person);
 	auto farm = ConstructFarm(10000);
 	settlement->space->AddBuilding(farm);
-	person->owner->ClaimFarm(farm);
+	person->owner->Claim(kFarmId, farm);
 	for (int i = 0; i < 20; i++)
 	{
 		auto food = ConstructFood(500);
 		settlement->space->AddFood(food);
-		person->owner->ClaimFood(food);
+		person->owner->Claim(kFoodId, food);
 	}
 
 	EXPECT_EQ(person->person->GetBestProduction(uc), kInvalidId);
@@ -55,6 +55,6 @@ TEST_F(UpdateContextTestFixture, ProductionIfDoesNotLikeOutputButHasNotEnough)
 		{ kFoodId, 0.1f }, { kRandomProductId, 0.1f }
 	});
 	auto farm = ConstructFarm(10000);
-	person->owner->ClaimFarm(farm);
+	person->owner->Claim(kFarmId, farm);
 	EXPECT_EQ(person->person->GetBestProduction(uc), kFarmFoodId);
 }

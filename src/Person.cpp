@@ -58,7 +58,7 @@ int32_t Person::GetPersonOwned(ProductId productId) const
 		}
 		else
 		{
-			return mThisObject.owner->GetOwned(productId);
+			return mThisObject.owner->GetOwnedCount(productId);
 		}
 	}
 }
@@ -145,7 +145,7 @@ void Person::Produce(UpdateContext& uc, Object& workSpace, ProductionId producti
 				{
 					auto farm = ConstructFarm(5000);
 					workSpace.space->AddBuilding(farm);
-					mThisObject.owner->ClaimFarm(farm);
+					mThisObject.owner->Claim(kFarmId, farm);
 				}
 			}
 			if (it.productId == kFoodId)
@@ -154,7 +154,7 @@ void Person::Produce(UpdateContext& uc, Object& workSpace, ProductionId producti
 				{
 					auto food = ConstructFood(100);
 					workSpace.space->AddFood(food);
-					mThisObject.owner->ClaimFood(food);
+					mThisObject.owner->Claim(kFoodId, food);
 				}
 			}
 		}
@@ -203,7 +203,7 @@ void Person::Scavenge(Object& workSpace)
 	{
 		if (farm->property->GetOwner() == nullptr)
 		{
-			mThisObject.owner->ClaimFarm(farm);
+			mThisObject.owner->Claim(kFarmId, farm);
 			return;
 		}
 	}
@@ -212,7 +212,7 @@ void Person::Scavenge(Object& workSpace)
 	{
 		if (food->property->GetOwner() == nullptr)
 		{
-			mThisObject.owner->ClaimFood(food);
+			mThisObject.owner->Claim(kFoodId, food);
 			return;
 		}
 	}

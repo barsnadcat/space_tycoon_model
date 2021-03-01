@@ -4,16 +4,35 @@
 #include <Space.h>
 #include <Entity.h>
 
-void Owner::ClaimFood(ObjectSP food)
+void Owner::Claim(ProductId productId, ObjectSP object)
 {
-	food->property->SetOwner(mThisObject.shared_from_this());
-	mEntities[kFoodId].push_back(food);
+	object->property->SetOwner(mThisObject.shared_from_this());
+	mEntities[productId].push_back(object);
 }
 
-void Owner::ClaimFarm(ObjectSP farm)
+int32_t Owner::GetOwnedCount(ProductId productId) const
 {
-	farm->property->SetOwner(mThisObject.shared_from_this());
-	mEntities[kFarmId].push_back(farm);
+	if (productId == kRandomProductId)
+	{
+		int32_t total = 0;
+		for (const auto& p : mEntities)
+		{
+			total += p.second.size();
+		}
+		return total;
+	}
+	else
+	{
+		const auto& it = mEntities.find(productId);
+		if (it == mEntities.end())
+		{
+			return 0;
+		}
+		else
+		{
+			return it->second.size();
+		}
+	}
 }
 
 ObjectSP Owner::GetMyNearFood()
@@ -38,29 +57,4 @@ ObjectSP Owner::GetMyNearFood()
 		}
 	}
 	return nullptr;
-}
-
-int32_t Owner::GetOwned(ProductId productId) const
-{
-	if (productId == kRandomProductId)
-	{
-		int32_t total = 0;
-		for (const auto& p : mEntities)
-		{
-			total += p.second.size();
-		}
-		return total;
-	}
-	else
-	{
-		const auto& it = mEntities.find(productId);
-		if (it == mEntities.end())
-		{
-			return 0;
-		}
-		else
-		{
-			return it->second.size();
-		}
-	}
 }

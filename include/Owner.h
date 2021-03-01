@@ -9,15 +9,11 @@
 class Owner
 {
 public:
-	Owner(Object& thisObject): mThisObject(thisObject)
-	{
-	}
-	void ClaimFood(ObjectSP food);
-	void ClaimFarm(ObjectSP building);
-	ObjectWPs& GetMyFoods() { return mEntities[kFoodId]; }
+	Owner(Object& thisObject): mThisObject(thisObject) {}
+	void Claim(ProductId productId, ObjectSP object);
+	ObjectWPs& GetOwned(ProductId productId) { return mEntities[productId]; }
+	int32_t GetOwnedCount(ProductId productId) const;
 	ObjectSP GetMyNearFood();
-	int32_t GetOwned(ProductId productId) const;
-
 private:
 	Object& mThisObject;
 	std::map<ProductId, ObjectWPs> mEntities;
