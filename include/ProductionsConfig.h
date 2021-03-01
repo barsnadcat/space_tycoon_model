@@ -5,7 +5,7 @@
 
 struct ProductionConfig
 {
-	ProductId productId = kInvalidId;
+	ObjectId productId = kInvalidId;
 	int32_t number = 0;
 	bool tool = false;
 };

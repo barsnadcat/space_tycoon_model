@@ -5,7 +5,7 @@
 
 ObjectSP ConstructSettlement()
 {
-	auto settlement = std::make_shared<Object>();
+	auto settlement = std::make_shared<Object>(kSettlementId);
 	settlement->space = std::make_unique<Space>(*settlement);
 	settlement->settlement = std::make_unique<Settlement>(*settlement);
 	return settlement;
@@ -13,5 +13,5 @@ ObjectSP ConstructSettlement()
 
 void Settlement::Update(UpdateContext& uc)
 {
-	mThisObject.space->Add(kFoodId, ConstructFood(100));
+	mThisObject.space->Add(ConstructFood(100));
 }

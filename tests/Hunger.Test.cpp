@@ -27,9 +27,9 @@ TEST_F(UpdateContextTestFixture, Eating)
 	auto food1 = ConstructFood(100);
 	auto food2 = ConstructFood(100);
 	auto food3 = ConstructFood(100);
-	person->owner->Claim(kFoodId, food1);
-	person->owner->Claim(kFoodId, food2);
-	person->owner->Claim(kFoodId, food3);
+	person->owner->Claim(food1);
+	person->owner->Claim(food2);
+	person->owner->Claim(food3);
 	person->Update(uc);
 	person->Update(uc);
 	person->Update(uc);
@@ -43,7 +43,7 @@ TEST_F(UpdateContextTestFixture, EatingMixed)
 	person->Update(uc);
 	person->Update(uc);
 	auto food1 = ConstructFood(100);
-	person->owner->Claim(kFoodId, food1);
+	person->owner->Claim(food1);
 	person->Update(uc);
 	EXPECT_EQ(person->entity->GetHealth(), 95u);
 }

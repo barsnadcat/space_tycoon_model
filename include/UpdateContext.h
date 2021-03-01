@@ -14,6 +14,6 @@ struct UpdateContext
 	}
 	uint32_t currentTime { 0 };
 	std::mt19937 randomEngine;
-	std::map<ProductId, ObjectiveUtility> objectiveUtilities;
+	std::map<ObjectId, ObjectiveUtility> objectiveUtilities;
 	std::map<ProductionId, std::vector<ProductionConfig>> productions;
 };

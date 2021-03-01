@@ -31,8 +31,8 @@ void Space::Update(UpdateContext& uc)
 	}
 }
 
-void Space::Add(ProductId productId, ObjectSP object)
+void Space::Add(ObjectSP object)
 {
 	object->entity->SetParent(mThisObject.shared_from_this());
-	mContent[productId].push_back(object);
+	mContent[object->id].push_back(object);
 }

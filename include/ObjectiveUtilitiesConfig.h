@@ -4,4 +4,4 @@
 #include <EntitiesDeclarations.h>
 #include <ObjectiveUtility.h>
 
-std::map<ProductId, ObjectiveUtility> GetObjectiveUtilities();
+std::map<ObjectId, ObjectiveUtility> GetObjectiveUtilities();

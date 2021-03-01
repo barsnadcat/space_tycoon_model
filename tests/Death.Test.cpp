@@ -10,8 +10,8 @@
 TEST_F(UpdateContextTestFixture, Death)
 {
 	auto settlement = ConstructSettlement();
-	settlement->space->Add(kFamilyMemberId, ConstructPerson(0, 0, {}));
-	EXPECT_FALSE(settlement->space->Get(kFamilyMemberId).empty());
+	settlement->space->Add(ConstructPerson(0, 0, {}));
+	EXPECT_FALSE(settlement->space->Get(kPersonId).empty());
 	settlement->Update(uc);
-	EXPECT_TRUE(settlement->space->Get(kFamilyMemberId).empty());
+	EXPECT_TRUE(settlement->space->Get(kPersonId).empty());
 }

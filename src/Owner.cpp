@@ -4,15 +4,15 @@
 #include <Space.h>
 #include <Entity.h>
 
-void Owner::Claim(ProductId productId, ObjectSP object)
+void Owner::Claim(ObjectSP object)
 {
 	object->property->SetOwner(mThisObject.shared_from_this());
-	mProperty[productId].push_back(object);
+	mProperty[object->id].push_back(object);
 }
 
-int32_t Owner::GetOwnedCount(ProductId productId) const
+int32_t Owner::GetOwnedCount(ObjectId objectId) const
 {
-	if (productId == kRandomProductId)
+	if (objectId == kRandomProductId)
 	{
 		int32_t total = 0;
 		for (const auto& p : mProperty)
@@ -23,7 +23,7 @@ int32_t Owner::GetOwnedCount(ProductId productId) const
 	}
 	else
 	{
-		const auto& it = mProperty.find(productId);
+		const auto& it = mProperty.find(objectId);
 		if (it == mProperty.end())
 		{
 			return 0;

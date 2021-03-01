@@ -9,7 +9,7 @@
 #include <Person.h>
 #include <UpdateContext.h>
 
-Object::Object() {}
+Object::Object(ObjectId objectId): id(objectId) {}
 Object::~Object() {}
 
 void Object::Update(UpdateContext& uc)

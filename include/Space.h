@@ -14,9 +14,9 @@ class Space
 public:
 	Space(Object& thisObject): mThisObject(thisObject) {}
 	void Update(UpdateContext& uc);
-	void Add(ProductId productId, ObjectSP object);
-	ObjectSPs& Get(ProductId productId) { return mContent[productId]; }
+	void Add(ObjectSP object);
+	ObjectSPs& Get(ObjectId objectId) { return mContent[objectId]; }
 private:
 	Object& mThisObject;
-	std::map<ProductId, ObjectSPs> mContent;
+	std::map<ObjectId, ObjectSPs> mContent;
 };

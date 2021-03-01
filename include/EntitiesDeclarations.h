@@ -2,13 +2,14 @@
 
 #include <cstddef>
 
-using ProductId = std::size_t;
-const ProductId kInvalidId = 0;
-const ProductId kFoodId = 1;
-const ProductId kFarmId = 2;
-const ProductId kEffortId = 3;
-const ProductId kFamilyMemberId = 4;
-const ProductId kRandomProductId = 5;
+using ObjectId = std::size_t;
+const ObjectId kInvalidId = 0;
+const ObjectId kFoodId = 1;
+const ObjectId kFarmId = 2;
+const ObjectId kEffortId = 3;
+const ObjectId kPersonId = 4;
+const ObjectId kRandomProductId = 5;
+const ObjectId kSettlementId = 6;
 
 using ProductionId = std::size_t;
 const ProductionId kBuildFarmId = 1;

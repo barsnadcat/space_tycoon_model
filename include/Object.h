@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <EntitiesDeclarations.h>
 
 class Entity;
 class Space;
@@ -15,10 +16,10 @@ struct UpdateContext;
 class Object: public std::enable_shared_from_this<Object>
 {
 public:
-	Object();
+	Object(ObjectId objectId);
 	~Object();
 	void Update(UpdateContext& uc);
-
+	const ObjectId id;
 	std::unique_ptr<Entity> entity;
 	std::unique_ptr<Space> space;
 	std::unique_ptr<Property> property;
