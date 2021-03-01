@@ -7,7 +7,7 @@
 void Owner::Claim(ProductId productId, ObjectSP object)
 {
 	object->property->SetOwner(mThisObject.shared_from_this());
-	mEntities[productId].push_back(object);
+	mProperty[productId].push_back(object);
 }
 
 int32_t Owner::GetOwnedCount(ProductId productId) const
@@ -15,7 +15,7 @@ int32_t Owner::GetOwnedCount(ProductId productId) const
 	if (productId == kRandomProductId)
 	{
 		int32_t total = 0;
-		for (const auto& p : mEntities)
+		for (const auto& p : mProperty)
 		{
 			total += p.second.size();
 		}
@@ -23,8 +23,8 @@ int32_t Owner::GetOwnedCount(ProductId productId) const
 	}
 	else
 	{
-		const auto& it = mEntities.find(productId);
-		if (it == mEntities.end())
+		const auto& it = mProperty.find(productId);
+		if (it == mProperty.end())
 		{
 			return 0;
 		}
@@ -37,7 +37,7 @@ int32_t Owner::GetOwnedCount(ProductId productId) const
 
 ObjectSP Owner::GetMyNearFood()
 {
-	for (auto it = mEntities[kFoodId].begin(); it != mEntities[kFoodId].end();)
+	for (auto it = mProperty[kFoodId].begin(); it != mProperty[kFoodId].end();)
 	{
 		ObjectSP food = (*it).lock();
 		if (food)
@@ -53,7 +53,7 @@ ObjectSP Owner::GetMyNearFood()
 		}
 		else
 		{
-			it = mEntities[kFoodId].erase(it);
+			it = mProperty[kFoodId].erase(it);
 		}
 	}
 	return nullptr;

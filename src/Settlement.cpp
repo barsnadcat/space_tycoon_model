@@ -13,5 +13,5 @@ ObjectSP ConstructSettlement()
 
 void Settlement::Update(UpdateContext& uc)
 {
-	mThisObject.space->AddFood(ConstructFood(100));
+	mThisObject.space->Add(kFoodId, ConstructFood(100));
 }

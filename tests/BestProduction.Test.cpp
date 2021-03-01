@@ -19,14 +19,14 @@ TEST_F(UpdateContextTestFixture, NoProductionIfHasEnough)
 {
 	auto settlement = ConstructSettlement();
 	auto person = ConstructPerson(3000, 80, {});
-	settlement->space->AddPerson(person);
+	settlement->space->Add(kFamilyMemberId, person);
 	auto farm = ConstructFarm(10000);
-	settlement->space->AddBuilding(farm);
+	settlement->space->Add(kFarmId, farm);
 	person->owner->Claim(kFarmId, farm);
 	for (int i = 0; i < 20; i++)
 	{
 		auto food = ConstructFood(500);
-		settlement->space->AddFood(food);
+		settlement->space->Add(kFoodId, food);
 		person->owner->Claim(kFoodId, food);
 	}
 

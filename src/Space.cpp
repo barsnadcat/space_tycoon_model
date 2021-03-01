@@ -21,49 +21,18 @@ void DeleteObjects(ObjectSPs& container)
 
 void Space::Update(UpdateContext& uc)
 {
-	UpdateObjects(mPeople, uc);
-	UpdateObjects(mProducts[kFoodId], uc);
-	UpdateObjects(mProducts[kFarmId], uc);
-	DeleteObjects(mPeople);
-	DeleteObjects(mProducts[kFoodId]);
-	DeleteObjects(mProducts[kFarmId]);
-}
-
-void Space::AddPerson(ObjectSP p)
-{
-	p->entity->SetParent(mThisObject.shared_from_this());
-	mPeople.push_back(p);
-}
-
-void Space::AddFood(ObjectSP p)
-{
-	p->entity->SetParent(mThisObject.shared_from_this());
-	mProducts[kFoodId].push_back(p);
-}
-
-void Space::AddBuilding(ObjectSP p)
-{
-	p->entity->SetParent(mThisObject.shared_from_this());
-	mProducts[kFarmId].push_back(p);
-}
-
-void Space::MoveTo(ObjectSP destination)
-{
-	for (auto& p : mProducts[kFoodId])
+	for(auto& it: mContent)
 	{
-		p->entity->SetParent(destination);
+		UpdateObjects(it.second, uc);
 	}
-	std::move(mProducts[kFoodId].begin(), mProducts[kFoodId].end(), std::back_inserter(destination->space->mProducts[kFoodId]));
-
-	for (auto& p : mPeople)
+	for(auto& it: mContent)
 	{
-		p->entity->SetParent(destination);
+		DeleteObjects(it.second);
 	}
-	std::move(mPeople.begin(), mPeople.end(), std::back_inserter(destination->space->mPeople));
+}
 
-	for (auto& p : mProducts[kFarmId])
-	{
-		p->entity->SetParent(destination);
-	}
-	std::move(mProducts[kFarmId].begin(), mProducts[kFarmId].end(), std::back_inserter(destination->space->mProducts[kFarmId]));
+void Space::Add(ProductId productId, ObjectSP object)
+{
+	object->entity->SetParent(mThisObject.shared_from_this());
+	mContent[productId].push_back(object);
 }

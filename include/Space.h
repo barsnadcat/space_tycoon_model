@@ -12,24 +12,11 @@ struct UpdateContext;
 class Space
 {
 public:
-	Space(Object& thisObject): mThisObject(thisObject)
-	{
-	}
+	Space(Object& thisObject): mThisObject(thisObject) {}
 	void Update(UpdateContext& uc);
-
-	void AddPerson(ObjectSP p);
-	ObjectSPs& GetPeople() { return mPeople; }
-
-	void AddFood(ObjectSP p);
-	ObjectSPs& GetFoods() { return mProducts[kFoodId]; }
-
-	void AddBuilding(ObjectSP p);
-	ObjectSPs& GetFarms() { return mProducts[kFarmId]; }
-
-	void MoveTo(ObjectSP space);
-
+	void Add(ProductId productId, ObjectSP object);
+	ObjectSPs& Get(ProductId productId) { return mContent[productId]; }
 private:
 	Object& mThisObject;
-	std::map<ProductId, ObjectSPs> mProducts;
-	ObjectSPs mPeople;
+	std::map<ProductId, ObjectSPs> mContent;
 };

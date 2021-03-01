@@ -144,7 +144,7 @@ void Person::Produce(UpdateContext& uc, Object& workSpace, ProductionId producti
 				for (int32_t i = 0; i < it.number; ++i)
 				{
 					auto farm = ConstructFarm(5000);
-					workSpace.space->AddBuilding(farm);
+					workSpace.space->Add(kFarmId, farm);
 					mThisObject.owner->Claim(kFarmId, farm);
 				}
 			}
@@ -153,7 +153,7 @@ void Person::Produce(UpdateContext& uc, Object& workSpace, ProductionId producti
 				for (int32_t i = 0; i < it.number; ++i)
 				{
 					auto food = ConstructFood(100);
-					workSpace.space->AddFood(food);
+					workSpace.space->Add(kFoodId, food);
 					mThisObject.owner->Claim(kFoodId, food);
 				}
 			}
@@ -193,13 +193,13 @@ void Person::Reproduce(UpdateContext& uc, Object& workSpace)
 	{
 		mEnergy = 0;
 		mChildren++;
-		workSpace.space->AddPerson(ConstructPerson(30000, 100, Mutate(uc, mPreferences)));
+		workSpace.space->Add(kFamilyMemberId, ConstructPerson(30000, 100, Mutate(uc, mPreferences)));
 	}
 }
 
 void Person::Scavenge(Object& workSpace)
 {
-	for (ObjectSP& farm : workSpace.space->GetFarms())
+	for (ObjectSP& farm : workSpace.space->Get(kFarmId))
 	{
 		if (farm->property->GetOwner() == nullptr)
 		{
@@ -208,7 +208,7 @@ void Person::Scavenge(Object& workSpace)
 		}
 	}
 
-	for (ObjectSP& food : workSpace.space->GetFoods())
+	for (ObjectSP& food : workSpace.space->Get(kFoodId))
 	{
 		if (food->property->GetOwner() == nullptr)
 		{

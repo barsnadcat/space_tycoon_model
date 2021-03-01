@@ -20,8 +20,8 @@ TEST_F(UpdateContextTestFixture, ScavengeFood)
 	person1->owner->Claim(kFoodId, food1);
 	EXPECT_EQ(food1->property->GetOwner(), person1);
 
-	settlement->space->AddFood(food1);
-	settlement->space->AddFood(food2);
+	settlement->space->Add(kFoodId, food1);
+	settlement->space->Add(kFoodId, food2);
 	person2->person->Produce(uc, *settlement, kScavengeId);
 	EXPECT_EQ(food1->property->GetOwner(), person1);
 	EXPECT_EQ(food2->property->GetOwner(), person2);
