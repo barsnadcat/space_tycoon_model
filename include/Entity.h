@@ -1,21 +1,18 @@
 #pragma once
 
-#include <Property.h>
-
 #include <algorithm>
 #include <cstdint>
-#include <vector>
 
-struct UpdateContext;
-class Space;
+#include <UpdateContext.h>
 
-class Entity: public Property
+class Entity
 {
 public:
-	using Shared = std::shared_ptr<Entity>;
-
-	Entity(uint32_t health): mHealth(health), mMaxHealth(health) {}
+	Entity() = default;
+	Entity(uint32_t health, uint32_t decayRate): mHealth(health), mMaxHealth(health), mDecayRate(decayRate) {}
 	virtual ~Entity() = default;
+	uint32_t GetDecayRate() const { return mDecayRate; }
+	uint32_t SetDecayRate(uint32_t decaryRate) { mDecayRate = decaryRate; }
 	uint32_t GetHealth() const { return mHealth; }
 	uint32_t GetMaxHealth() const { return mMaxHealth; }
 	void SetHealth(uint32_t health) { mHealth = std::min(health, mMaxHealth); }
@@ -35,6 +32,7 @@ public:
 			mHealth -= health;
 		}
 	}
+
 	void DamageMaxHealth(uint32_t health)
 	{
 		if (health > mMaxHealth)
@@ -49,19 +47,32 @@ public:
 
 	void Update(UpdateContext& uc)
 	{
-		DamageHealth(1);
-		DamageMaxHealth(1);
+		if (mDecayRate > 0)
+		{
+			DamageHealth(mDecayRate);
+			DamageMaxHealth(mDecayRate);
+		}
 		OnEntityUpdated(uc);
 	}
 
-	void SetParent(Space* space) { mParent = space; }
-	Space* GetParent() { return mParent; }
-
 private:
 	virtual void OnEntityUpdated(UpdateContext& uc) {}
-
-private:
-	Space* mParent = nullptr;
-	uint32_t mHealth { 0 };
-	uint32_t mMaxHealth { 0 };
+	uint32_t mHealth = 0;
+	uint32_t mMaxHealth = 0;
+	uint32_t mDecayRate = 1;
 };
+
+
+template<typename T>
+void UpdateEntities(T& container, UpdateContext& uc)
+{
+	for (auto const& e: container)
+	{
+		e->Update(uc);
+	}
+	auto predicate = [](auto const& e)
+	{
+		return e->GetHealth() == 0;
+	};
+	container.erase(std::remove_if(std::begin(container), std::end(container), predicate), std::end(container));
+}

@@ -1,40 +1,32 @@
 #pragma once
 
-#include <EntitiesDeclarations.h>
-#include <Property.h>
+#include <Entity.h>
+#include <Land.h>
 
 #include <cassert>
 #include <memory>
 #include <vector>
-#include <map>
 
+using LandPtr = std::unique_ptr<Land>;
+using Lands = std::vector<LandPtr>;
 
-struct UpdateContext;
-using People = std::vector<PersonSP>;
-
-class Space: public Property
+class Space: public Entity
 {
 public:
-	virtual ~Space() {}
-	void Update(UpdateContext& uc);
-
-	void AddPerson(PersonSP p);
-	People& GetPeople() { return mPeople; }
-
-	void AddFood(FoodSP p);
-	EntitySPs& GetFoods() { return mProducts[kFoodId]; }
-
-	void AddBuilding(FarmSP p);
-	EntitySPs& GetFarms() { return mProducts[kFarmId]; }
-
-	void MoveTo(Space& space);
-
+	Space(size_t landSize): Entity(1, 0) 
+	{
+		mLands.resize(landSize);
+		for (size_t i = 0; i < landSize; i++)
+		{
+			mLands[i].reset(new Land(this, i));
+		}
+	}
+	virtual ~Space() = default;
+	Lands& GetLands() { return mLands; }
+	Land* GetLand(size_t index) { return mLands[index].get(); }
+	size_t GetNeighbour(size_t index) { return std::max(mLands.size(), index + 1); }
 private:
-	template<typename T>
-	void DeleteEntities(std::vector<std::shared_ptr<T>>& container);
-	virtual void OnSpaceUpdated(UpdateContext& uc){}
-
-private:
-	std::map<ProductId, EntitySPs> mProducts;
-	People mPeople;
+	virtual void OnEntityUpdated(UpdateContext& uc) override { UpdateEntities(mLands, uc); OnSpaceUpdated(uc); }
+	virtual void OnSpaceUpdated(UpdateContext& uc) {}
+	Lands mLands;
 };

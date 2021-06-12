@@ -1,13 +1,15 @@
 #include <easylogging++.h>
 #include <UpdateContextTestFixture.h>
 
-#include <Settlement.h>
+#include <Building.h>
+#include <Person.h>
 
 TEST_F(UpdateContextTestFixture, Birth)
 {
-	Settlement settlement;
-	EXPECT_TRUE(settlement.GetPeople().empty());
-	auto person = std::shared_ptr<Person>(new Person(30000, 200, {}));
-	person->Produce(uc, &settlement, kReproductionId);
-	EXPECT_FALSE(settlement.GetPeople().empty());
+	Building building(1, 0);
+	EXPECT_TRUE(building.GetOwners().empty());
+	Person* person = new Person(30000, 200, {});
+	building.AddOwner(std::unique_ptr<Person>(person));
+	person->Produce(uc, kReproductionId);
+	EXPECT_EQ(building.GetOwners().size() == 2);
 }

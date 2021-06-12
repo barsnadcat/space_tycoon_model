@@ -1,13 +1,9 @@
 #pragma once
 
-#include "Person.h"
-#include "Space.h"
-
-#include <memory>
-#include <vector>
+#include <Space.h>
 
 class Settlement: public Space
 {
 public:
-	virtual void OnSpaceUpdated(UpdateContext& uc) override;
+    Settlement(size_t landSize): Space(landSize) {}
 };

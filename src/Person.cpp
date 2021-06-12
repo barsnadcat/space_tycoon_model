@@ -99,7 +99,7 @@ ProductionId Person::GetBestProduction(UpdateContext& uc) const
 	return bestProductionId;
 }
 
-void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
+void Person::Produce(UpdateContext& uc, ProductionId productionId)
 {
 	if (productionId == kInvalidId)
 	{
@@ -108,13 +108,13 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 
 	if (productionId == kScavengeId)
 	{
-		Scavenge(space);
+		Scavenge();
 		return;
 	}
 
 	if (productionId == kReproductionId)
 	{
-		Reproduce(uc, space);
+		Reproduce(uc);
 		return;
 	}
 
@@ -128,20 +128,26 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 			}
 			if (it.productId == kFarmId)
 			{
-				for (int32_t i = 0; i < it.number; ++i)
+				// Number greater than 1 does not make sens
+				// You building where you are - i.e. on that land plot
+				// To do: check if you own that land				
+				// Actually enforcing presence of pointer will be really helpfull... 
+				Building* pBuilding = GetBuilding();
+				if (pBuilding)
 				{
-					auto farm = std::make_shared<Farm>(5000);
-					space->AddBuilding(farm);
-					ClaimFarm(farm);
+					Land* pLand = pBuilding->GetLand();
+					if(pLand->GetBuilding())
+					{
+						Farm* farm = new Farm(5000, 1);
+						pLand->SetBuilding(BuildingPtr(farm));
+					}
 				}
 			}
 			if (it.productId == kFoodId)
 			{
 				for (int32_t i = 0; i < it.number; ++i)
 				{
-					auto food = std::make_shared<Food>(100);
-					space->AddFood(food);
-					ClaimFood(food);
+					Add(kFoodId, ItemPtr(new Food(100)));
 				}
 			}
 		}
@@ -150,17 +156,12 @@ void Person::Produce(UpdateContext& uc, Space* space, ProductionId productionId)
 
 void Person::OnOwnerUpdated(UpdateContext& uc)
 {
-	if (Space* space = GetParent())
-	{
-		Produce(uc, space, GetBestProduction(uc));
-	}
+	Produce(uc, GetBestProduction(uc));
 
     // Eat
-	FoodSP food = GetMyNearFood();
-	if (food)
+	if (FoodPtr food = Take<Food>(kFoodId))
 	{
 		mEnergy = std::min(kMaxEnergy, mEnergy + food->GetEnergy());
-		food->SetMaxHealth(0);
 	}
 
     // Expend energy or hunger damage
@@ -174,18 +175,35 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 	}
 }
 
-void Person::Reproduce(UpdateContext& uc, Space* space)
+void Person::Reproduce(UpdateContext& uc)
 {
-	if (mEnergy > 100)
+	Building* building = GetBuilding();
+	if (mEnergy > 100 && building)
 	{
 		mEnergy = 0;
 		mChildren++;
-		space->AddPerson(std::make_shared<Person>(30000, 100, Mutate(uc, mPreferences)));
+		building->AddOwner(std::make_unique<Person>(30000, 100, Mutate(uc, mPreferences)));
 	}
 }
 
-void Person::Scavenge(Space* space)
+void Person::Scavenge()
 {
+	Building* building = GetBuilding();
+	if (!building)
+	{
+		return;
+	}
+	Land* pLand = building->GetLand();
+	if (!pLand)
+	{
+		return;
+	}
+	Space* space = pLand->GetSpace();
+	size_t neighbor = space->GetNeighbour(pLand->GetIndex());
+	Land* pTargetLand = space->GetLand(neighbor);
+	building->RemoveOwner(this);
+	pTargetLand->GetNothing().AddOwner(std::unique_ptr<Owner>(this));
+
 	for (EntitySP& farm : space->GetFarms())
 	{
 		if (farm->GetOwner() == nullptr)

@@ -1,12 +1,14 @@
 #pragma once
 
-#include "Entity.h"
+#include <Entity.h>
+#include <Item.h>
 
-class Food: public Entity
+
+class Food: public Item
 {
-	using Entity::Entity;
-
 public:
-	using Shared = std::shared_ptr<Food>;
+	Food(uint32_t health): Item(health, 1) {}
 	int32_t GetEnergy() { return 3; }
 };
+
+using FoodPtr = std::unique_ptr<Food>;
