@@ -193,16 +193,27 @@ void Person::Scavenge()
 	{
 		return;
 	}
-	Land* pLand = building->GetLand();
-	if (!pLand)
+	Land* land = building->GetLand();
+	if (!land)
 	{
 		return;
 	}
-	Space* space = pLand->GetSpace();
-	size_t neighbor = space->GetNeighbour(pLand->GetIndex());
+	Space* space = land->GetSpace();
+	if (!space)
+	{
+		return;
+	}
+	// move to random space
+	size_t neighbor = space->GetNeighbour(land->GetIndex());
 	Land* pTargetLand = space->GetLand(neighbor);
 	building->RemoveOwner(this);
 	pTargetLand->GetNothing().AddOwner(std::unique_ptr<Owner>(this));
+
+	// Ambiguous situtation, where do owner goes in which building?
+
+	// Try claim building, then enter it, other wise go to nothing
+	
+	// Try claim stuff in building
 
 	for (EntitySP& farm : space->GetFarms())
 	{

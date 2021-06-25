@@ -18,11 +18,24 @@ public:
     Owners& GetOwners() { return mOwners; }
     void SetLand(Land* land){ mLand = land; }
     Land* GetLand() { return mLand; }
+    
     void AddOwner(OwnerPtr owner) 
     {
         owner->SetBuilding(this);
         mOwners.push_back(std::move(owner)); 
     }
+
+    void RemoveOwner(Owner* owner)
+    {
+        auto predicate = [owner](const OwnerPtr& x){ return x.get() == owner;};
+        auto it = std::find_if(mOwners.begin(), mOwners.end(), predicate);
+        if (it != mOwners.end())
+        {
+            it->release();
+            mOwners.erase(it);
+        }
+    }
+
     void MoveTo(Building& target)
     {
         while(!mOwners.empty())
