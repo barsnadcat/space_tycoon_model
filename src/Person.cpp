@@ -128,15 +128,15 @@ void Person::Produce(UpdateContext& uc, ProductionId productionId)
 			}
 			if (it.productId == kFarmId)
 			{
-				// Number greater than 1 does not make sens
-				// You building where you are - i.e. on that land plot
-				// To do: check if you own that land				
-				// Actually enforcing presence of pointer will be really helpfull... 
+                // Number greater than 1 does not make sens
+                // You building where you are - i.e. on that land plot
+                // To do: check if you own that land
+                // Actually enforcing presence of pointer will be really helpfull...
 				Building* pBuilding = GetBuilding();
 				if (pBuilding)
 				{
 					Land* pLand = pBuilding->GetLand();
-					if(pLand->GetBuilding())
+					if (pLand->GetBuilding())
 					{
 						Farm* farm = new Farm(5000, 1);
 						pLand->SetBuilding(BuildingPtr(farm));
@@ -203,17 +203,17 @@ void Person::Scavenge()
 	{
 		return;
 	}
-	// move to random space
+    // move to random space
 	size_t neighbor = space->GetNeighbour(land->GetIndex());
 	Land* pTargetLand = space->GetLand(neighbor);
 	building->RemoveOwner(this);
 	pTargetLand->GetNothing().AddOwner(std::unique_ptr<Owner>(this));
 
-	// Ambiguous situtation, where do owner goes in which building?
+    // Ambiguous situtation, where do owner goes in which building?
 
-	// Try claim building, then enter it, other wise go to nothing
-	
-	// Try claim stuff in building
+    // Try claim building, then enter it, other wise go to nothing
+
+    // Try claim stuff in building
 
 	for (EntitySP& farm : space->GetFarms())
 	{
