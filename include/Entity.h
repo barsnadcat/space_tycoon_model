@@ -12,7 +12,7 @@ public:
 	Entity(uint32_t health, uint32_t decayRate): mHealth(health), mMaxHealth(health), mDecayRate(decayRate) {}
 	virtual ~Entity() = default;
 	uint32_t GetDecayRate() const { return mDecayRate; }
-	uint32_t SetDecayRate(uint32_t decaryRate) { mDecayRate = decaryRate; }
+	void SetDecayRate(uint32_t decaryRate) { mDecayRate = decaryRate; }
 	uint32_t GetHealth() const { return mHealth; }
 	uint32_t GetMaxHealth() const { return mMaxHealth; }
 	void SetHealth(uint32_t health) { mHealth = std::min(health, mMaxHealth); }
