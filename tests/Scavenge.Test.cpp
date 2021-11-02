@@ -1,4 +1,4 @@
-#include <src/easylogging++.h>
+#include <easylogging++.h>
 #include <UpdateContextTestFixture.h>
 
 #include <Settlement.h>

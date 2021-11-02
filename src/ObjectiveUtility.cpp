@@ -1,5 +1,5 @@
 #include <ObjectiveUtility.h>
-#include <src/easylogging++.h>
+#include <easylogging++.h>
 
 ObjectiveUtility::ObjectiveUtility(float max, int32_t optimal, int32_t useless, int32_t harmfull): mMax(max), mOptimal(optimal), mUseless(useless), mHarmfull(harmfull)
 {
