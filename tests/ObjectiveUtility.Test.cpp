@@ -1,4 +1,4 @@
-#include <easylogging++.h>
+#include <src/easylogging++.h>
 #include <gtest/gtest.h>
 
 #include <ObjectiveUtility.h>

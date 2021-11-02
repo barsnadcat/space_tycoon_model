@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <easylogging++.h>
+#include <src/easylogging++.h>
 
 INITIALIZE_EASYLOGGINGPP
 
