@@ -10,8 +10,7 @@ easyloggingpp_dep = dependency('easyloggingpp', required : false)
 if not easyloggingpp_dep.found()
 	cmake = import('cmake')
 	easyloggingpp_proj = cmake.subproject('easyloggingpp', cmake_options: ['-Dbuild_static_lib=ON'])
-	## easyloggingg does not have include directory
-	easyloggingpp_dep = declare_dependency(link_with: easyloggingpp_proj.get_variable('cm_easyloggingpp'), include_directories: 'subprojects/easyloggingpp/src')
+	easyloggingpp_dep = easyloggingpp_proj.dependency('easyloggingpp')
 endif
 space_tycoon_model = static_library('space_tycoon_model', src, include_directories: inc, dependencies: [easyloggingpp_dep])
 
