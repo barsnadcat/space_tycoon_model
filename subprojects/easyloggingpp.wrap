@@ -1,3 +1,6 @@
 [wrap-git]
 url = https://github.com/amrayn/easyloggingpp.git
 revision = v9.96.7
+patch_directory = easyloggingpp
+[provide]
+easyloggingpp = easyloggingpp_dep

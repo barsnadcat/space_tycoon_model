@@ -2,18 +2,12 @@ project('space_tycoon_model', 'cpp')
 ## Disable defenition of min max macros in windows headers
 add_project_arguments('-DNOMINMAX', language: ['cpp'])
 
+easyloggingpp_dep = dependency('easyloggingpp', fallback : ['easyloggingpp', 'easyloggingpp_dep'])
+
 ## Main library
 inc = include_directories('include')
 subdir('src') ## initializes src varible
-
-easyloggingpp_dep = dependency('easyloggingpp', required : false)
-if not easyloggingpp_dep.found()
-	cmake = import('cmake')
-	easyloggingpp_proj = cmake.subproject('easyloggingpp', cmake_options: ['-Dbuild_static_lib=ON'])
-	easyloggingpp_dep = easyloggingpp_proj.dependency('easyloggingpp')
-endif
 space_tycoon_model = static_library('space_tycoon_model', src, include_directories: inc, dependencies: [easyloggingpp_dep])
-
 space_tycoon_model_dep = declare_dependency(include_directories: inc, link_with: space_tycoon_model) ## For external use
 
 ## Unit tests
