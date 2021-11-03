@@ -15,6 +15,9 @@
 // we have a problem - how to free memory.
 // Ok if entity commits every thing in its vector -- can ve delete it saifly, since id now does manages its children life time?
 // Here is the problem - if raw pointer is removed from vector, should we delete it, or not?
+// Ok so, using same vector for location, update and memory managment is prolematic. Using separate vector in global state for update and memory management is problematic.
+// But, what if same entities are present in two datastructures simultaneously - base class entity forms a double linked list - for updated and memory management, descendants use typed pointes for space and ownership hieracy
+// Than we do not need two stage updates, because movemnt of any entity in space does not change it position in update linked list!
 
 
 template<typename TChild, typename TParent>

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <cassert>
 
 #include <UpdateContext.h>
 
@@ -9,8 +10,34 @@ class Entity
 {
 public:
 	Entity() = default;
-	Entity(uint32_t health, uint32_t decayRate): mHealth(health), mMaxHealth(health), mDecayRate(decayRate) {}
-	virtual ~Entity() = default;
+	Entity(Entity* prev, uint32_t health, uint32_t decayRate): mHealth(health), mMaxHealth(health), mDecayRate(decayRate) 
+	{
+		if (prev)
+		{
+			mPrevious = prev;
+			mPrevious->mNext = this;
+			if (prev->mNext)
+			{
+				mNext = prev->mNext;
+				mNext->mPrevious = this;
+			}
+		}
+	}
+
+	virtual ~Entity()
+	{
+		if (mPrevious)
+		{
+			mPrevious->mNext = mNext;
+			mPrevious = nullptr;
+			if (mNext)
+			{
+				mNext->mPrevious = mPrevious;
+				mNext = nullptr;
+			}
+		}
+		assert(mNext == nullptr);
+	}
 	uint32_t GetDecayRate() const { return mDecayRate; }
 	void SetDecayRate(uint32_t decaryRate) { mDecayRate = decaryRate; }
 	uint32_t GetHealth() const { return mHealth; }
@@ -49,10 +76,21 @@ public:
 	{
 		if (mDecayRate > 0)
 		{
-			DamageHealth(mDecayRate);
+			DamageHealth(mDecayRate);z
 			DamageMaxHealth(mDecayRate);
 		}
 		OnEntityUpdated(uc);
+
+		if (mNext)
+		{
+			mNext->Update(uc);
+		}
+
+		// Root does not suicide
+		if (mHealth == 0 && mPrevious != nullptr)
+		{
+			delete this;
+		}
 	}
 
 private:
@@ -60,19 +98,6 @@ private:
 	uint32_t mHealth = 0;
 	uint32_t mMaxHealth = 0;
 	uint32_t mDecayRate = 1;
+	Entity* mNext = nullptr;
+	Entity* mPrevious = nullptr;
 };
-
-
-template<typename T>
-void UpdateEntities(T& container, UpdateContext& uc)
-{
-	for (auto const& e: container)
-	{
-		e->Update(uc);
-	}
-	auto predicate = [](auto const& e)
-	{
-		return e->GetHealth() == 0;
-	};
-	container.erase(std::remove_if(std::begin(container), std::end(container), predicate), std::end(container));
-}
