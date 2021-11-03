@@ -12,9 +12,12 @@ class Land;
 class Building: public Entity
 {
 public:
-    Building(uint32_t health, uint32_t decayRate): Entity(health, decayRate), mNobody(1, 0) {}
+    Building(Entity* prev, uint32_t health, uint32_t decayRate): Entity(prev, health, decayRate) 
+    {
+        mNobody.reset(new Owner(this, 1, 0));
+    }
     virtual ~Building() = default;
-    Owner& GetNobody() { return mNobody; }
+    Owner& GetNobody() { return mNobody*; }
     Owners& GetOwners() { return mOwners; }
     void SetLand(Land* land){ mLand = land; }
     Land* GetLand() { return mLand; }
@@ -25,15 +28,10 @@ public:
         mOwners.push_back(std::move(owner)); 
     }
 
-    void RemoveOwner(Owner* owner)
+    void DeleteOwner(Owner* owner)
     {
         auto predicate = [owner](const OwnerPtr& x){ return x.get() == owner;};
-        auto it = std::find_if(mOwners.begin(), mOwners.end(), predicate);
-        if (it != mOwners.end())
-        {
-            it->release();
-            mOwners.erase(it);
-        }
+        mOwners.erase(std::remove_if(mOwners.begin(), mOwners.end(), predicate), mOwners.end());
     }
 
     void MoveTo(Building& target)
@@ -46,10 +44,12 @@ public:
         mNobody.MoveTo(target.mNobody);
     }
 private:
-    virtual void OnEntityUpdated(UpdateContext& uc) override { mNobody.Update(uc); UpdateEntities(mOwners, uc); OnBuildingUpdated(uc); }
-    virtual void OnBuildingUpdated(UpdateContext& uc) {};
+    virtual void OnEntityDeath() override
+    {
+        mLand->DeleteBuilding(this);
+    }
     Land* mLand = nullptr;
     Owners mOwners;    
-    Owner mNobody;
+    OwnerPtr mNobody;
 };
 using Nothing = Building;

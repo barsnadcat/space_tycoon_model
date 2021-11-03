@@ -7,26 +7,29 @@
 #include <memory>
 #include <vector>
 
-using LandPtr = std::unique_ptr<Land>;
-using Lands = std::vector<LandPtr>;
+using Lands = std::vector<Land*>;
 
 class Space: public Entity
 {
 public:
-	Space(size_t landSize): Entity(1, 0) 
+	Space(size_t landSize): Entity(nullptr, 1, 0) 
 	{
 		mLands.resize(landSize);
 		for (size_t i = 0; i < landSize; i++)
 		{
-			mLands[i].reset(new Land(this, i));
+			mLands[i] = new Land(this, i);
 		}
 	}
 	virtual ~Space() = default;
 	Lands& GetLands() { return mLands; }
-	Land* GetLand(size_t index) { return mLands[index].get(); }
+	Land* GetLand(size_t index) { return mLands[index]; }
 	size_t GetNeighbour(size_t index) { return std::max(mLands.size(), index + 1); }
+	void RemoveLand(Land* land)
 private:
-	virtual void OnEntityUpdated(UpdateContext& uc) override { UpdateEntities(mLands, uc); OnSpaceUpdated(uc); }
+	virtual void OnEntityUpdated(UpdateContext& uc) override 
+	{
+		OnSpaceUpdated(uc);
+	}
 	virtual void OnSpaceUpdated(UpdateContext& uc) {}
 	Lands mLands;
 };

@@ -9,7 +9,7 @@ class Space;
 class Land: public Entity
 {
 public:
-	Land(Space* space, size_t index): Entity(1, 0), mNothing(1, 0), mSpace(space), mIndex(index)
+	Land(Space* space, size_t index): Entity(space, 1, 0), mNothing(1, 0), mSpace(space), mIndex(index)
 	{
 		mNothing.SetLand(this);
 	}
@@ -20,20 +20,14 @@ public:
 	{
 		mBuilding = std::move(building);
 	}
+	void DeleteBuilding(Building* building)
+	{
+		assert(mBuiling.get() == building);
+		mBuilding->MoveTo(mNothing);
+		mBuilding.reset();
+	}
 	Building* GetBuilding() { return mBuilding.get(); }
 	Building& GetNothing() { return mNothing; }
-	virtual void OnEntityUpdated(UpdateContext& uc) override
-	{
-		mNothing.Update(uc);
-		mBuilding->Update(uc);
-		if (mBuilding->GetHealth() == 0)
-		{
-			mBuilding->MoveTo(mNothing);
-			mBuilding.reset();
-		}
-		OnLandUpdated(uc);
-	}
-	virtual void OnLandUpdated(UpdateContext& uc) {}
 private:
     Space* const mSpace = nullptr;
 	const size_t mIndex = 0;

@@ -76,9 +76,10 @@ public:
 	{
 		if (mDecayRate > 0)
 		{
-			DamageHealth(mDecayRate);z
+			DamageHealth(mDecayRate);
 			DamageMaxHealth(mDecayRate);
 		}
+
 		OnEntityUpdated(uc);
 
 		if (mNext)
@@ -86,15 +87,15 @@ public:
 			mNext->Update(uc);
 		}
 
-		// Root does not suicide
-		if (mHealth == 0 && mPrevious != nullptr)
+		if (mHealth == 0)
 		{
-			delete this;
+			OnEntityDeath();
 		}
 	}
 
 private:
 	virtual void OnEntityUpdated(UpdateContext& uc) {}
+	virtual void OnEntityDeath(UpdateContext& uc) {}
 	uint32_t mHealth = 0;
 	uint32_t mMaxHealth = 0;
 	uint32_t mDecayRate = 1;

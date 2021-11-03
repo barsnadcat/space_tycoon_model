@@ -14,7 +14,7 @@ class Building;
 class Owner: public Entity
 {
 public:
-	Owner(uint32_t health, uint32_t decayRate): Entity(health, decayRate) {}
+	Owner(Entity* prev, uint32_t health, uint32_t decayRate): Entity(prev, health, decayRate) {}
 	virtual ~Owner() = default;
 	void SetBuilding(Building* building) { mBuilding = building; }
 	Building* GetBuilding() { return mBuilding; }
@@ -31,12 +31,20 @@ public:
 		}
 		return res;
 	}
-	void Add(ProductId productId, ItemPtr item)
+	void AddItem(ProductId productId, ItemPtr item)
 	{
 		assert(item);
 		item->SetOwner(this);
 		mInventory[productId].push_back(std::move(item));
 	}
+
+	void DeleteItem(ProductId productId, Item* item)
+    {
+        auto predicate = [item](const ItemPtr& x){ return x.get() == item;};
+        auto& inventory = mInventory[productId];
+        inventory.erase(std::remove_if(inventory.begin(), inventory.end(), predicate), inventory.end());
+=    }
+
 	void MoveTo(Owner& target)
 	{
 		for (auto it = mInventory.begin(); it != mInventory.end(); it++)
@@ -55,11 +63,11 @@ public:
 private:
 	virtual void OnEntityUpdated(UpdateContext& uc) override
 	{
-		for (auto& itemType : mInventory)
-		{
-			UpdateEntities(itemType.second, uc);
-		}
 		OnOwnerUpdated(uc);
+	}
+	virtual void OnEntityDeath(UpdateContext& uc) override
+	{
+		mBuilding->Remove(this);
 	}
 	virtual void OnOwnerUpdated(UpdateContext& uc) {}
 	Building* mBuilding = nullptr;

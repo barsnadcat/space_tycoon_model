@@ -18,6 +18,13 @@
 // Ok so, using same vector for location, update and memory managment is prolematic. Using separate vector in global state for update and memory management is problematic.
 // But, what if same entities are present in two datastructures simultaneously - base class entity forms a double linked list - for updated and memory management, descendants use typed pointes for space and ownership hieracy
 // Than we do not need two stage updates, because movemnt of any entity in space does not change it position in update linked list!
+// Even better, we can use unique ptr again, because no child need to be present in two placeses simultaneously!
+// Lets go deeper. Instead of using containers to sore children, children can form a double linked list. 
+// Lists needs head, and we can use null bulding/owner/item for that!
+// So when parent is deleted, it can move entire list by attaching it to the others palce end of list!
+// When child is moved, you can give it head of other parent
+// When child dies, it can delete itself, without relying on parent pointer. 
+// Well child will need: entity, parent, and parents null object!
 
 
 template<typename TChild, typename TParent>
