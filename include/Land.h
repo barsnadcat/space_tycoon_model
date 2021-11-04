@@ -2,6 +2,8 @@
 
 #include <Entity.h>
 #include <Building.h>
+#include <cassert>
+
 using BuildingPtr = std::unique_ptr<Building>;
 
 class Space;
@@ -9,28 +11,24 @@ class Space;
 class Land: public Entity
 {
 public:
-	Land(Space* space, size_t index): Entity(space, 1, 0), mNothing(1, 0), mSpace(space), mIndex(index)
+	Land(Space* space, size_t index): Entity(space, 1, 0), mSpace(space), mIndex(index)
 	{
-		mNothing.SetLand(this);
+		mNothing.reset(new Building(this, 1, 0));
 	}
 	virtual ~Land() = default;
     Space* GetSpace() const { return mSpace; }
 	size_t GetIndex() const { return mIndex; }
 	void SetBuilding(BuildingPtr building)
 	{
+		assert(mBuilding == nullptr);
 		mBuilding = std::move(building);
-	}
-	void DeleteBuilding(Building* building)
-	{
-		assert(mBuiling.get() == building);
-		mBuilding->MoveTo(mNothing);
-		mBuilding.reset();
+		mBuilding->SetLand(this);
 	}
 	Building* GetBuilding() { return mBuilding.get(); }
-	Building& GetNothing() { return mNothing; }
+	Building& GetNothing() { return *mNothing; }
 private:
     Space* const mSpace = nullptr;
 	const size_t mIndex = 0;
-	Building mNothing;
+	BuildingPtr mNothing;
 	BuildingPtr mBuilding;
 };

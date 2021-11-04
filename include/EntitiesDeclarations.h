@@ -16,13 +16,3 @@ const ProductionId kFarmFoodId = 2;
 const ProductionId kScavengeId = 3;
 const ProductionId kReproductionId = 4;
 
-class Entity;
-using EntitySP = std::shared_ptr<Entity>;
-using EntityWP = std::weak_ptr<Entity>;
-using EntitySPs = std::vector<EntitySP>;
-using EntityWPs = std::vector<EntityWP>;
-
-class Person;
-using PersonSP = std::shared_ptr<Person>;
-using PersonWP = std::weak_ptr<Person>;
-

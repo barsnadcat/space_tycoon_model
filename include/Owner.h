@@ -15,19 +15,23 @@ class Owner: public Entity
 {
 public:
 	Owner(Entity* prev, uint32_t health, uint32_t decayRate): Entity(prev, health, decayRate) {}
-	virtual ~Owner() = default;
+	virtual ~Owner()
+	{
+		mBuilding->RemoveOwner(this);
+	}
 	void SetBuilding(Building* building) { mBuilding = building; }
 	Building* GetBuilding() { return mBuilding; }
 	Items& Get(ProductId productId) { return mInventory[productId]; }
-	template <typename TItem>
-	std::unique_ptr<TItem> Take(ProductId productId) 
+	
+	template<typename TItem>
+	std::unique_ptr<TItem> Take(ProductId productId)
 	{
 		std::unique_ptr<TItem> res;
 		auto it = mInventory.find(productId);
 		if (it != mInventory.end() && !it->second.empty())
 		{
 			res = std::move(it.second.back());
-			it->second.pop_back();	
+			it->second.pop_back();
 		}
 		return res;
 	}
@@ -38,12 +42,17 @@ public:
 		mInventory[productId].push_back(std::move(item));
 	}
 
-	void DeleteItem(ProductId productId, Item* item)
-    {
-        auto predicate = [item](const ItemPtr& x){ return x.get() == item;};
-        auto& inventory = mInventory[productId];
-        inventory.erase(std::remove_if(inventory.begin(), inventory.end(), predicate), inventory.end());
-=    }
+	void RemoveItem(ProductId productId, Item* item)
+	{
+		auto predicate = [item](const ItemPtr& x){ return x.get() == item; };
+		auto& inventory = mInventory[productId];
+		auto it = std::find_if(inventory.begin(), inventory.end(), predicate);
+		if (it != inventory.end())
+		{
+			it->release();
+			inventory.erase(it);
+		}
+	}
 
 	void MoveTo(Owner& target)
 	{
@@ -53,7 +62,7 @@ public:
 			Items& items = it->second;
 			while (!items.empty())
 			{
-				target.Add(productId, std::move(items.back()));
+				target.AddItem(productId, std::move(items.back()));
 				items.pop_back();
 			}
 		}
@@ -67,11 +76,9 @@ private:
 	}
 	virtual void OnEntityDeath(UpdateContext& uc) override
 	{
-		mBuilding->Remove(this);
+		MoveTo(mBuilding->GetNobody());
 	}
 	virtual void OnOwnerUpdated(UpdateContext& uc) {}
 	Building* mBuilding = nullptr;
 	std::map<ProductId, Items> mInventory;
 };
-
-using Nobody = Owner;

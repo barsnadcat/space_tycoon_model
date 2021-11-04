@@ -13,7 +13,7 @@ std::map<ProductId, float> RandomPreferences(UpdateContext& uc);
 class Person: public Owner
 {
 public:
-	Person(uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences): Owner(health, 1),
+	Person(Entity* prev, uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences): Owner(prev, health, 1),
 		mEnergy(energy), mPreferences(preferences) {}
 	ProductionId GetBestProduction(UpdateContext& uc) const;
 	void Produce(UpdateContext& uc, ProductionId productionId);

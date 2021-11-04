@@ -89,7 +89,12 @@ public:
 
 		if (mHealth == 0)
 		{
-			OnEntityDeath();
+			OnEntityDeath(uc);
+			// Root does not suicide?
+			if (mPrevious != nullptr)
+			{
+				delete this;
+			}
 		}
 	}
 

@@ -136,9 +136,9 @@ void Person::Produce(UpdateContext& uc, ProductionId productionId)
 				if (pBuilding)
 				{
 					Land* pLand = pBuilding->GetLand();
-					if (pLand->GetBuilding())
+					if (!pLand->GetBuilding())
 					{
-						Farm* farm = new Farm(5000, 1);
+						Farm* farm = new Farm(this, 5000, 1);
 						pLand->SetBuilding(BuildingPtr(farm));
 					}
 				}
@@ -147,7 +147,7 @@ void Person::Produce(UpdateContext& uc, ProductionId productionId)
 			{
 				for (int32_t i = 0; i < it.number; ++i)
 				{
-					Add(kFoodId, ItemPtr(new Food(100)));
+					AddItem(kFoodId, ItemPtr(new Food(this, 100)));
 				}
 			}
 		}
@@ -182,7 +182,7 @@ void Person::Reproduce(UpdateContext& uc)
 	{
 		mEnergy = 0;
 		mChildren++;
-		building->AddOwner(std::make_unique<Person>(30000, 100, Mutate(uc, mPreferences)));
+		building->AddOwner(std::make_unique<Person>(this, 30000, 100, Mutate(uc, mPreferences)));
 	}
 }
 

@@ -25,6 +25,9 @@
 // When child is moved, you can give it head of other parent
 // When child dies, it can delete itself, without relying on parent pointer. 
 // Well child will need: entity, parent, and parents null object!
+// Another problem - using desturctor for death, means that when we delete entire settlemnt, we will do shit ton of movement, each owner and building will drop their content to parents, which is pointless, since we delete every thing any way.
+// Solution - use destructor only for update list mantanance, and delete all children. Use OnEntityDeath for dropping stuff
+
 
 
 template<typename TChild, typename TParent>
