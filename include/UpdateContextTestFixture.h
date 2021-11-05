@@ -8,12 +8,12 @@
 class UpdateContextTestFixture: public ::testing::Test
 {
 protected:
-    void SetUp() override
-    {
-        uc = UpdateContext();
-        uc.mObjectiveUtilities = GetObjectiveUtilities();
-        uc.mProductions = GetProductions();
-    }
+	void SetUp() override
+	{
+		uc = UpdateContext();
+		uc.mObjectiveUtilities = GetObjectiveUtilities();
+		uc.mProductions = GetProductions();
+	}
 
-    UpdateContext uc;
+	UpdateContext uc;
 };

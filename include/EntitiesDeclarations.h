@@ -15,4 +15,3 @@ const ProductionId kBuildFarmId = 1;
 const ProductionId kFarmFoodId = 2;
 const ProductionId kScavengeId = 3;
 const ProductionId kReproductionId = 4;
-

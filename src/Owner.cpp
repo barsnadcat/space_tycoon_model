@@ -1,28 +1,50 @@
 #include <Owner.h>
+
+#include <Building.h>
 #include <Food.h>
 #include <Farm.h>
 
-int32_t Owner::GetOwned(ProductId productId) const
+Owner::Owner(Entity* prev, uint32_t health, uint32_t decayRate): Entity(prev, health, decayRate)
 {
-	if (productId == kRandomProductId)
+}
+
+Owner::~Owner()
+{
+	if (mBuilding)
 	{
-		int32_t total = 0;
-		for (const auto& p : mInventory)
-		{
-			total += p.second.size();
-		}
-		return total;
+		mBuilding->RemoveOwner(this);
 	}
-	else
+	for (auto p : mFoods)
 	{
-		const auto& it = mInventory.find(productId);
-		if (it == mInventory.end())
-		{
-			return 0;
-		}
-		else
-		{
-			return it->second.size();
-		}
+		p->SetOwner(nullptr);
+		delete p;
 	}
+}
+
+void Owner::AddFood(Food* food)
+{
+	assert(food);
+	food->SetOwner(this);
+	mFoods.push_back(food);
+}
+
+void Owner::RemoveFood(Food* food)
+{
+	assert(food);
+	food->SetOwner(nullptr);
+	mFoods.erase(std::remove(mFoods.begin(), mFoods.end(), food), mFoods.end());
+}
+
+void Owner::MoveTo(Owner& target)
+{
+	for (auto p : mFoods)
+	{
+		target.AddFood(p);
+	}
+	mFoods.clear();
+}
+
+void Owner::OnEntityDeath(UpdateContext& uc)
+{
+	MoveTo(mBuilding->GetNullOwner());
 }

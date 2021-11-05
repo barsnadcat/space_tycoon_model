@@ -207,7 +207,7 @@ void Person::Scavenge()
 	size_t neighbor = space->GetNeighbour(land->GetIndex());
 	Land* pTargetLand = space->GetLand(neighbor);
 	building->RemoveOwner(this);
-	pTargetLand->GetNothing().AddOwner(std::unique_ptr<Owner>(this));
+	pTargetLand->GetNullBuilding().AddOwner(std::unique_ptr<Owner>(this));
 
     // Ambiguous situtation, where do owner goes in which building?
 

@@ -10,7 +10,7 @@ class Entity
 {
 public:
 	Entity() = default;
-	Entity(Entity* prev, uint32_t health, uint32_t decayRate): mHealth(health), mMaxHealth(health), mDecayRate(decayRate) 
+	Entity(Entity* prev, uint32_t health, uint32_t decayRate): mHealth(health), mMaxHealth(health), mDecayRate(decayRate)
 	{
 		if (prev)
 		{
@@ -90,7 +90,7 @@ public:
 		if (mHealth == 0)
 		{
 			OnEntityDeath(uc);
-			// Root does not suicide?
+            // Root does not suicide?
 			if (mPrevious != nullptr)
 			{
 				delete this;

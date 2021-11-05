@@ -27,6 +27,18 @@
 // Well child will need: entity, parent, and parents null object!
 // Another problem - using desturctor for death, means that when we delete entire settlemnt, we will do shit ton of movement, each owner and building will drop their content to parents, which is pointless, since we delete every thing any way.
 // Solution - use destructor only for update list mantanance, and delete all children. Use OnEntityDeath for dropping stuff
+// Owner inventory problem:
+// Keeping inventory types, like food and building/land keys clashes with ProductId from valuation code. 
+// In current model there is only on type of building
+// Owner vs Person problem...
+// Building has to contain people. But, "nobody" should not be a person... Well actually we have owner exactly for this reason - so it can be null object.
+// So, for space/position hierarchy I want: 
+// 1 use raw pointers
+// 2 keep their type
+// Question, do I need a separate type for food, key and papers? Yes, key and papers will have relationship maintannece code.
+// Ok, for space hierarchy, when child is deleted, you need to go to the parent and do a cleanup... which is mess.
+// Will it be better with lists? Well to keep type information with lists, each children type will have to implement list on its own. Or use template hack
+
 
 
 

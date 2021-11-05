@@ -5,5 +5,5 @@
 class Settlement: public Space
 {
 public:
-    Settlement(size_t landSize): Space(landSize) {}
+	Settlement(size_t landSize): Space(landSize) {}
 };
