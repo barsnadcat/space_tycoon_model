@@ -3,6 +3,7 @@
 #include <Building.h>
 #include <Food.h>
 #include <Farm.h>
+#include <cassert>
 
 Owner::Owner(Entity* prev, uint32_t health, uint32_t decayRate): Entity(prev, health, decayRate)
 {

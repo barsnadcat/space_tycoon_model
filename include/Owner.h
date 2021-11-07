@@ -1,10 +1,7 @@
 #pragma once
 
 #include <Entity.h>
-#include <Item.h>
-#include <Food.h>
-
-#include <cassert>
+#include <vector>
 
 class Food;
 class Building;

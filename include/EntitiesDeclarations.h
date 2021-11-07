@@ -1,6 +1,4 @@
 #pragma once
-#include <memory>
-#include <vector>
 
 using ProductId = std::size_t;
 const ProductId kInvalidId = 0;

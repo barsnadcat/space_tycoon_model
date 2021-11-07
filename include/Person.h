@@ -1,11 +1,6 @@
 #pragma once
 
 #include <Owner.h>
-#include <Food.h>
-
-#include <memory>
-#include <vector>
-#include <cassert>
 
 std::map<ProductId, float> Mutate(UpdateContext& uc, std::map<ProductId, float> );
 std::map<ProductId, float> RandomPreferences(UpdateContext& uc);

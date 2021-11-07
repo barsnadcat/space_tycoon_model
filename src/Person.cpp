@@ -1,8 +1,8 @@
 #include <Person.h>
 
-#include <UpdateContext.h>
-#include <Space.h>
-#include <Farm.h>
+#include <Food.h>
+#include <Building.h>
+#include <Land.h>
 
 const int32_t kMaxEnergy = 200;
 
@@ -129,22 +129,22 @@ void Person::Produce(UpdateContext& uc, ProductionId productionId)
                 // You building where you are - i.e. on that land plot
                 // To do: check if you own that land
                 // Actually enforcing presence of pointer will be really helpfull...
-				Building* pBuilding = GetBuilding();
-				if (pBuilding)
-				{
-					Land* pLand = pBuilding->GetLand();
-					if (!pLand->GetBuilding())
-					{
-						Farm* farm = new Farm(this, 5000, 1);
-						pLand->SetBuilding(BuildingPtr(farm));
-					}
-				}
+                // Building* pBuilding = GetBuilding();
+                // if (pBuilding)
+                // {
+                //  Land* pLand = pBuilding->GetLand();
+                //  if (!pLand->GetBuilding())
+                //  {
+                //      Farm* farm = new Farm(this, 5000, 1);
+                //      pLand->SetBuilding(BuildingPtr(farm));
+                //  }
+                //}
 			}
 			if (it.productId == kFoodId)
 			{
 				for (int32_t i = 0; i < it.number; ++i)
 				{
-					AddItem(kFoodId, ItemPtr(new Food(this, 100)));
+					AddFood(new Food(this, 100));
 				}
 			}
 		}
@@ -156,9 +156,13 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 	Produce(uc, GetBestProduction(uc));
 
     // Eat
-	if (FoodPtr food = Take<Food>(kFoodId))
+	if (!GetFoods().empty())
 	{
+		Food* food = GetFoods().back();
+		GetFoods().pop_back();
+		food->SetOwner(nullptr);
 		mEnergy = std::min(kMaxEnergy, mEnergy + food->GetEnergy());
+		delete food;
 	}
 
     // Expend energy or hunger damage
@@ -174,61 +178,24 @@ void Person::OnOwnerUpdated(UpdateContext& uc)
 
 void Person::Reproduce(UpdateContext& uc)
 {
-	Building* building = GetBuilding();
-	if (mEnergy > 100 && building)
-	{
-		mEnergy = 0;
-		mChildren++;
-		building->AddOwner(std::make_unique<Person>(this, 30000, 100, Mutate(uc, mPreferences)));
-	}
+	mEnergy = 0;
+	mChildren++;
+	GetBuilding()->AddPerson(new Person(this, 30000, 100, Mutate(uc, mPreferences)));
 }
 
 void Person::Scavenge()
 {
-	Building* building = GetBuilding();
-	if (!building)
-	{
-		return;
-	}
-	Land* land = building->GetLand();
-	if (!land)
-	{
-		return;
-	}
-	Space* space = land->GetSpace();
-	if (!space)
-	{
-		return;
-	}
     // move to random space
-	size_t neighbor = space->GetNeighbour(land->GetIndex());
-	Land* pTargetLand = space->GetLand(neighbor);
-	building->RemoveOwner(this);
-	pTargetLand->GetNullBuilding().AddOwner(std::unique_ptr<Owner>(this));
+	//size_t neighbor = space->GetNeighbour(land->GetIndex());
+	//Land* pTargetLand = space->GetLand(neighbor);
+	//building->RemoveOwner(this);
+	//pTargetLand->GetNullBuilding().AddOwner(std::unique_ptr<Owner>(this));
 
     // Ambiguous situtation, where do owner goes in which building?
 
     // Try claim building, then enter it, other wise go to nothing
 
     // Try claim stuff in building
-
-	for (EntitySP& farm : space->GetFarms())
-	{
-		if (farm->GetOwner() == nullptr)
-		{
-			ClaimFarm(farm);
-			return;
-		}
-	}
-
-	for (EntitySP& food : space->GetFoods())
-	{
-		if (food->GetOwner() == nullptr)
-		{
-			ClaimFood(food);
-			return;
-		}
-	}
 }
 
 float Person::GetPersonalPreference(ProductId productId) const
