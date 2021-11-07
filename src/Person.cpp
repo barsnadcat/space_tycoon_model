@@ -33,20 +33,17 @@ std::map<ProductId, float> RandomPreferences(UpdateContext& uc)
 
 int32_t Person::GetPersonOwned(ProductId productId) const
 {
-	if (productId == kEffortId)
+	switch (productId)
 	{
+	case kEffortId:
 		return mEnergy;
-	}
-	else
-	{
-		if (productId == kReproductionId)
-		{
-			return mChildren;
-		}
-		else
-		{
-			return GetOwned(productId);
-		}
+	case kFamilyMemberId:
+		return mChildren;
+	case kFoodId:
+	case kRandomProductId:
+		return GetFoods().size();
+	default:
+		return 0;
 	}
 }
 
