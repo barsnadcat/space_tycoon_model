@@ -2,6 +2,7 @@
 
 #include <Entity.h>
 #include <vector>
+#include <memory>
 
 class Owner;
 using Owners = std::vector<Owner*>;
