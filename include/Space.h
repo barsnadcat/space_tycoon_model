@@ -16,7 +16,7 @@ public:
 	virtual ~Space();
 
 	Lands& GetLands() { return mLands; }
-	Land& GetLand(size_t index) { return *(mLands[index]); }
+	Land* GetLand(size_t index) { return mLands[index].get(); }
 	size_t GetNeighbour(size_t index) { return std::max(mLands.size(), index + 1); }
 private:
 	Lands mLands;

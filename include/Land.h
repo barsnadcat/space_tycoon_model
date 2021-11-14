@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Entity.h>
-#include <memory>
 
 class Space;
 class Building;
@@ -16,9 +15,11 @@ public:
 	size_t GetIndex() const { return mIndex; }
 	void AddBuilding(Building* building);
 	void RemoveBuilding(Building* building);
-	Building& GetBuilding() { return *mNullBuilding; }
+	Building* GetBuilding() { return mBuilding; }
+	Building& GetNullBuilding() { return *mNullBuilding; }
 private:
 	Space* const mSpace = nullptr;
 	const size_t mIndex = 0;
-	std::unique_ptr<Building> mBuilding;
+	std::unique_ptr<Building> mNullBuilding;
+	Building* mBuilding;
 };

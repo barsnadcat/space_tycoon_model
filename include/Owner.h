@@ -16,7 +16,7 @@ public:
 	void SetBuilding(Building* building) { mBuilding = building; }
 	Building* GetBuilding() { return mBuilding; }
 
-	const Foods& GetFoods() const { return mFoods; }
+	Foods& GetFoods() { return mFoods; }
 	void AddFood(Food* food);
 	void RemoveFood(Food* food);
 	void MoveTo(Owner& target);
