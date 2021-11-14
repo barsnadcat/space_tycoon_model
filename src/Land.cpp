@@ -6,25 +6,31 @@
 
 Land::Land(Space* space, size_t index): Entity(space, 1, 0), mSpace(space), mIndex(index)
 {
-	mBuilding.reset(new Building(this, 1, 0));
+	mNullBuilding.reset(new Building(this, 1, 0));
 	mNullBuilding->SetLand(this);
 }
 
 Land::~Land()
 {
-	mBuilding->SetLand(nullptr);
+	mNullBuilding->SetLand(nullptr);
+
+	if (mBuilding)
+	{
+		mBuilding->SetLand(nullptr);
+		delete mBuilding;
+	}
 }
 
 void Land::RemoveBuilding(Building* building)
 {
-	assert(mBuilding.get() == building);
-	AddBuilding(new Building(this, 1, 0));
+	assert(mBuilding == building);
+	mBuilding->SetLand(nullptr);
+	mBuilding = nullptr;
 }
 
-void Land::AddBuilding(Building* newBuilding)
+void Land::AddBuilding(Building* building)
 {
-	mBuilding->MoveTo(*newBuilding);
-	mBuilding->SetLand(nullptr);
-	newBuilding->SetLand(this);
-	mBuilding.reset(newBuilding);
+	assert(mBuilding == nullptr);
+	mBuilding = building;
+	mBuilding->SetLand(this);
 }

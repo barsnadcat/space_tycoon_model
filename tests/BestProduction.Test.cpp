@@ -7,46 +7,55 @@
 
 TEST_F(UpdateContextTestFixture, NoProductionIfNoResources)
 {
-	auto person = std::shared_ptr<Person>(new Person(3000, 0, {}));
+	Settlement settlement(1);
+	auto person = new Person(&settlement, 3000, 0, {});
+	settlement.GetLand(0).GetNullBuilding().AddOwner(person);	
 	EXPECT_EQ(person->GetBestProduction(uc), kInvalidId);
 }
 
 TEST_F(UpdateContextTestFixture, NoProductionIfHasEnough)
 {
-	auto settlement = std::shared_ptr<Settlement>(new Settlement());
-	auto person = std::shared_ptr<Person>(new Person(3000, 80, {}));
-	settlement->AddPerson(person);
-	auto farm = std::shared_ptr<Farm>(new Farm(10000));
-	settlement->AddBuilding(farm);
-	person->ClaimFarm(farm);
+	Settlement s(1);
+	auto p = new Person(&s, 3000, 80, {});
+	s.GetLand(0).GetNullBuilding().AddOwner(p);
+	auto b = new Farm(&s, 10000);
+	s.GetLand(0).AddBuilding(b);
+
+	p->ClaimFarm(b);
 	for (int i = 0; i < 20; i++)
 	{
-		auto food = std::shared_ptr<Food>(new Food(500));
-		settlement->AddFood(food);
-		person->ClaimFood(food);
+		auto f = new Food(&s, 500);
+		p->AddFood(f);
 	}
 
-	EXPECT_EQ(person->GetBestProduction(uc), kInvalidId);
+	EXPECT_EQ(p->GetBestProduction(uc), kInvalidId);
 }
 
 TEST_F(UpdateContextTestFixture, NoProductionIfDoesNotLikeOutput)
 {
-	auto person = std::shared_ptr<Person>(new Person(3000, 80, {{ kFarmId, 0.01f }, { kFoodId, 0.01f }}));
+	Settlement s(1);
+	auto p = new Person($s, 3000, 80, {{ kFarmId, 0.01f }, { kFoodId, 0.01f }});
+	s.GetLand(0).AddOwner(p);
 	EXPECT_EQ(person->GetBestProduction(uc), kScavengeId);
 }
 
 TEST_F(UpdateContextTestFixture, NoProductionIfNoTools)
 {
-	auto person = std::shared_ptr<Person>(new Person(3000, 80, {{ kFarmId, 0.01f }, { kRandomProductId, 0.01f }}));
+	Settlement s(1);
+	auto p = new Person(&s, 3000, 80, {{ kFarmId, 0.01f }, { kRandomProductId, 0.01f }});
+	s.GetLand(0).AddOwner(p);
 	EXPECT_EQ(person->GetBestProduction(uc), kInvalidId);
 }
 
 
 TEST_F(UpdateContextTestFixture, ProductionIfDoesNotLikeOutputButHasNotEnough)
 {
-	auto person = std::shared_ptr<Person>(new Person(3000, 80, {{ kFoodId, 0.1f }, { kRandomProductId, 0.1f }}));
-	auto farm = std::shared_ptr<Farm>(new Farm(10000));
-	person->ClaimFarm(farm);
+	Settlement s(1);
+	auto p = new Person(&s, 3000, 80, {{ kFoodId, 0.1f }, { kRandomProductId, 0.1f }});
+	auto b = new Farm(&s, 10000);
+	s.GetLand(0).AddBuilding(b);
+	b->AddOwner(p);
+	p->ClaimFarm(b);
 	EXPECT_EQ(person->GetBestProduction(uc), kFarmFoodId);
 }
 

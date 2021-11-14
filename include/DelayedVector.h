@@ -39,6 +39,11 @@
 // Ok, for space hierarchy, when child is deleted, you need to go to the parent and do a cleanup... which is mess.
 // Will it be better with lists? Well to keep type information with lists, each children type will have to implement list on its own. Or use template hack
 
+// I do not like idea of adding "papers" and "keys" to track ownership
+// It is better to directly haw pointers to Farm, Food and Land in Person as owned items
+// Consiquently, it looks like it is better to separte Property-Owner relaition ship from Container-Objet relation ship
+// For what we know, Land can be container for everything - Food, Person and Farm, i.e. we do not need complicated hierarchy
+
 
 
 
