@@ -3,23 +3,23 @@
 #include <Entity.h>
 #include <memory>
 
-class Space;
+class Settlement;
 class Building;
 
 class Land: public Entity
 {
 public:
-	Land(Space* space, size_t index);
+	Land(Settlement* settlement, size_t index);
 	virtual ~Land();
 
-	Space* GetSpace() const { return mSpace; }
+	Settlement* GetSpace() const { return mSettlement; }
 	size_t GetIndex() const { return mIndex; }
 	void AddBuilding(Building* building);
 	void RemoveBuilding(Building* building);
 	Building* GetBuilding() { return mBuilding; }
 	Building& GetNullBuilding() { return *mNullBuilding; }
 private:
-	Space* const mSpace = nullptr;
+	Settlement* const mSettlement = nullptr;
 	const size_t mIndex = 0;
 	std::unique_ptr<Building> mNullBuilding;
 	Building* mBuilding;

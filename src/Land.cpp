@@ -1,10 +1,10 @@
 #include <Land.h>
 
 #include <Building.h>
-#include <Space.h>
+#include <Settlement.h>
 #include <cassert>
 
-Land::Land(Space* space, size_t index): Entity(space, 1, 0), mSpace(space), mIndex(index)
+Land::Land(Settlement* settlement, size_t index): Entity(settlement, 1, 0), mSettlement(settlement), mIndex(index)
 {
 	mNullBuilding.reset(new Building(this, 1, 0));
 	mNullBuilding->SetLand(this);
