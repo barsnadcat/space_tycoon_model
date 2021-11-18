@@ -1,7 +1,6 @@
 #include <easylogging++.h>
 #include <UpdateContextTestFixture.h>
 
-#include <Building.h>
 #include <Person.h>
 
 TEST_F(UpdateContextTestFixture, Birth)

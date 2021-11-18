@@ -1,10 +1,19 @@
 #include <Person.h>
 
 #include <Food.h>
-#include <Building.h>
+#include <Farm.h>
 #include <Land.h>
 
 const int32_t kMaxEnergy = 200;
+
+
+Person::~Person()
+{
+	if (mLand)
+	{
+		mLand->RemovePerson(this);
+	}
+}
 
 std::map<ProductId, float> Mutate(UpdateContext& uc, std::map<ProductId, float> preferences)
 {
@@ -151,7 +160,7 @@ void Person::Produce(UpdateContext& uc, ProductionId productionId)
 	}
 }
 
-void Person::OnOwnerUpdated(UpdateContext& uc)
+void Person::OnEntityUpdated(UpdateContext& uc)
 {
 	Produce(uc, GetBestProduction(uc));
 

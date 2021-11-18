@@ -1,8 +1,7 @@
 src = files(
 	'Settlement.cpp',
 	'Land.cpp',
-	'Building.cpp',
-	'Owner.cpp',
+	'Farm.cpp',
 	'Food.cpp',
 	'Person.cpp',
 	'ObjectiveUtility.cpp',

@@ -4,7 +4,12 @@
 #include <memory>
 
 class Settlement;
-class Building;
+class Farm;
+class Food;
+using Foods = std::vector<Food*>;
+class Person;
+using People = std::vector<Person*>;
+
 
 class Land: public Entity
 {
@@ -14,13 +19,23 @@ public:
 
 	Settlement* GetSpace() const { return mSettlement; }
 	size_t GetIndex() const { return mIndex; }
-	void AddBuilding(Building* building);
-	void RemoveBuilding(Building* building);
-	Building* GetBuilding() { return mBuilding; }
-	Building& GetNullBuilding() { return *mNullBuilding; }
+
+	Farm* GetFarm() { return mFarm; }
+	void AddFarm(Farm* farm);
+	void RemoveFarm(Farm* farm);
+
+	const Foods& GetFoods() const { return mFoods; }
+	void AddFood(Food* food);
+	void RemoveFood(Food* food);
+
+	People& GetPeople() { return mPeople; }
+	void AddPerson(Person* person);
+	void RemovePerson(Person* person);
+
 private:
 	Settlement* const mSettlement = nullptr;
 	const size_t mIndex = 0;
-	std::unique_ptr<Building> mNullBuilding;
-	Building* mBuilding;
+	Farm* mFarm;
+	Foods mFoods;
+	People mPeople;
 };

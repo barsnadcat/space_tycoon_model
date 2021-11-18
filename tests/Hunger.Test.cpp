@@ -1,7 +1,7 @@
 #include <easylogging++.h>
 #include <UpdateContextTestFixture.h>
 
-#include <Farm.h>
+#include <Settlement.h>
 #include <Person.h>
 
 

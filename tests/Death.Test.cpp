@@ -2,7 +2,6 @@
 #include <UpdateContextTestFixture.h>
 
 #include <Settlement.h>
-#include <Building.h>
 #include <Person.h>
 
 TEST_F(UpdateContextTestFixture, Death)

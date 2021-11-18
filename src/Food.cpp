@@ -1,11 +1,11 @@
 #include <Food.h>
 
-#include <Owner.h>
+#include <Land.h>
 
 Food::~Food()
 {
-	if (mOwner)
+	if (mLand)
 	{
-		mOwner->RemoveFood(this);
+		mLand->RemoveFood(this);
 	}
 }

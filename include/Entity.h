@@ -89,7 +89,6 @@ public:
 
 		if (mHealth == 0)
 		{
-			OnEntityDeath(uc);
             // Root does not suicide?
 			if (mPrevious != nullptr)
 			{
@@ -100,7 +99,6 @@ public:
 
 private:
 	virtual void OnEntityUpdated(UpdateContext& uc) {}
-	virtual void OnEntityDeath(UpdateContext& uc) {}
 	uint32_t mHealth = 0;
 	uint32_t mMaxHealth = 0;
 	uint32_t mDecayRate = 1;

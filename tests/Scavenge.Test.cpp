@@ -2,6 +2,7 @@
 #include <UpdateContextTestFixture.h>
 
 #include <Settlement.h>
+#include <Farm.h>
 #include <Land.h>
 #include <Person.h>
 #include <Food.h>

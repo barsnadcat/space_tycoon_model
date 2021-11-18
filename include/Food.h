@@ -2,7 +2,7 @@
 
 #include <Entity.h>
 
-class Owner;
+class Land;
 
 class Food: public Entity
 {
@@ -11,8 +11,8 @@ public:
 		Entity(prev, health, decayRate){}
 	virtual ~Food();
 	int32_t GetEnergy() { return 3; }
-	void SetOwner(Owner* pOwner) { mOwner = pOwner; }
-	Owner* GetOwner() { return mOwner; }
+	void SetLand(Land* pLand) { mLand = pLand; }
+	Land* GetLand() { return mLand; }
 private:
-	Owner* mOwner = nullptr;
+	Land* mLand = nullptr;
 };
