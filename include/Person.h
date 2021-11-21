@@ -29,13 +29,13 @@ public:
 
 	ProductionId GetBestProduction(UpdateContext& uc) const;
 	void Produce(UpdateContext& uc, ProductionId productionId);
+	int32_t GetPersonOwned(ProductId productId) const;
 private:
 	virtual void OnEntityUpdated(UpdateContext& uc) override;
 	float GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t number) const;
 	float GetPersonalPreference(ProductId) const;
 	float GetProductionValue(UpdateContext& uc, ProductionId productionId) const;
 	bool CanDoProduction(UpdateContext& uc, ProductionId productionId) const;
-	int32_t GetPersonOwned(ProductId productId) const;
 	void Scavenge();
 	void Reproduce(UpdateContext& uc);
 private:
