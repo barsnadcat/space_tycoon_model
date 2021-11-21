@@ -74,9 +74,10 @@ float Person::GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t
 
 bool Person::CanDoProduction(UpdateContext& uc, ProductionId productionId) const
 {
-	for (auto it : uc.mProductions[productionId])
+	const std::vector<ProductionConfig>& v = uc.mProductions[productionId];
+	for (const ProductionConfig& pc : v)
 	{
-		if (it.number + GetPersonOwned(it.productId) < 0)
+		if (pc.number + GetPersonOwned(pc.productId) < 0)
 		{
 			return false;
 		}
@@ -87,11 +88,12 @@ bool Person::CanDoProduction(UpdateContext& uc, ProductionId productionId) const
 float Person::GetProductionValue(UpdateContext& uc, ProductionId productionId) const
 {
 	float res = 0;
-	for (auto it : uc.mProductions[productionId])
+	const std::vector<ProductionConfig>& v = uc.mProductions[productionId];
+	for (const ProductionConfig& pc : v)
 	{
-		if (!it.tool)
+		if (!pc.tool)
 		{
-			res += GetMarginalUtility(uc, it.productId, it.number);
+			res += GetMarginalUtility(uc, pc.productId, pc.number);
 		}
 	}
 	return res;

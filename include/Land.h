@@ -35,7 +35,7 @@ public:
 private:
 	Settlement* const mSettlement = nullptr;
 	const size_t mIndex = 0;
-	Farm* mFarm;
-	Foods mFoods;
-	People mPeople;
+	Farm* mFarm = nullptr;
+	Foods mFoods = {};
+	People mPeople = {};
 };
