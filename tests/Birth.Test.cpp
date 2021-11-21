@@ -2,13 +2,17 @@
 #include <UpdateContextTestFixture.h>
 
 #include <Person.h>
+#include <Settlement.h>
+#include <Land.h>
 
 TEST_F(UpdateContextTestFixture, Birth)
 {
-	Building building(1, 0);
-	EXPECT_TRUE(building.GetOwners().empty());
-	Person* person = new Person(30000, 200, {});
-	building.AddOwner(std::unique_ptr<Person>(person));
-	person->Produce(uc, kReproductionId);
-	EXPECT_EQ(building.GetOwners().size() == 2);
+	Settlement s(1);
+	Land& l = s.GetLand(0);
+	EXPECT_TRUE(l.GetPeople().empty());
+	Person* p = new Person(&s, 30000, 200, {});
+	l.AddPerson(p);
+	EXPECT_EQ(l.GetPeople().size(), 1ul);
+	p->Produce(uc, kReproductionId);
+	EXPECT_EQ(l.GetPeople().size(), 2ul);
 }
