@@ -6,6 +6,7 @@ subprojects/googletest*
 subprojects/packagecache
 
 .vscode
+*.sublime-workspace
 
 *.uncrustify
 *.orig
