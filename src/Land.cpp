@@ -27,7 +27,7 @@ Land::~Land()
 		p->SetLand(nullptr);
 		delete p;
 	}
-}}
+}
 
 void Land::RemoveBuilding(Building* building)
 {

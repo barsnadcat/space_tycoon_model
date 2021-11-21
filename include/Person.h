@@ -5,6 +5,8 @@
 class Land;
 class Food;
 using Foods = std::vector<Food*>;
+class Farm;
+using Farms = std::vector<Farm*>;
 
 std::map<ProductId, float> Mutate(UpdateContext& uc, std::map<ProductId, float> );
 std::map<ProductId, float> RandomPreferences(UpdateContext& uc);
@@ -12,12 +14,18 @@ std::map<ProductId, float> RandomPreferences(UpdateContext& uc);
 class Person: public Entity
 {
 public:
-	Person(Entity* prev, uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences): Owner(prev, health, 1),
-		mEnergy(energy), mPreferences(preferences) {}
+	Person(Entity* prev, uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences)
+	: Entity(prev, health, 1)
+	, mEnergy(energy), mPreferences(preferences) {}
 	~Person();
 
 	void SetLand(Land* pLand) { mLand = pLand; }
 	Land* GetLand() { return mLand; }
+
+	void AddFood(Food* p);
+	void RemoveFood(Food* p);
+	void AddFarm(Farm* p);
+	void RemoveFarm(Farm* p);
 
 	ProductionId GetBestProduction(UpdateContext& uc) const;
 	void Produce(UpdateContext& uc, ProductionId productionId);
@@ -35,4 +43,6 @@ private:
 	int32_t mEnergy = 0;
 	int32_t mChildren = 0;
 	std::map<ProductId, float> mPreferences;
+	Foods mFoods;
+	Farms mFarms;
 };

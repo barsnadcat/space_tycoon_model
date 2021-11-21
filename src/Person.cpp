@@ -6,12 +6,21 @@
 
 const int32_t kMaxEnergy = 200;
 
-
 Person::~Person()
 {
 	if (mLand)
 	{
 		mLand->RemovePerson(this);
+	}
+
+	for (auto p : mFoods)
+	{
+		p->SetPerson(nullptr);
+	}
+
+	for (auto p : mFarms)
+	{
+		p->SetPerson(nullptr);
 	}
 }
 
@@ -195,10 +204,10 @@ void Person::Reproduce(UpdateContext& uc)
 void Person::Scavenge()
 {
     // move to random space
-	//size_t neighbor = space->GetNeighbour(land->GetIndex());
-	//Land* pTargetLand = space->GetLand(neighbor);
-	//building->RemoveOwner(this);
-	//pTargetLand->GetNullBuilding().AddOwner(std::unique_ptr<Owner>(this));
+    //size_t neighbor = space->GetNeighbour(land->GetIndex());
+    //Land* pTargetLand = space->GetLand(neighbor);
+    //building->RemoveOwner(this);
+    //pTargetLand->GetNullBuilding().AddOwner(std::unique_ptr<Owner>(this));
 
     // Ambiguous situtation, where do owner goes in which building?
 
@@ -218,4 +227,32 @@ float Person::GetPersonalPreference(ProductId productId) const
 	{
 		return 0.5f;
 	}
+}
+
+void Person::AddFood(Food* p)
+{
+	assert(p);
+	p->SetPerson(this);
+	mFoods.push_back(p);
+}
+
+void Person::RemoveFood(Food* p)
+{
+	assert(p);
+	p->SetPerosn(nullptr);
+	mFoods.erase(std::remove(mFoods.begin(), mFoods.end(), p), mFoods.end());
+}
+
+void Person::AddFarm(Farm* p)
+{
+	assert(p);
+	p->SetPerson(this);
+	mFarms.push_back(p);
+}
+
+void Person::RemoveFarm(Farm* p)
+{
+	assert(p);
+	p->SetPerson(nullptr);
+	mFarms.erase(std::remove(mFarms.begin(), mFarms.end(), p), mFarms.end());
 }
