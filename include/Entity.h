@@ -15,12 +15,12 @@ public:
 		if (prev)
 		{
 			mPrevious = prev;
-			mPrevious->mNext = this;
 			if (prev->mNext)
 			{
 				mNext = prev->mNext;
-				mNext->mPrevious = this;
+				prev->mPrevious = this;
 			}
+			prev->mNext = this;
 		}
 	}
 
@@ -29,12 +29,12 @@ public:
 		if (mPrevious)
 		{
 			mPrevious->mNext = mNext;
-			mPrevious = nullptr;
 			if (mNext)
 			{
 				mNext->mPrevious = mPrevious;
 				mNext = nullptr;
 			}
+			mPrevious = nullptr;
 		}
 		assert(mNext == nullptr);
 	}

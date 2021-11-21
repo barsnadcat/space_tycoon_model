@@ -10,3 +10,7 @@ Settlement::Settlement(size_t landSize): Entity(nullptr, 1, 0)
 		mLands[i].reset(new Land(this, i));
 	}
 }
+
+Settlement::~Settlement()
+{
+}

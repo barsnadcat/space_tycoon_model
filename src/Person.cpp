@@ -57,9 +57,11 @@ int32_t Person::GetPersonOwned(ProductId productId) const
 		return mEnergy;
 	case kFamilyMemberId:
 		return mChildren;
+	case kFarmId:
+		return mFarms.size();
 	case kFoodId:
 	case kRandomProductId:
-		return GetFoods().size();
+		return mFoods.size();
 	default:
 		return 0;
 	}
@@ -174,11 +176,11 @@ void Person::OnEntityUpdated(UpdateContext& uc)
 	Produce(uc, GetBestProduction(uc));
 
     // Eat
-	if (!GetFoods().empty())
+	if (!mFoods.empty())
 	{
-		Food* food = GetFoods().back();
-		GetFoods().pop_back();
-		food->SetOwner(nullptr);
+		Food* food = mFoods.back();
+		mFoods.pop_back();
+		food->SetPerson(nullptr);
 		mEnergy = std::min(kMaxEnergy, mEnergy + food->GetEnergy());
 		delete food;
 	}
@@ -198,7 +200,7 @@ void Person::Reproduce(UpdateContext& uc)
 {
 	mEnergy = 0;
 	mChildren++;
-	GetBuilding()->AddPerson(new Person(this, 30000, 100, Mutate(uc, mPreferences)));
+	mLand->AddPerson(new Person(this, 30000, 100, Mutate(uc, mPreferences)));
 }
 
 void Person::Scavenge()
@@ -239,7 +241,7 @@ void Person::AddFood(Food* p)
 void Person::RemoveFood(Food* p)
 {
 	assert(p);
-	p->SetPerosn(nullptr);
+	p->SetPerson(nullptr);
 	mFoods.erase(std::remove(mFoods.begin(), mFoods.end(), p), mFoods.end());
 }
 

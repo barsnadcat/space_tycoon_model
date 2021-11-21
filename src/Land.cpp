@@ -1,7 +1,10 @@
 #include <Land.h>
 
 #include <Farm.h>
+#include <Food.h>
+#include <Person.h>
 #include <Settlement.h>
+
 #include <cassert>
 
 Land::Land(Settlement* settlement, size_t index): Entity(settlement, 1, 0), mSettlement(settlement), mIndex(index)
@@ -29,18 +32,18 @@ Land::~Land()
 	}
 }
 
-void Land::RemoveBuilding(Building* building)
+void Land::RemoveFarm(Farm* p)
 {
-	assert(mBuilding == building);
-	mBuilding->SetLand(nullptr);
-	mBuilding = nullptr;
+	assert(mFarm == p);
+	mFarm->SetLand(nullptr);
+	mFarm = nullptr;
 }
 
-void Land::AddBuilding(Building* building)
+void Land::AddFarm(Farm* p)
 {
-	assert(mBuilding == nullptr);
-	mBuilding = building;
-	mBuilding->SetLand(this);
+	assert(mFarm == nullptr);
+	mFarm = p;
+	mFarm->SetLand(this);
 }
 
 void Land::AddFood(Food* food)
@@ -57,16 +60,16 @@ void Land::RemoveFood(Food* food)
 	mFoods.erase(std::remove(mFoods.begin(), mFoods.end(), food), mFoods.end());
 }
 
-void Land::AddPerson(Person* person)
+void Land::AddPerson(Person* p)
 {
-	assert(person);
-	person->SetBuilding(this);
-	mPeople.push_back(person);
+	assert(p);
+	p->SetLand(this);
+	mPeople.push_back(p);
 }
 
-void Land::RemovePerson(Person* person)
+void Land::RemovePerson(Person* p)
 {
-	assert(person);
-	preson->SetBuilding(nullptr);
-	mPeople.erase(std::remove(mPeople.begin(), mPeople.end(), person), mPeople.end());
+	assert(p);
+	p->SetLand(nullptr);
+	mPeople.erase(std::remove(mPeople.begin(), mPeople.end(), p), mPeople.end());
 }
