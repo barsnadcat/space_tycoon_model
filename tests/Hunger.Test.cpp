@@ -6,7 +6,6 @@
 #include <Person.h>
 #include <Food.h>
 
-
 TEST_F(UpdateContextTestFixture, HungerDamageSlow)
 {
 	Settlement s(1);
@@ -33,6 +32,7 @@ TEST_F(UpdateContextTestFixture, Eating)
 		p->AddFood(f);
 		l.AddFood(f);
 	}
+	l.AddPerson(p);
 	EXPECT_EQ(p->GetPersonOwned(kFoodId), 3);
 	s.Update(uc);
 	EXPECT_EQ(l.GetFoods().size(), 2ul);

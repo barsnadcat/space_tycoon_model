@@ -17,7 +17,7 @@ public:
 	Land(Settlement* settlement, size_t index);
 	virtual ~Land();
 
-	Settlement* GetSpace() const { return mSettlement; }
+	Settlement* GetSettlement() const { return mSettlement; }
 	size_t GetIndex() const { return mIndex; }
 
 	Farm* GetFarm() { return mFarm; }

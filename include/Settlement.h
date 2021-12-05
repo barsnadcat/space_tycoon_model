@@ -17,7 +17,7 @@ public:
 
 	Lands& GetLands() { return mLands; }
 	Land& GetLand(size_t index) { return *(mLands[index]); }
-	size_t GetNeighbour(size_t index) { return std::max(mLands.size(), index + 1); }
+	Land* GetNeighbour(Land* land) const;
 private:
 	Lands mLands;
 };

@@ -1,5 +1,6 @@
 #include <Person.h>
 
+#include <Settlement.h>
 #include <Food.h>
 #include <Farm.h>
 #include <Land.h>
@@ -67,9 +68,9 @@ int32_t Person::GetPersonOwned(ProductId productId) const
 	}
 }
 
-float Person::GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t number) const
+float Person::GetMarginalUtility(UpdateContext& uc, ProductId pId, int32_t number) const
 {
-	return GetPersonalPreference(productId) * uc.mObjectiveUtilities[productId].GetMarginalUtility(GetPersonOwned(productId), number);
+	return GetPersonalPreference(pId) * uc.mObjectiveUtilities[pId].GetMarginalUtility(GetPersonOwned(pId), number);
 }
 
 bool Person::CanDoProduction(UpdateContext& uc, ProductionId productionId) const
@@ -207,17 +208,41 @@ void Person::Reproduce(UpdateContext& uc)
 
 void Person::Scavenge()
 {
-    // move to random space
-    //size_t neighbor = space->GetNeighbour(land->GetIndex());
-    //Land* pTargetLand = space->GetLand(neighbor);
-    //building->RemoveOwner(this);
-    //pTargetLand->GetNullBuilding().AddOwner(std::unique_ptr<Owner>(this));
+    // move to next land
+	Land* newLand = mLand->GetSettlement()->GetNeighbour(mLand);
+	if (newLand != mLand)
+	{
+        // Disown everything
+		for (Food* p : mFoods)
+		{
+			p->SetPerson(nullptr);
+		}
+		mFoods.clear();
+		for (Farm* p : mFarms)
+		{
+			p->SetPerson(nullptr);
+		}
+		mFarms.clear();
+        // Move
+		mLand->RemovePerson(this);
+		newLand->AddPerson(this);
+	}
 
-    // Ambiguous situtation, where do owner goes in which building?
-
-    // Try claim building, then enter it, other wise go to nothing
-
-    // Try claim stuff in building
+    // Search for building
+	Farm* farm = newLand->GetFarm();
+	if (farm && farm->GetPerson() == nullptr)
+	{
+		AddFarm(farm);
+		return;
+	}
+	for (Food* food : newLand->GetFoods())
+	{
+		if (food->GetPerson() == nullptr)
+		{
+			AddFood(food);
+			return;
+		}
+	}
 }
 
 float Person::GetPersonalPreference(ProductId productId) const

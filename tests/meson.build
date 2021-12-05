@@ -4,5 +4,6 @@ test_src = files(
 	'Birth.Test.cpp',
 	'Hunger.Test.cpp',
 	'BestProduction.Test.cpp',
+	'Scavenge.Test.cpp',
 	'ObjectiveUtility.Test.cpp'
 )
