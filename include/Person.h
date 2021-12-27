@@ -24,8 +24,10 @@ public:
 
 	void AddFood(Food* p);
 	void RemoveFood(Food* p);
+	Foods& GetFoods() { return mFoods; }
 	void AddFarm(Farm* p);
 	void RemoveFarm(Farm* p);
+	Farms& GetFarms() { return mFarms; }
 
 	ProductionId GetBestProduction(UpdateContext& uc) const;
 	void Produce(UpdateContext& uc, ProductionId productionId);
