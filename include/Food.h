@@ -8,8 +8,7 @@ class Person;
 class Food: public Entity
 {
 public:
-	Food(Entity* prev, uint32_t health):
-		Entity(prev, health, 1){}
+	Food(Land* land, uint32_t health);
 	virtual ~Food();
 	int32_t GetEnergy() const { return 3; }
 

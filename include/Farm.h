@@ -10,7 +10,7 @@ class Person;
 class Farm: public Entity
 {
 public:
-	Farm(Entity* prev, uint32_t health);
+	Farm(Land* land, uint32_t health);
 	virtual ~Farm();
 
 	void SetLand(Land* land){ mLand = land; }

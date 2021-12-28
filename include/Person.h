@@ -14,9 +14,7 @@ std::map<ProductId, float> RandomPreferences(UpdateContext& uc);
 class Person: public Entity
 {
 public:
-	Person(Entity* prev, uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences)
-	: Entity(prev, health, 1)
-	, mEnergy(energy), mPreferences(preferences) {}
+	Person(Land* land, uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences);
 	~Person();
 
 	void SetLand(Land* pLand) { mLand = pLand; }

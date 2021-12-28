@@ -7,6 +7,14 @@
 
 const int32_t kMaxEnergy = 200;
 
+Person::Person(Land* land, uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences): Entity(land, health, 1)
+	, mEnergy(energy), mPreferences(preferences)
+{
+	assert(land);
+	mLand = land;
+	land->AddPerson(this);
+}
+
 Person::~Person()
 {
 	if (mLand)
@@ -148,6 +156,7 @@ void Person::Produce(UpdateContext& uc, ProductionId productionId)
 			}
 			if (it.productId == kFarmId)
 			{
+				assert(mLand->GetFarm() == nullptr);
                 // Number greater than 1 does not make sens
                 // You building where you are - i.e. on that land plot
                 // To do: check if you own that land
@@ -167,7 +176,7 @@ void Person::Produce(UpdateContext& uc, ProductionId productionId)
 			{
 				for (int32_t i = 0; i < it.number; ++i)
 				{
-					AddFood(new Food(this, 100));
+					AddFood(new Food(mLand, 100));
 				}
 			}
 		}
@@ -203,7 +212,7 @@ void Person::Reproduce(UpdateContext& uc)
 {
 	mEnergy = 0;
 	mChildren++;
-	mLand->AddPerson(new Person(this, 30000, 100, Mutate(uc, mPreferences)));
+	new Person(mLand, 30000, 100, Mutate(uc, mPreferences));
 }
 
 void Person::Scavenge()
@@ -226,6 +235,7 @@ void Person::Scavenge()
         // Move
 		mLand->RemovePerson(this);
 		newLand->AddPerson(this);
+		mLand = newLand;
 	}
 
     // Search for building

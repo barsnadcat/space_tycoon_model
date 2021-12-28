@@ -10,17 +10,20 @@ class Entity
 {
 public:
 	Entity() = default;
-	Entity(Entity* prev, uint32_t health, uint32_t decayRate): mHealth(health), mMaxHealth(health), mDecayRate(decayRate)
+	Entity(Entity* prv, uint32_t health, uint32_t decayRate): mHealth(health), mMaxHealth(health), mDecayRate(decayRate)
 	{
-		if (prev)
+		if (prv)
 		{
-			mPrevious = prev;
-			if (prev->mNext)
+			Entity* nxt = prv->mNext;
+			if (nxt)
 			{
-				mNext = prev->mNext;
-				prev->mPrevious = this;
+				assert(prv == nxt->mPrevious);
+				nxt->mPrevious = this;
 			}
-			prev->mNext = this;
+			prv->mNext = this;
+
+			mPrevious = prv;
+			mNext = nxt;
 		}
 	}
 
@@ -28,9 +31,11 @@ public:
 	{
 		if (mPrevious)
 		{
+			assert(mPrevious->mNext == this);
 			mPrevious->mNext = mNext;
 			if (mNext)
 			{
+				assert(mNext->mPrevious = this);
 				mNext->mPrevious = mPrevious;
 				mNext = nullptr;
 			}

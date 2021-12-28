@@ -41,15 +41,14 @@ void Land::RemoveFarm(Farm* p)
 
 void Land::AddFarm(Farm* p)
 {
+	assert(p);
 	assert(mFarm == nullptr);
 	mFarm = p;
-	mFarm->SetLand(this);
 }
 
 void Land::AddFood(Food* food)
 {
 	assert(food);
-	food->SetLand(this);
 	mFoods.push_back(food);
 }
 
@@ -63,7 +62,6 @@ void Land::RemoveFood(Food* food)
 void Land::AddPerson(Person* p)
 {
 	assert(p);
-	p->SetLand(this);
 	mPeople.push_back(p);
 }
 

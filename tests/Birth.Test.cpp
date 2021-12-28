@@ -10,8 +10,7 @@ TEST_F(UpdateContextTestFixture, Birth)
 	Settlement s(1);
 	Land& l = s.GetLand(0);
 	EXPECT_TRUE(l.GetPeople().empty());
-	Person* p = new Person(&s, 30000, 200, {});
-	l.AddPerson(p);
+	Person* p = new Person(&l, 30000, 200, {});
 	EXPECT_EQ(l.GetPeople().size(), 1ul);
 	p->Produce(uc, kReproductionId);
 	EXPECT_EQ(l.GetPeople().size(), 2ul);

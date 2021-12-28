@@ -11,16 +11,12 @@ TEST_F(UpdateContextTestFixture, ScavengeFood)
 {
 	Settlement s(1);
 	Land& l = s.GetLand(0);
-	Person* p1 = new Person(&s, 3000, 0, {});
-	l.AddPerson(p1);
-	Food* f1 = new Food(&s, 100);
+	Person* p1 = new Person(&l, 3000, 0, {});
+	Food* f1 = new Food(&l, 100);
 	p1->AddFood(f1);
-	l.AddFood(f1);
 
-	Person* p2 = new Person(&s, 3000, 0, {});
-	l.AddPerson(p2);
-	Food* f2 = new Food(&s, 100);
-	l.AddFood(f2);
+	Person* p2 = new Person(&l, 3000, 0, {});
+	Food* f2 = new Food(&l, 100);
 
 	p2->Produce(uc, kScavengeId);
 	EXPECT_EQ(f1->GetPerson(), p1);
@@ -31,11 +27,8 @@ TEST_F(UpdateContextTestFixture, ScavengeFarm)
 {
 	Settlement s(1);
 	Land& l = s.GetLand(0);
-	Person* p = new Person(&s, 3000, 0, {});
-	l.AddPerson(p);
-
-	Farm* b = new Farm(&s, 3000);
-	l.AddFarm(b);
+	Person* p = new Person(&l, 3000, 0, {});
+	Farm* b = new Farm(&l, 3000);
 
 	p->Produce(uc, kScavengeId);
 
@@ -49,16 +42,12 @@ TEST_F(UpdateContextTestFixture, ScavengeMove)
 	Settlement s(2);
 	Land& l = s.GetLand(0);
 
-	Person* p = new Person(&s, 3000, 0, {});
-	l.AddPerson(p);
-
-	Food* f = new Food(&s, 100);
-	l.AddFood(f);
+	Person* p = new Person(&l, 3000, 0, {});
+	Food* f = new Food(&l, 100);
 	p->AddFood(f);
 
 	Land& l2 = s.GetLand(1);
-	Farm* b = new Farm(&s, 2000);
-	l2.AddFarm(b);
+	Farm* b = new Farm(&l2, 2000);
 
 	p->Produce(uc, kScavengeId);
 

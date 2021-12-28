@@ -3,8 +3,11 @@
 #include <Land.h>
 #include <Person.h>
 
-Farm::Farm(Entity* prev, uint32_t health): Entity(prev, health, 1)
+Farm::Farm(Land* land, uint32_t health): Entity(land, health, 1)
 {
+	assert(land);
+	mLand = land;
+	land->AddFarm(this);
 }
 
 Farm::~Farm()
