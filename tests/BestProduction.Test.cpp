@@ -15,6 +15,15 @@ TEST_F(UpdateContextTestFixture, NoProductionIfNoResources)
 	EXPECT_EQ(p->GetBestProduction(uc), kInvalidId);
 }
 
+TEST_F(UpdateContextTestFixture, NoProductionIfNoSpace)
+{
+	Settlement s(1);
+	Land& l = s.GetLand(0);
+	auto p = new Person(&l, 3000, 50, {});
+	new Farm(&l, 2000);
+	EXPECT_EQ(p->GetBestProduction(uc), kScavengeId);
+}
+
 TEST_F(UpdateContextTestFixture, NoProductionIfHasEnough)
 {
 	Settlement s(1);
