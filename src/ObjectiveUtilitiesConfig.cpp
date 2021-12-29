@@ -11,5 +11,6 @@ std::map<ProductId, ObjectiveUtility> GetObjectiveUtilities()
 	res.emplace(std::make_pair(kEffortId, ObjectiveUtility(10.0f, 100, 1000, 2000)));
 	res.emplace(std::make_pair(kFamilyMemberId, ObjectiveUtility(200.0f, 2, 5, 20)));
 	res.emplace(std::make_pair(kRandomProductId, ObjectiveUtility(50.0f, 20, 30, 100)));
+	res.emplace(std::make_pair(kLandId, ObjectiveUtility(10.0f, 1, 2, 3)));
 	return res;
 }

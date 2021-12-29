@@ -71,6 +71,8 @@ int32_t Person::GetPersonOwned(ProductId productId) const
 	case kFoodId:
 	case kRandomProductId:
 		return mFoods.size();
+	case kLandId:
+		return mLand->GetFarm() == nullptr ? 1 : 0;
 	default:
 		return 0;
 	}

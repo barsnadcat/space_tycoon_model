@@ -7,6 +7,7 @@ const ProductId kFarmId = 2;
 const ProductId kEffortId = 3;
 const ProductId kFamilyMemberId = 4;
 const ProductId kRandomProductId = 5;
+const ProductId kLandId = 6;
 
 using ProductionId = std::size_t;
 const ProductionId kBuildFarmId = 1;
