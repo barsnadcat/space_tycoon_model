@@ -27,9 +27,9 @@ Person::~Person()
 		p->SetPerson(nullptr);
 	}
 
-	for (auto p : mFarms)
+	if (mFarm)
 	{
-		p->SetPerson(nullptr);
+		mFarm->SetPerson(nullptr);
 	}
 }
 
@@ -67,7 +67,7 @@ int32_t Person::GetPersonOwned(ProductId productId) const
 	case kFamilyMemberId:
 		return mChildren;
 	case kFarmId:
-		return mFarms.size();
+		return mFarm ? 1 : 0;
 	case kFoodId:
 	case kRandomProductId:
 		return mFoods.size();
@@ -159,20 +159,9 @@ void Person::Produce(UpdateContext& uc, ProductionId productionId)
 			if (it.productId == kFarmId)
 			{
 				assert(mLand->GetFarm() == nullptr);
-                // Number greater than 1 does not make sens
-                // You building where you are - i.e. on that land plot
-                // To do: check if you own that land
-                // Actually enforcing presence of pointer will be really helpfull...
-                // Building* pBuilding = GetBuilding();
-                // if (pBuilding)
-                // {
-                //  Land* pLand = pBuilding->GetLand();
-                //  if (!pLand->GetBuilding())
-                //  {
-                //      Farm* farm = new Farm(this, 5000, 1);
-                //      pLand->SetBuilding(BuildingPtr(farm));
-                //  }
-                //}
+				assert(mFarm == nullptr);
+				assert(it.number > 0);
+				AddFarm(new Farm(mLand, 30000));
 			}
 			if (it.productId == kFoodId)
 			{
@@ -229,11 +218,10 @@ void Person::Scavenge()
 			p->SetPerson(nullptr);
 		}
 		mFoods.clear();
-		for (Farm* p : mFarms)
+		if (mFarm)
 		{
-			p->SetPerson(nullptr);
+			mFarm->SetPerson(nullptr);
 		}
-		mFarms.clear();
         // Move
 		mLand->RemovePerson(this);
 		newLand->AddPerson(this);
@@ -286,14 +274,16 @@ void Person::RemoveFood(Food* p)
 
 void Person::AddFarm(Farm* p)
 {
+	assert(mFarm == nullptr);
 	assert(p);
 	p->SetPerson(this);
-	mFarms.push_back(p);
+	mFarm = p;
 }
 
 void Person::RemoveFarm(Farm* p)
 {
 	assert(p);
+	assert(p == mFarm);
 	p->SetPerson(nullptr);
-	mFarms.erase(std::remove(mFarms.begin(), mFarms.end(), p), mFarms.end());
+	mFarm = nullptr;
 }

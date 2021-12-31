@@ -25,7 +25,7 @@ public:
 	Foods& GetFoods() { return mFoods; }
 	void AddFarm(Farm* p);
 	void RemoveFarm(Farm* p);
-	Farms& GetFarms() { return mFarms; }
+	Farm* GetFarm() { return mFarm; }
 
 	ProductionId GetBestProduction(UpdateContext& uc) const;
 	void Produce(UpdateContext& uc, ProductionId productionId);
@@ -44,5 +44,5 @@ private:
 	int32_t mChildren = 0;
 	std::map<ProductId, float> mPreferences;
 	Foods mFoods;
-	Farms mFarms;
+	Farm* mFarm = nullptr;
 };

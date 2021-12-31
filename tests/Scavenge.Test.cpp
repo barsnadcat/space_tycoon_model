@@ -33,8 +33,7 @@ TEST_F(UpdateContextTestFixture, ScavengeFarm)
 	p->Produce(uc, kScavengeId);
 
 	EXPECT_EQ(b->GetPerson(), p);
-	EXPECT_EQ(p->GetFarms().size(), 1ul);
-	EXPECT_EQ(p->GetFarms().at(0), b);
+	EXPECT_EQ(p->GetFarm(), b);
 }
 
 TEST_F(UpdateContextTestFixture, ScavengeMove)
@@ -54,7 +53,7 @@ TEST_F(UpdateContextTestFixture, ScavengeMove)
 	EXPECT_EQ(b->GetPerson(), p);
 	EXPECT_EQ(f->GetPerson(), nullptr);
 	EXPECT_TRUE(p->GetFoods().empty());
-	EXPECT_EQ(p->GetFarms().size(), 1ul);
+	EXPECT_FALSE(p->GetFarm() == nullptr);
 
 	EXPECT_EQ(p->GetLand(), &l2);
 	EXPECT_TRUE(l.GetPeople().empty());
