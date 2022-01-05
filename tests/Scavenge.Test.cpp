@@ -42,22 +42,20 @@ TEST_F(UpdateContextTestFixture, ScavengeMove)
 	Land& l = s.GetLand(0);
 
 	Person* p = new Person(&l, 3000, 0, {});
-	Food* f = new Food(&l, 100);
-	p->AddFood(f);
+	Farm* b = new Farm(&l, 2000);
+	p->AddFarm(b);
 
 	Land& l2 = s.GetLand(1);
-	Farm* b = new Farm(&l2, 2000);
+	Food* f = new Food(&l2, 100);
 
 	p->Produce(uc, kScavengeId);
 
-	EXPECT_EQ(b->GetPerson(), p);
-	EXPECT_EQ(f->GetPerson(), nullptr);
-	EXPECT_TRUE(p->GetFoods().empty());
-	EXPECT_FALSE(p->GetFarm() == nullptr);
+	EXPECT_EQ(b->GetPerson(), nullptr);
+	EXPECT_EQ(f->GetPerson(), p);
+	EXPECT_FALSE(p->GetFoods().empty());
+	EXPECT_TRUE(p->GetFarm() == nullptr);
 
 	EXPECT_EQ(p->GetLand(), &l2);
 	EXPECT_TRUE(l.GetPeople().empty());
-	EXPECT_EQ(l.GetFoods().size(), 1ul);
 	EXPECT_EQ(l2.GetPeople().size(), 1ul);
-	EXPECT_TRUE(l2.GetFoods().empty());
 }

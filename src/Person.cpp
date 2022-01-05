@@ -218,9 +218,10 @@ void Person::Scavenge()
 			p->SetPerson(nullptr);
 		}
 		mFoods.clear();
+
 		if (mFarm)
 		{
-			mFarm->SetPerson(nullptr);
+			RemoveFarm(mFarm);
 		}
         // Move
 		mLand->RemovePerson(this);
