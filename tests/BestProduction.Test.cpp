@@ -21,7 +21,7 @@ TEST_F(UpdateContextTestFixture, NoProductionIfNoSpace)
 	Land& l = s.GetLand(0);
 	auto p = new Person(&l, 3000, 50, {});
 	new Farm(&l, 2000);
-	EXPECT_EQ(p->GetBestProduction(uc), kScavengeId);
+	EXPECT_EQ(p->GetBestProduction(uc), kInvalidId);
 }
 
 TEST_F(UpdateContextTestFixture, NoProductionIfHasEnough)
@@ -48,7 +48,7 @@ TEST_F(UpdateContextTestFixture, NoProductionIfDoesNotLikeOutput)
 	auto p = new Person(&l, 3000, 80, {
 		{ kFarmId, 0.01f }, { kFoodId, 0.01f }
 	});
-	EXPECT_EQ(p->GetBestProduction(uc), kScavengeId);
+	EXPECT_EQ(p->GetBestProduction(uc), kInvalidId);
 }
 
 TEST_F(UpdateContextTestFixture, NoProductionIfNoTools)
