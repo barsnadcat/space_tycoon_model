@@ -30,6 +30,9 @@ public:
 	ProductionId GetBestProduction(UpdateContext& uc) const;
 	void Produce(UpdateContext& uc, ProductionId productionId);
 	int32_t GetPersonOwned(ProductId productId) const;
+
+	int32_t GetEnergy() const { return mEnergy; }
+	int32_t GetChildren() const { return mChildren; }
 private:
 	virtual void OnEntityUpdated(UpdateContext& uc) override;
 	float GetMarginalUtility(UpdateContext& uc, ProductId productId, int32_t number) const;
