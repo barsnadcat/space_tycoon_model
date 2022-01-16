@@ -17,6 +17,8 @@ public:
 	Land(Settlement* settlement, size_t index);
 	virtual ~Land();
 
+	virtual void OnEntityUpdated(UpdateContext& uc);
+
 	Settlement* GetSettlement() const { return mSettlement; }
 	size_t GetIndex() const { return mIndex; }
 

@@ -7,7 +7,8 @@
 
 #include <cassert>
 
-Land::Land(Settlement* settlement, size_t index): Entity(settlement, 1, 0), mSettlement(settlement), mIndex(index)
+Land::Land(Settlement* settlement, size_t index):
+	Entity(settlement, 1, 0), mSettlement(settlement), mIndex(index)
 {
 }
 
@@ -30,6 +31,11 @@ Land::~Land()
 		p->SetLand(nullptr);
 		delete p;
 	}
+}
+
+void Land::OnEntityUpdated(UpdateContext& uc)
+{
+	new Food(this, 100);
 }
 
 void Land::RemoveFarm(Farm* p)
