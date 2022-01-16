@@ -7,7 +7,8 @@
 
 const int32_t kMaxEnergy = 200;
 
-Person::Person(Land* land, uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences): Entity(land, health, 1)
+Person::Person(Land* land, uint32_t health, int32_t energy, const std::map<ProductId, float>& preferences)
+	: Entity(land, health, 1)
 	, mEnergy(energy), mPreferences(preferences)
 {
 	assert(land);
@@ -81,7 +82,8 @@ int32_t Person::GetPersonOwned(ProductId productId) const
 
 float Person::GetMarginalUtility(UpdateContext& uc, ProductId pId, int32_t number) const
 {
-	return GetPersonalPreference(pId) * uc.mObjectiveUtilities[pId].GetMarginalUtility(GetPersonOwned(pId), number);
+	return GetPersonalPreference(pId) *
+	       uc.mObjectiveUtilities[pId].GetMarginalUtility(GetPersonOwned(pId), number);
 }
 
 bool Person::CanDoProduction(UpdateContext& uc, ProductionId productionId) const
@@ -184,9 +186,11 @@ void Person::OnEntityUpdated(UpdateContext& uc)
 	{
 		Food* food = mFoods.back();
 		mFoods.pop_back();
-		food->SetPerson(nullptr);
+
 		mEnergy = std::min(kMaxEnergy, mEnergy + food->GetEnergy());
-		delete food;
+
+		food->SetPerson(nullptr);
+		food->SetHealth(0);
 	}
 
     // Expend energy or hunger damage

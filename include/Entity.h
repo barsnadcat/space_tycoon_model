@@ -29,20 +29,32 @@ public:
 
 	virtual ~Entity()
 	{
+		Entity* prv = nullptr;
 		if (mPrevious)
 		{
+			prv = mPrevious;
 			assert(mPrevious->mNext == this);
-			mPrevious->mNext = mNext;
-			if (mNext)
-			{
-				assert(mNext->mPrevious = this);
-				mNext->mPrevious = mPrevious;
-				mNext = nullptr;
-			}
 			mPrevious = nullptr;
 		}
-		assert(mNext == nullptr);
+
+		Entity* nxt = nullptr;
+		if (mNext)
+		{
+			nxt = mNext;
+			assert(mNext->mPrevious = this);
+			mNext = nullptr;
+		}
+
+		if (prv)
+		{
+			prv->mNext = nxt;
+		}
+		if (nxt)
+		{
+			nxt->mPrevious = prv;
+		}
 	}
+
 	uint32_t GetDecayRate() const { return mDecayRate; }
 	void SetDecayRate(uint32_t decaryRate) { mDecayRate = decaryRate; }
 	uint32_t GetHealth() const { return mHealth; }
@@ -79,6 +91,7 @@ public:
 
 	void Update(UpdateContext& uc)
 	{
+		assert(this);
 		if (mDecayRate > 0)
 		{
 			DamageHealth(mDecayRate);
@@ -87,15 +100,22 @@ public:
 
 		OnEntityUpdated(uc);
 
+		if (mPrevious)
+		{
+			assert(mPrevious->mNext == this);
+		}
+
 		if (mNext)
 		{
+			assert(mNext->mPrevious == this);
 			mNext->Update(uc);
 		}
 
-		if (mHealth == 0)
+		assert(this);
+		if (mPrevious != nullptr)
 		{
             // Root does not suicide?
-			if (mPrevious != nullptr)
+			if (mHealth == 0)
 			{
 				delete this;
 			}
