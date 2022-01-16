@@ -242,7 +242,6 @@ void Person::Scavenge()
 		if (food->GetPerson() == nullptr)
 		{
 			AddFood(food);
-			return;
 		}
 	}
 }
